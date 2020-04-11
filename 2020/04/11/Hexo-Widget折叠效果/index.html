@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hexo Widget折叠效果 | H1&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="博客改装第二弹，Widget折叠效果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo Widget折叠效果">
+<meta property="og:url" content="https://blog.h1msk.cc/2020/04/11/Hexo-Widget%E6%8A%98%E5%8F%A0%E6%95%88%E6%9E%9C/index.html">
+<meta property="og:site_name" content="H1&#39;s Blog">
+<meta property="og:description" content="博客改装第二弹，Widget折叠效果">
+<meta property="og:locale" content="cn">
+<meta property="og:image" content="https://blog.h1msk.cc/2020/04/11/Hexo-Widget%E6%8A%98%E5%8F%A0%E6%95%88%E6%9E%9C/%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C.png">
+<meta property="og:image" content="https://blog.h1msk.cc/2020/04/11/Hexo-Widget%E6%8A%98%E5%8F%A0%E6%95%88%E6%9E%9C/1.png">
+<meta property="og:image" content="https://blog.h1msk.cc/2020/04/11/Hexo-Widget%E6%8A%98%E5%8F%A0%E6%95%88%E6%9E%9C/2.png">
+<meta property="article:published_time" content="2020-04-11T06:55:10.000Z">
+<meta property="article:modified_time" content="2020-04-11T10:04:51.488Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="美化">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.h1msk.cc/2020/04/11/Hexo-Widget%E6%8A%98%E5%8F%A0%E6%95%88%E6%9E%9C/%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C.png">
+  
+    <link rel="alternative" href="/atom.xml" title="H1&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">H1&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle"></a>
+        </h2>
+        <!-- Random subtitle -->
+        <script>
+          (function () {
+            var subtitles = [
+              
+              "Someone is climbing.",
+              
+              "Someone is learning.",
+              
+            ];
+            document.getElementById("subtitle").innerText =
+              subtitles[Math.floor(Math.random() * subtitles.length)];
+          })();
+        </script>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="blog.h1msk.cc">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-Hexo-Widget折叠效果" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/11/Hexo-Widget%E6%8A%98%E5%8F%A0%E6%95%88%E6%9E%9C/" class="article-date">
+  <time datetime="2020-04-11T06:55:10.000Z" itemprop="datePublished">2020-04-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hexo Widget折叠效果
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>博客改装第二弹，Widget折叠效果</p>
+<a id="more"></a>
+
+<hr>
+<h2 id="成品效果"><a href="#成品效果" class="headerlink" title="成品效果"></a>成品效果</h2><p><img src="%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C.png" alt="最终效果"></p>
+<h2 id="涉及文件"><a href="#涉及文件" class="headerlink" title="涉及文件"></a>涉及文件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">themes/landscape-plus/source</span><br><span class="line">- /js/script.js</span><br><span class="line">- /css/_partial/sidebar-aside.styl</span><br></pre></td></tr></table></figure>
+
+<h2 id="涉及元素结构"><a href="#涉及元素结构" class="headerlink" title="涉及元素结构"></a>涉及元素结构</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"widget-wrap"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span> <span class="attr">class</span>=<span class="string">"widget-title"</span>&gt;</span>标题<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"widget"</span>&gt;</span>内容<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="简要思路"><a href="#简要思路" class="headerlink" title="简要思路"></a>简要思路</h2><p>其实方法说来挺简单，就是点击<code>title</code>的时候切换<code>wrap</code>的<code>widget-hidden</code>类，让<code>widget</code>隐藏，同时更改<code>wrap</code>的外边距</p>
+<p>大体步骤</p>
+<ol>
+<li>注册Widget标题的点击回调</li>
+<li>添加样式表</li>
+</ol>
+<p>其实主要部分都是在玩CSS…</p>
+<h2 id="第一步-注册Widget标题的点击回调"><a href="#第一步-注册Widget标题的点击回调" class="headerlink" title="第一步: 注册Widget标题的点击回调"></a>第一步: 注册Widget标题的点击回调</h2><p>(说来才发现jQuery是真的好用)</p>
+<p>为了达到折叠效果，首先我们需要选择合适的元素作为折叠/展开的按钮</p>
+<p>在<code>script.js</code>中添加如下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Widget click-expand</span></span><br><span class="line">$(<span class="string">'.widget-title'</span>).on(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  $(<span class="keyword">this</span>).parent().toggleClass(<span class="string">'widget-hidden'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="相关语法"><a href="#相关语法" class="headerlink" title="相关语法"></a>相关语法</h3><ul>
+<li><code>$(selector).on(event,childSelector,data,function)</code><table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">event</td>
+<td align="left">必需。规定要从被选元素移除的一个或多个事件或命名空间。由空格分隔多个事件值，也可以是数组。必须是有效的事件。</td>
+</tr>
+<tr>
+<td align="left">childSelector</td>
+<td align="left">可选。规定只能添加到指定的子元素上的事件处理程序（且不是选择器本身，比如已废弃的 delegate() 方法）。</td>
+</tr>
+<tr>
+<td align="left">data</td>
+<td align="left">可选。规定传递到函数的额外数据。</td>
+</tr>
+<tr>
+<td align="left">function</td>
+<td align="left">可选。规定当事件发生时运行的函数。</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="第二步-添加样式表"><a href="#第二步-添加样式表" class="headerlink" title="第二步: 添加样式表"></a>第二步: 添加样式表</h2><ol>
+<li><p>给相关元素添加过渡效果</p>
+<p> 既然是折叠/展开而不是隐藏/显示，那么就一定会有<del>精美的</del>动画</p>
+<p> 故向三个元素添加样式</p>
+ <figure class="highlight styl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">transition-duration</span>: <span class="number">0.4s</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>隐藏widget:</p>
+<p> 接下来就是隐藏啦</p>
+<p> 为了使内容隐藏完全的同时不使文字的动画过于僵硬，我们需要将上下内边距设置为0，同时<br> 保留左右内边距</p>
+ <figure class="highlight styl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.widget-hidden</span> &gt; .widget</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">0</span></span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">15px</span> <span class="number">0</span> <span class="number">15px</span></span><br><span class="line">  <span class="attribute">overflow</span>: hidden</span><br></pre></td></tr></table></figure>
+<p> 大致效果：</p>
+<p> <img src="1.png" alt="效果1"></p>
+</li>
+<li><p>调整<code>wrap</code>边距</p>
+<p> 此时我们发现，折叠后的Widget与下方的间距有点大，于是需要调整<br> 下边距和相邻Widget的上边距</p>
+ <figure class="highlight styl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.widget-hidden</span><br><span class="line">    <span class="attribute">margin-bottom</span>: <span class="number">8px</span></span><br><span class="line"></span><br><span class="line"><span class="selector-class">.widget-hidden</span> + .widget-wrap</span><br><span class="line">    <span class="attribute">margin-top</span>: <span class="number">8px</span></span><br></pre></td></tr></table></figure>
+
+<p> 此时效果如图：</p>
+<p> <img src="2.png" alt="效果2"></p>
+</li>
+<li><p>添加折叠按钮</p>
+<p> 写到这里，感觉好像还没内味儿</p>
+<p> 啊对了，还没有添加折叠按钮</p>
+<p> 由于<del>我懒得找图片</del>用<code>border</code>+<code>transform</code>可以快速做出效果较好的折叠按钮，<br> 我就采用了这种办法</p>
+<p> 添加<code>.widget-wrap</code>和<code>.widget-hidden</code>的<code>::before</code>样式如下</p>
+ <figure class="highlight styl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">.widget-wrap</span><br><span class="line">  &amp;:before</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">""</span></span><br><span class="line">    <span class="attribute">width</span>: <span class="number">6px</span></span><br><span class="line">    <span class="attribute">height</span>: <span class="number">6px</span></span><br><span class="line">    <span class="attribute">border</span>: solid <span class="number">#999</span></span><br><span class="line">    <span class="attribute">border-width</span>: <span class="number">0</span> <span class="number">2px</span> <span class="number">2px</span> <span class="number">0</span></span><br><span class="line">    <span class="attribute">transform</span>: translate(-<span class="number">50%</span>, -<span class="number">50%</span>) rotate(<span class="number">45deg</span>)</span><br><span class="line">    <span class="attribute">float</span>: left</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">3px</span></span><br><span class="line">    <span class="attribute">transition-duration</span>: <span class="number">0.4s</span></span><br><span class="line">    <span class="attribute">pointer-events</span>: none</span><br><span class="line"></span><br><span class="line">.widget-hidden</span><br><span class="line">  &amp;:before</span><br><span class="line">    <span class="attribute">transform</span>: rotate(-<span class="number">45deg</span>)</span><br></pre></td></tr></table></figure>
+
+<p> 大功告成！</p>
+<p> 最终效果？在文章开头啊…</p>
+</li>
+</ol>
+<h2 id="相关文件下载"><a href="#相关文件下载" class="headerlink" title="相关文件下载"></a>相关文件下载</h2><p><a href="source.zip">压缩包下载</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://blog.h1msk.cc/2020/04/11/Hexo-Widget%E6%8A%98%E5%8F%A0%E6%95%88%E6%9E%9C/" data-id="ck8v9vqhq00008itl1o5qcwyp" class="article-share-link" data-share="baidu" data-title="Hexo Widget折叠效果">Share</a>
+      
+
+      
+
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/04/11/Hexo-%E9%9A%8F%E6%9C%BA%E5%AD%90%E6%A0%87%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hexo 随机子标题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.33px;">前端</a> <a href="/tags/%E7%BE%8E%E5%8C%96/" style="font-size: 20px;">美化</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/11/Hexo-Widget%E6%8A%98%E5%8F%A0%E6%95%88%E6%9E%9C/">Hexo Widget折叠效果</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/11/Hexo-%E9%9A%8F%E6%9C%BA%E5%AD%90%E6%A0%87%E9%A2%98/">Hexo 随机子标题</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/10/%E8%BD%AC-hexo-%E6%B7%BB%E5%8A%A0live2d%E7%9C%8B%E6%9D%BF%E5%8A%A8%E7%94%BB/">[转] Hexo 添加live2d看板动画</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/10/Windows%E7%BE%8E%E5%8C%96%E6%96%B9%E6%A1%88/">Windows美化方案</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/10/%E8%BD%AC-SSH%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4/">[转] SSH免密登录配置步骤</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://arvinxiang.com" target="_blank">主题作者</a>
+          </li>
+        
+          <li>
+            <a href="http://blog.h1msk.pro" target="_blank">本博客地址</a>
+          </li>
+        
+          <li>
+            <a href="https://github.com/H1MSK" target="_blank">我的Github</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme based on <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>
+  function SetShareData(cmd, config) {
+    if (shareDataTitle && shareDataUrl) {
+      config.bdText = shareDataTitle;
+      config.bdUrl = shareDataUrl;
+    }
+    return config;
+  }
+  window._bd_share_config={
+    "common":{onBeforeClick: SetShareData},
+    "share":{"bdCustomStyle":"/css/bdshare.css"}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+                processEscapes: true
+                    
+}
+  
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                  
+}
+    
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                            all[i].SourceElement().parentNode.className += ' has-jax';
+                                    
+            }
+                
+        });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"pluginModelPath":"assets/","display":{"position":"right","vOffset":50,"width":150,"height":300},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
