@@ -19,10 +19,11 @@
 <meta property="og:image" content="https://blog.h1msk.cc/2020/04/10/%E8%BD%AC-hexo-%E6%B7%BB%E5%8A%A0live2d%E7%9C%8B%E6%9D%BF%E5%8A%A8%E7%94%BB/4.webp">
 <meta property="og:image" content="https://blog.h1msk.cc/2020/04/10/%E8%BD%AC-hexo-%E6%B7%BB%E5%8A%A0live2d%E7%9C%8B%E6%9D%BF%E5%8A%A8%E7%94%BB/5.webp">
 <meta property="article:published_time" content="2020-04-10T15:59:55.000Z">
-<meta property="article:modified_time" content="2020-04-11T06:54:18.637Z">
+<meta property="article:modified_time" content="2020-04-12T07:42:57.223Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="美化">
 <meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="美化">
+<meta property="article:tag" content="live2d">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://blog.h1msk.cc/2020/04/10/%E8%BD%AC-hexo-%E6%B7%BB%E5%8A%A0live2d%E7%9C%8B%E6%9D%BF%E5%8A%A8%E7%94%BB/1.webp">
   
@@ -51,18 +52,55 @@
         <h2 id="subtitle-wrap">
           <a href="/" id="subtitle"></a>
         </h2>
+        <!-- typed.js provides animation -->
+        <script src="/js/typed.js"></script>
         <!-- Random subtitle -->
         <script>
           (function () {
-            var subtitles = [
+          var typed = new Typed("#subtitle", {
+            typeSpeed: 40,
+            backSpeed: 10,
+            backDelay: 2000,
+            startDelay: 500,
+            shuffle: true,
+            loop: true,
+            strings: [
               
               "Someone is climbing.",
-              
-              "Someone is learning.",
-              
-            ];
-            document.getElementById("subtitle").innerText =
-              subtitles[Math.floor(Math.random() * subtitles.length)];
+              "Keep conscience clear, then never fear.",
+              "Equivocation is first cousin to a lie.",
+              "He laughs best who laughs last.",
+              "It is the first step that costs.",
+              "Keep on going, and never give up.",
+              "Wasting time is robbing oneself.",
+              "Great oaks from little acorns grow.",
+              "Take control of your own desting.",
+              "Sweat is the lubricant of success.",
+              "All time is no time when it is past.",
+              "Truth is the daughter of time.",
+              "There is no royal road to learning.",
+              "The only constant in the world is always changing.",
+              "Loneliness is a person&#39;s carnival, carnival is a group of people&#39;s loneliness.",
+              "The shortest way to do many things is to only one thing at a time.",
+              "Giving is a reward in itself。",
+              "The secret of success is constancy to purpose。",
+              "Never put off what you can do today until tomorrow.",
+              "You cannot change what you refuse to confront.",
+              "Suffering is the most powerful teacher of life.",
+              "A friend without faults will never be found.",
+              "The best things come when you least expect them to.",
+              "If you don&#39;t aim high, you will never hit high.",
+              "Every man is best know to himself.",
+              "Never underestimate your power to change yourself.",
+              "A good fame is better than a good face.",
+              "Let thy vices die before thee.",
+              "Brief is life, but love is long.",
+              "Be confident, not arrogant.",
+              "To be first, best or different.",
+              "A fall into the pit, a gain in your wit.",
+              "One today is worth two tomorrows.",
+              "Zero in your target,and go for it.",
+              "Keep a young heart, be a simple people.",]});
           })();
         </script>
       
@@ -118,6 +156,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
+        
         <p>版权声明：本文为简书用户「annkee」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。</p>
 <p>原文链接：<a href="https://www.jianshu.com/p/3a6342e16e57" target="_blank" rel="noopener">https://www.jianshu.com/p/3a6342e16e57</a></p>
 <a id="more"></a>
@@ -129,23 +168,26 @@
 <p> 使用命令：<code>npm uninstall hexo-helper-live2d</code></p>
 <p> 之后再安装：<code>npm install --save hexo-helper-live2d</code></p>
 <p> <strong>注意：</strong>命令都是在你的博客主目录执行</p>
-<p> <img src="1.webp" alt="我的博客目录结构：d:/github/blog"></p>
+ <img src="/2020/04/10/%E8%BD%AC-hexo-%E6%B7%BB%E5%8A%A0live2d%E7%9C%8B%E6%9D%BF%E5%8A%A8%E7%94%BB/1.webp" class="" title="我的博客目录结构：d:&#x2F;github&#x2F;blog">
+
 <p> 安装完成之后在 <code>package.json</code> 会看到安装的model</p>
-<p> <img src="2.webp" alt="package.json依赖"></p>
+ <img src="/2020/04/10/%E8%BD%AC-hexo-%E6%B7%BB%E5%8A%A0live2d%E7%9C%8B%E6%9D%BF%E5%8A%A8%E7%94%BB/2.webp" class="" title="package.json依赖">
+
 <p> 此时再去 <code>node_moduels</code> 目录下，可以看到有如下文件夹，这些都是动画主配置</p>
-<p> <img src="3.webp" alt="node_modules目录"></p>
+ <img src="/2020/04/10/%E8%BD%AC-hexo-%E6%B7%BB%E5%8A%A0live2d%E7%9C%8B%E6%9D%BF%E5%8A%A8%E7%94%BB/3.webp" class="" title="node_modules目录">
 </li>
 <li><p>下载各种动画model</p>
 <p> 地址：<a href="https://github.com/xiazeyu/live2d-widget-models.git" target="_blank" rel="noopener">https://github.com/xiazeyu/live2d-widget-models.git</a></p>
 </li>
 <li><p>下载好之后将packages里的所有动画模板拷贝到博客的node_modules目录里</p>
-<p> <img src="4.webp" alt="packages目录"></p>
+ <img src="/2020/04/10/%E8%BD%AC-hexo-%E6%B7%BB%E5%8A%A0live2d%E7%9C%8B%E6%9D%BF%E5%8A%A8%E7%94%BB/4.webp" class="" title="packages目录">
 </li>
 <li><p>配置博客站点配置文件，_config.yml</p>
  <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">live2d:</span></span><br><span class="line"><span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">pluginModelPath:</span> <span class="string">assets/</span></span><br><span class="line"><span class="attr">model:</span></span><br><span class="line">    <span class="attr">use:</span> <span class="string">live2d-widget-model-epsilon2_1</span>  <span class="comment">#模板目录，在node_modules里</span></span><br><span class="line"><span class="attr">display:</span></span><br><span class="line">    <span class="attr">position:</span> <span class="string">right</span></span><br><span class="line">    <span class="attr">width:</span> <span class="number">150</span> </span><br><span class="line">    <span class="attr">height:</span> <span class="number">300</span></span><br><span class="line"><span class="attr">mobile:</span></span><br><span class="line">    <span class="attr">show:</span> <span class="literal">false</span>  <span class="comment">#是否在手机进行显示</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>开始部署<br> 当使用 <code>hexo clean</code> 或者 <code>hexo g</code> 命令的时候，这时候就可以看到如下日志了</p>
-<p> <img src="5.webp" alt="构建日志"></p>
+ <img src="/2020/04/10/%E8%BD%AC-hexo-%E6%B7%BB%E5%8A%A0live2d%E7%9C%8B%E6%9D%BF%E5%8A%A8%E7%94%BB/5.webp" class="" title="构建日志">
+
  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INFO HEXO-HELPER-LIVE2D: Loaded model from npm-module(1), live2d-widget-model-epsilon2_1@1.0.5 from <span class="string">'D:\github\blog\node_modules\live2d-widget-model-epsilon2_1\assets'</span></span><br></pre></td></tr></table></figure>
 
 <p> 说明已经加载到了配置的动画模板，到此就完成了。</p>
@@ -156,13 +198,13 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://blog.h1msk.cc/2020/04/10/%E8%BD%AC-hexo-%E6%B7%BB%E5%8A%A0live2d%E7%9C%8B%E6%9D%BF%E5%8A%A8%E7%94%BB/" data-id="ck8uidcvz0001lstl4i691xrh" class="article-share-link" data-share="baidu" data-title="[转] Hexo 添加live2d看板动画">Share</a>
+        <a data-url="https://blog.h1msk.cc/2020/04/10/%E8%BD%AC-hexo-%E6%B7%BB%E5%8A%A0live2d%E7%9C%8B%E6%9D%BF%E5%8A%A8%E7%94%BB/" data-id="ck8vtngw5000p3otl7bk2eh4q" class="article-share-link" data-share="baidu" data-title="[转] Hexo 添加live2d看板动画">Share</a>
       
 
       
 
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/live2d/" rel="tag">live2d</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a></li></ul>
 
     </footer>
   </div>
@@ -200,7 +242,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/live2d/" rel="tag">live2d</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -209,7 +251,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.33px;">前端</a> <a href="/tags/%E7%BE%8E%E5%8C%96/" style="font-size: 20px;">美化</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a>
+      <a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/live2d/" style="font-size: 10px;">live2d</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.33px;">前端</a> <a href="/tags/%E7%BE%8E%E5%8C%96/" style="font-size: 20px;">美化</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a>
     </div>
   </div>
 

@@ -39,18 +39,55 @@
         <h2 id="subtitle-wrap">
           <a href="/" id="subtitle"></a>
         </h2>
+        <!-- typed.js provides animation -->
+        <script src="/js/typed.js"></script>
         <!-- Random subtitle -->
         <script>
           (function () {
-            var subtitles = [
+          var typed = new Typed("#subtitle", {
+            typeSpeed: 40,
+            backSpeed: 10,
+            backDelay: 2000,
+            startDelay: 500,
+            shuffle: true,
+            loop: true,
+            strings: [
               
               "Someone is climbing.",
-              
-              "Someone is learning.",
-              
-            ];
-            document.getElementById("subtitle").innerText =
-              subtitles[Math.floor(Math.random() * subtitles.length)];
+              "Keep conscience clear, then never fear.",
+              "Equivocation is first cousin to a lie.",
+              "He laughs best who laughs last.",
+              "It is the first step that costs.",
+              "Keep on going, and never give up.",
+              "Wasting time is robbing oneself.",
+              "Great oaks from little acorns grow.",
+              "Take control of your own desting.",
+              "Sweat is the lubricant of success.",
+              "All time is no time when it is past.",
+              "Truth is the daughter of time.",
+              "There is no royal road to learning.",
+              "The only constant in the world is always changing.",
+              "Loneliness is a person&#39;s carnival, carnival is a group of people&#39;s loneliness.",
+              "The shortest way to do many things is to only one thing at a time.",
+              "Giving is a reward in itself。",
+              "The secret of success is constancy to purpose。",
+              "Never put off what you can do today until tomorrow.",
+              "You cannot change what you refuse to confront.",
+              "Suffering is the most powerful teacher of life.",
+              "A friend without faults will never be found.",
+              "The best things come when you least expect them to.",
+              "If you don&#39;t aim high, you will never hit high.",
+              "Every man is best know to himself.",
+              "Never underestimate your power to change yourself.",
+              "A good fame is better than a good face.",
+              "Let thy vices die before thee.",
+              "Brief is life, but love is long.",
+              "Be confident, not arrogant.",
+              "To be first, best or different.",
+              "A fall into the pit, a gain in your wit.",
+              "One today is worth two tomorrows.",
+              "Zero in your target,and go for it.",
+              "Keep a young heart, be a simple people.",]});
           })();
         </script>
       
@@ -128,7 +165,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/live2d/" rel="tag">live2d</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -137,7 +174,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.33px;">前端</a> <a href="/tags/%E7%BE%8E%E5%8C%96/" style="font-size: 20px;">美化</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a>
+      <a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/live2d/" style="font-size: 10px;">live2d</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.33px;">前端</a> <a href="/tags/%E7%BE%8E%E5%8C%96/" style="font-size: 20px;">美化</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a>
     </div>
   </div>
 

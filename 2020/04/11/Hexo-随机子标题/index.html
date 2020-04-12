@@ -15,10 +15,10 @@
 <meta property="og:locale" content="cn">
 <meta property="og:image" content="https://blog.h1msk.cc/2020/04/11/Hexo-%E9%9A%8F%E6%9C%BA%E5%AD%90%E6%A0%87%E9%A2%98/%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C.png">
 <meta property="article:published_time" content="2020-04-10T16:50:05.000Z">
-<meta property="article:modified_time" content="2020-04-11T13:59:07.765Z">
+<meta property="article:modified_time" content="2020-04-12T08:21:42.389Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="美化">
 <meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="美化">
 <meta property="article:tag" content="前端">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://blog.h1msk.cc/2020/04/11/Hexo-%E9%9A%8F%E6%9C%BA%E5%AD%90%E6%A0%87%E9%A2%98/%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C.png">
@@ -48,18 +48,55 @@
         <h2 id="subtitle-wrap">
           <a href="/" id="subtitle"></a>
         </h2>
+        <!-- typed.js provides animation -->
+        <script src="/js/typed.js"></script>
         <!-- Random subtitle -->
         <script>
           (function () {
-            var subtitles = [
+          var typed = new Typed("#subtitle", {
+            typeSpeed: 40,
+            backSpeed: 10,
+            backDelay: 2000,
+            startDelay: 500,
+            shuffle: true,
+            loop: true,
+            strings: [
               
               "Someone is climbing.",
-              
-              "Someone is learning.",
-              
-            ];
-            document.getElementById("subtitle").innerText =
-              subtitles[Math.floor(Math.random() * subtitles.length)];
+              "Keep conscience clear, then never fear.",
+              "Equivocation is first cousin to a lie.",
+              "He laughs best who laughs last.",
+              "It is the first step that costs.",
+              "Keep on going, and never give up.",
+              "Wasting time is robbing oneself.",
+              "Great oaks from little acorns grow.",
+              "Take control of your own desting.",
+              "Sweat is the lubricant of success.",
+              "All time is no time when it is past.",
+              "Truth is the daughter of time.",
+              "There is no royal road to learning.",
+              "The only constant in the world is always changing.",
+              "Loneliness is a person&#39;s carnival, carnival is a group of people&#39;s loneliness.",
+              "The shortest way to do many things is to only one thing at a time.",
+              "Giving is a reward in itself。",
+              "The secret of success is constancy to purpose。",
+              "Never put off what you can do today until tomorrow.",
+              "You cannot change what you refuse to confront.",
+              "Suffering is the most powerful teacher of life.",
+              "A friend without faults will never be found.",
+              "The best things come when you least expect them to.",
+              "If you don&#39;t aim high, you will never hit high.",
+              "Every man is best know to himself.",
+              "Never underestimate your power to change yourself.",
+              "A good fame is better than a good face.",
+              "Let thy vices die before thee.",
+              "Brief is life, but love is long.",
+              "Be confident, not arrogant.",
+              "To be first, best or different.",
+              "A fall into the pit, a gain in your wit.",
+              "One today is worth two tomorrows.",
+              "Zero in your target,and go for it.",
+              "Keep a young heart, be a simple people.",]});
           })();
         </script>
       
@@ -115,13 +152,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
+        
         <p>博客改装第一步，随机子标题</p>
 <a id="more"></a>
 
 <hr>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇文章算是一个事后记录吧，当时做的时候没有同步记录过程</p>
 <p>我记得我是看了谁的博客才有的这个想法，但是当时实现这个功能的时候忘记保存链接了…</p>
-<h2 id="成品效果"><a href="#成品效果" class="headerlink" title="成品效果"></a>成品效果</h2><p><img src="%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C.png" alt="最终效果"></p>
+<h2 id="成品效果"><a href="#成品效果" class="headerlink" title="成品效果"></a>成品效果</h2><img src="/2020/04/11/Hexo-%E9%9A%8F%E6%9C%BA%E5%AD%90%E6%A0%87%E9%A2%98/%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C.png" class="" title="最终效果">
+
 <h2 id="涉及文件"><a href="#涉及文件" class="headerlink" title="涉及文件"></a>涉及文件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- /themes/landscape-plus/layout/_partial/header.ejs</span><br><span class="line">- _config.yml</span><br></pre></td></tr></table></figure>
 
 <h2 id="简要思路"><a href="#简要思路" class="headerlink" title="简要思路"></a>简要思路</h2><p>在生成博客子标题时，JS脚本以特定字符切割设置里的subtitle字符串，<br>同时产生随机数随机选择一条进行显示</p>
@@ -133,19 +172,38 @@
 <p>为了达到随机子标题的效果，我们需要在设置中想办法填写所有可能的值，<br>并在这里随机显示一个。</p>
 <p>由于Hexo是静态博客，不能实现服务端随机，故我的实现方法为：博客生成一个数组嵌入HTML，<br>加载页面时随机抽取一个进行显示。</p>
 <p>在博客设置中按如下方式填写:</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">subtitle:</span> <span class="string">&gt;-</span></span><br><span class="line">  <span class="string">Someone</span> <span class="string">is</span> <span class="string">climbing.</span></span><br><span class="line"></span><br><span class="line">  <span class="string">Someone</span> <span class="string">is</span> <span class="string">learning.</span></span><br><span class="line"></span><br><span class="line">  <span class="string">Someone</span> <span class="string">is</span> <span class="string">waiting.</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">subtitle:</span> <span class="string">|-</span></span><br><span class="line">  <span class="string">Someone</span> <span class="string">is</span> <span class="string">climbing.</span></span><br><span class="line">  <span class="string">Someone</span> <span class="string">is</span> <span class="string">learning.</span></span><br><span class="line">  <span class="string">Someone</span> <span class="string">is</span> <span class="string">waiting.</span></span><br></pre></td></tr></table></figure>
 
 <p>关于yaml多行字符串，可以参考<a href="http://yaml-multiline.info/" target="_blank" rel="noopener">这里</a>。</p>
 <p>更改后的代码如下:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">if</span> (<span class="attr">theme.subtitle</span>)&#123; %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span> <span class="attr">id</span>=<span class="string">"subtitle-wrap"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 这里不硬编码数据，改用下面的Javascript生成并填写 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&lt;%- url_for() %&gt;"</span> <span class="attr">id</span>=<span class="string">"subtitle"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Random subtitle --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    (<span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> subtitles = [</span></span><br><span class="line"><span class="actionscript">        &lt;% <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>, s = theme.subtitle.split(<span class="string">"\n"</span>);</span></span><br><span class="line"><span class="handlebars"><span class="xml">        i + 1 <span class="tag">&lt; <span class="attr">s.length</span>; ++<span class="attr">i</span>) &#123; %&gt;</span></span></span></span><br><span class="line"><span class="actionscript">        <span class="string">"&lt;%= s[i] %&gt;"</span>,</span></span><br><span class="line"><span class="handlebars"><span class="xml">        <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span></span></span><br><span class="line">    ];</span><br><span class="line"><span class="javascript">    <span class="built_in">document</span>.getElementById(<span class="string">"subtitle"</span>).innerText =</span></span><br><span class="line"><span class="javascript">        subtitles[<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * subtitles.length)];</span></span><br><span class="line">    &#125;)();</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">if</span> (<span class="attr">theme.subtitle</span>)&#123; %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span> <span class="attr">id</span>=<span class="string">"subtitle-wrap"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 这里不硬编码数据，改用下面的Javascript生成并填写 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&lt;%- url_for() %&gt;"</span> <span class="attr">id</span>=<span class="string">"subtitle"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Random subtitle --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    (<span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> subtitles = [</span></span><br><span class="line"><span class="actionscript">        &lt;% <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>, s = theme.subtitle.split(<span class="string">"\n"</span>);</span></span><br><span class="line"><span class="handlebars"><span class="xml">        i <span class="tag">&lt; <span class="attr">s.length</span>; ++<span class="attr">i</span>) &#123; %&gt;</span></span></span></span><br><span class="line"><span class="actionscript">        <span class="string">"&lt;%- s[i] %&gt;"</span>,</span></span><br><span class="line"><span class="handlebars"><span class="xml">        <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span></span></span><br><span class="line">    ];</span><br><span class="line"><span class="javascript">    <span class="built_in">document</span>.getElementById(<span class="string">"subtitle"</span>).innerText =</span></span><br><span class="line"><span class="javascript">        subtitles[<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * subtitles.length)];</span></span><br><span class="line">    &#125;)();</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>有关EJS语法可以参考<a href="https://www.ejs.co/" target="_blank" rel="noopener">这里</a>。</p>
+<h2 id="添加动态打字效果"><a href="#添加动态打字效果" class="headerlink" title="添加动态打字效果"></a>添加动态打字效果</h2><p>动态打字效果可以使用<a href="https://github.com/mattboldt/typed.js/" target="_blank" rel="noopener">typed.js</a>完成。</p>
+<p>首先在页面内引入typed.js(在<code>header.ejs</code>中，subtitle上方添加)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- CDN 模式 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/npm/typed.js@2.0.11"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 或者下载到source文件夹内（根目录或主题内均可行），然后引入本地文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/js/typed.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后简单调一下设置就好啦，把上一节的js代码更换为下方所示即可</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">  (<span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> typed = <span class="keyword">new</span> Typed(<span class="string">"#subtitle"</span>, &#123;</span></span><br><span class="line"><span class="actionscript">      typeSpeed: <span class="number">40</span>,  <span class="comment">// 打字时的interval</span></span></span><br><span class="line"><span class="actionscript">      backSpeed: <span class="number">10</span>,  <span class="comment">// 删除时的interval</span></span></span><br><span class="line"><span class="actionscript">      backDelay: <span class="number">2000</span>,  <span class="comment">// 打完一行之后的timeout</span></span></span><br><span class="line"><span class="actionscript">      startDelay: <span class="number">500</span>,  <span class="comment">// 删完一行之后的timeout</span></span></span><br><span class="line"><span class="actionscript">      shuffle: <span class="literal">true</span>,  <span class="comment">// 打乱strings数组的元素顺序</span></span></span><br><span class="line"><span class="actionscript">      loop: <span class="literal">true</span>, <span class="comment">// 不断循环</span></span></span><br><span class="line"><span class="actionscript">      strings: [  <span class="comment">// 字符串源</span></span></span><br><span class="line"><span class="actionscript">        &lt;% <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>, s = theme.subtitle.split(<span class="string">"\n"</span>);</span></span><br><span class="line">          i &lt; s.length; ++i) &#123;</span><br><span class="line"><span class="actionscript">            <span class="comment">/* ignore the last element which is a null string */</span> %&gt;</span></span><br><span class="line"><span class="handlebars"><span class="xml">        "<span class="tag">&lt;<span class="name">%=</span> <span class="attr">s</span>[<span class="attr">i</span>] %&gt;</span>",<span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span>]&#125;);</span></span></span><br><span class="line">  &#125;)();</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>有关Typed.js的更多用法，可参考这里的<a href="http://mattboldt.github.io/typed.js/" target="_blank" rel="noopener">Demo</a>或<a href="https://mattboldt.github.io/typed.js/docs/" target="_blank" rel="noopener">文档</a>.</p>
+<h2 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h2><ul>
+<li>2020-04-12<ul>
+<li>修复转义字符的问题</li>
+<li>添加动态效果</li>
+</ul>
+</li>
+<li>2020-04-11<ul>
+<li>第一版上线</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://blog.h1msk.cc/2020/04/11/Hexo-%E9%9A%8F%E6%9C%BA%E5%AD%90%E6%A0%87%E9%A2%98/" data-id="ck8vfwq6b00003ptla7ng2wu0" class="article-share-link" data-share="baidu" data-title="Hexo 随机子标题">Share</a>
+        <a data-url="https://blog.h1msk.cc/2020/04/11/Hexo-%E9%9A%8F%E6%9C%BA%E5%AD%90%E6%A0%87%E9%A2%98/" data-id="ck8vtngup00013otlcc7xerx0" class="article-share-link" data-share="baidu" data-title="Hexo 随机子标题">Share</a>
       
 
       
@@ -189,7 +247,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/live2d/" rel="tag">live2d</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -198,7 +256,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.33px;">前端</a> <a href="/tags/%E7%BE%8E%E5%8C%96/" style="font-size: 20px;">美化</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a>
+      <a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/live2d/" style="font-size: 10px;">live2d</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.33px;">前端</a> <a href="/tags/%E7%BE%8E%E5%8C%96/" style="font-size: 20px;">美化</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a>
     </div>
   </div>
 
