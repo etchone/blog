@@ -4,14 +4,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: Pacman | H1&#39;s Blog</title>
+  <title>STM32CubeMX USB-VCP 驱动正常但不能连接 - 解决方法 | H1&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="H1&#39;s Blog">
-<meta property="og:url" content="https://blog.h1msk.cc/tags/Pacman/index.html">
+  <meta name="description" content="坑人的官方固件库…">
+<meta property="og:type" content="article">
+<meta property="og:title" content="STM32CubeMX USB-VCP 驱动正常但不能连接 - 解决方法">
+<meta property="og:url" content="https://blog.h1msk.cc/2020/04/17/STM32CubeMX-USB-VCP-%E9%A9%B1%E5%8A%A8%E6%AD%A3%E5%B8%B8%E4%BD%86%E4%B8%8D%E8%83%BD%E8%BF%9E%E6%8E%A5-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/index.html">
 <meta property="og:site_name" content="H1&#39;s Blog">
+<meta property="og:description" content="坑人的官方固件库…">
 <meta property="og:locale" content="cn">
+<meta property="article:published_time" content="2020-04-16T16:16:38.000Z">
+<meta property="article:modified_time" content="2020-04-17T03:31:24.776Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="STM32">
+<meta property="article:tag" content="USB">
+<meta property="article:tag" content="CubeMX">
+<meta property="article:tag" content="BUG">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="H1&#39;s Blog" type="application/atom+xml">
@@ -121,39 +129,92 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/04/13/MSYS2-%E6%8D%A2%E6%BA%90/" class="archive-article-date">
-  <time datetime="2020-04-13T14:40:29.000Z" itemprop="datePublished">Apr 13</time>
+      <section id="main"><article id="post-STM32CubeMX-USB-VCP-驱动正常但不能连接-解决方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/17/STM32CubeMX-USB-VCP-%E9%A9%B1%E5%8A%A8%E6%AD%A3%E5%B8%B8%E4%BD%86%E4%B8%8D%E8%83%BD%E8%BF%9E%E6%8E%A5-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="article-date">
+  <time datetime="2020-04-16T16:16:38.000Z" itemprop="datePublished">2020-04-17</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/13/MSYS2-%E6%8D%A2%E6%BA%90/">MSYS2 换源 &amp; Pacman常用命令</a>
+    <h1 class="article-title" itemprop="name">
+      STM32CubeMX USB-VCP 驱动正常但不能连接 - 解决方法
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>坑人的官方固件库…</p>
+<a id="more"></a>
+
+<hr>
+<h2 id="软硬件版本"><a href="#软硬件版本" class="headerlink" title="软硬件版本"></a>软硬件版本</h2><ul>
+<li>Windows 1909 或 2004 Preview</li>
+<li>STM32F407VET6</li>
+<li>STM32CubeMX 5.4.0 / 5.6.0 / 5.6.1</li>
+<li>USB库 v1.0_Cube</li>
+</ul>
+<h2 id="症状描述"><a href="#症状描述" class="headerlink" title="症状描述"></a>症状描述</h2><ul>
+<li>Windows可检测到虚拟串口，无感叹号（时序设置正确）</li>
+<li>Windows API 中，<ul>
+<li>CreateFileA 正常</li>
+<li>SetCommState 失败， GetLastError返回56</li>
+</ul>
+</li>
+<li>PuTTY无法连接串口，TeraTerm正常</li>
+</ul>
+<h2 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h2><p>单片机无法响应行编码(Line Coding)信息</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><ol>
+<li><p>在 usbd_cdc_if.c中添加如下代码:</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*******************************************************************************/</span></span><br><span class="line"><span class="comment">/* Line Coding Structure                                                       */</span></span><br><span class="line"><span class="comment">/*-----------------------------------------------------------------------------*/</span></span><br><span class="line"><span class="comment">/* Offset | Field       | Size | Value  | Description                          */</span></span><br><span class="line"><span class="comment">/* 0      | dwDTERate   |   4  | Number |Data terminal rate, in bits per second*/</span></span><br><span class="line"><span class="comment">/* 4      | bCharFormat |   1  | Number | Stop bits                            */</span></span><br><span class="line"><span class="comment">/*                                        0 - 1 Stop bit                       */</span></span><br><span class="line"><span class="comment">/*                                        1 - 1.5 Stop bits                    */</span></span><br><span class="line"><span class="comment">/*                                        2 - 2 Stop bits                      */</span></span><br><span class="line"><span class="comment">/* 5      | bParityType |  1   | Number | Parity                               */</span></span><br><span class="line"><span class="comment">/*                                        0 - None                             */</span></span><br><span class="line"><span class="comment">/*                                        1 - Odd                              */</span></span><br><span class="line"><span class="comment">/*                                        2 - Even                             */</span></span><br><span class="line"><span class="comment">/*                                        3 - Mark                             */</span></span><br><span class="line"><span class="comment">/*                                        4 - Space                            */</span></span><br><span class="line"><span class="comment">/* 6      | bDataBits  |   1   | Number Data bits (5, 6, 7, 8 or 16).          */</span></span><br><span class="line"><span class="comment">/*******************************************************************************/</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">uint8_t</span> lineCoding[<span class="number">7</span>] <span class="comment">// 115200bps, 1stop, no parity, 8bit</span></span><br><span class="line">    = &#123; <span class="number">0x00</span>, <span class="number">0xC2</span>, <span class="number">0x01</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x08</span> &#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调整<code>CDC_Control_FS</code>函数，添加如下两行:</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int8_t</span> <span class="title">CDC_Control_FS</span><span class="params">(<span class="keyword">uint8_t</span> cmd, <span class="keyword">uint8_t</span>* pbuf, <span class="keyword">uint16_t</span> length)</span> </span>&#123;</span><br><span class="line">  <span class="comment">/* USER CODE BEGIN 5 */</span></span><br><span class="line">  <span class="keyword">switch</span>(cmd) &#123;</span><br><span class="line">  ...</span><br><span class="line">    <span class="keyword">case</span> CDC_SET_LINE_CODING:</span><br><span class="line">      <span class="built_in">memcpy</span>(lineCoding, pbuf, <span class="keyword">sizeof</span>(lineCoding));   <span class="comment">// This line</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> CDC_GET_LINE_CODING:</span><br><span class="line">      <span class="built_in">memcpy</span>(pbuf, lineCoding, <span class="keyword">sizeof</span>(lineCoding));   <span class="comment">// This line</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://stackoverflow.com/questions/56490843/what-is-issue-with-stm32-virtual-com-port-i-can-not-open-it" target="_blank" rel="noopener">What is issue with STM32 Virtual Com Port? I can not open it - Stackoverflow</a></li>
+<li><a href="https://community.st.com/s/question/0D50X00009XkgIYSAZ/unable-to-configure-serial-port-error-for-usb-cdc" target="_blank" rel="noopener">Unable to configure serial port Error for USB CDC - st.com</a></li>
+</ul>
+<h2 id="后记-amp-牢骚"><a href="#后记-amp-牢骚" class="headerlink" title="后记&amp;牢骚"></a>后记&amp;牢骚</h2><p>据说这两个地方原来是有的，但是ST官方把它们删掉了…</p>
+<p>我再也不相信官方库了 /(ㄒoㄒ)/~~</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://blog.h1msk.cc/2020/04/17/STM32CubeMX-USB-VCP-%E9%A9%B1%E5%8A%A8%E6%AD%A3%E5%B8%B8%E4%BD%86%E4%B8%8D%E8%83%BD%E8%BF%9E%E6%8E%A5-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" data-id="ck93myrdt000026tlcrz16db6" class="article-share-link" data-share="baidu" data-title="STM32CubeMX USB-VCP 驱动正常但不能连接 - 解决方法">Share</a>
+      
+
+      
+
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BUG/" rel="tag">BUG</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CubeMX/" rel="tag">CubeMX</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/STM32/" rel="tag">STM32</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/USB/" rel="tag">USB</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/04/13/MSYS2-%E6%8D%A2%E6%BA%90/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MSYS2 换源 &amp; Pacman常用命令</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 </section>
       
