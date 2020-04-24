@@ -1070,19 +1070,19 @@ a.article-title:hover {
   text-shadow: 0 1px #be3221;
 }
 .article-gallery-at-index {
-  width: 300px;
   float: right;
   max-height: 200px;
   overflow: hidden;
 }
-.article-gallery-at-index img {
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -moz-transform: translateY(-50%);
-  -o-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
+@media screen and (min-width: 600px) {
+  .article-gallery-at-index {
+    width: 300px;
+  }
+}
+@media screen and (max-width: 599px) {
+  .article-gallery-at-index {
+    width: 100%;
+  }
 }
 .article-gallery {
   background: #000;
