@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>搭建Axigen邮件服务器 | H1&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="你收到了来自me@mydomain.com的新邮件，是否查看？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建Axigen邮件服务器">
+<meta property="og:url" content="https://blog.h1msk.cc/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/index.html">
+<meta property="og:site_name" content="H1&#39;s Blog">
+<meta property="og:description" content="你收到了来自me@mydomain.com的新邮件，是否查看？">
+<meta property="og:locale" content="cn">
+<meta property="og:image" content="https://blog.h1msk.cc/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/logo.png">
+<meta property="article:published_time" content="2020-04-27T15:38:47.000Z">
+<meta property="article:modified_time" content="2020-04-28T15:30:39.908Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="个人网站">
+<meta property="article:tag" content="邮件服务器">
+<meta property="article:tag" content="Axigen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.h1msk.cc/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/logo.png">
+  
+    <link rel="alternative" href="/atom.xml" title="H1&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">H1&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle"></a>
+        </h2>
+        <!-- typed.js provides animation -->
+        <script src="/js/typed.js"></script>
+        <!-- Random subtitle -->
+        <script>
+          (function () {
+          var typed = new Typed("#subtitle", {
+            typeSpeed: 40,
+            backSpeed: 10,
+            backDelay: 2000,
+            startDelay: 500,
+            shuffle: true,
+            loop: true,
+            strings: [
+              
+              "Someone is climbing.",
+              "Keep conscience clear, and never fear.",
+              "Equivocation is the first cousin to lie.",
+              "He laughs best who laughs last.",
+              "It is the first step that costs.",
+              "Keep on going, and never give up.",
+              "Wasting time is robbing oneself.",
+              "Great oaks from little acorns grow.",
+              "Take control of your own destiny.",
+              "Sweat is the lubricant of success.",
+              "All time is no time when it is past.",
+              "Truth is the daughter of time.",
+              "There is no royal road to learning.",
+              "The only constant in the world is always changing.",
+              "Loneliness is a person&#39;s carnival, carnival is a group of people&#39;s loneliness.",
+              "The shortest way to do many things is to do only one thing at a time.",
+              "Giving is a reward of itself.",
+              "The secret of success is constancy to purpose.",
+              "Never put off what you can do today until tomorrow.",
+              "You cannot change what you refuse to confront.",
+              "Suffering is the most powerful teacher of life.",
+              "A friend without faults will never be found.",
+              "The best things come when you least expect them to.",
+              "If you don&#39;t aim high, you will never hit high.",
+              "Every man is best know to himself.",
+              "Never underestimate your power to change yourself.",
+              "A good fame is better than a good face.",
+              "Let thy vices die before thee.",
+              "Brief is life, but love is long.",
+              "Be confident, not arrogant.",
+              "To be first, best or different.",
+              "A fall into the pit, a gain in your wit.",
+              "One today is worth two tomorrows.",
+              "Zero in your target,and go for it.",
+              "Keep a young heart, be a simple people.",]});
+          })();
+        </script>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="blog.h1msk.cc">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-搭建Axigen邮件服务器" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="article-date">
+  <time datetime="2020-04-27T15:38:47.000Z" itemprop="datePublished">2020-04-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+  
+  <div class="article-gallery">
+  
+    <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/logo.png" rel="gallery_ck9k2mp5y0003litldgdtejgg">
+        <img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/logo.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      搭建Axigen邮件服务器
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>你收到了来自<code>me@mydomain.com</code>的新邮件，是否查看？</p>
+<a id="more"></a>
+
+<hr>
+<h2 id="Axigen-简介"><a href="#Axigen-简介" class="headerlink" title="Axigen 简介"></a>Axigen 简介</h2><p><a href="https://www.axigen.com/" target="_blank" rel="noopener">官网链接</a></p>
+<p>在线Demo: <a href="https://web.axigenmail.com/" target="_blank" rel="noopener">WebMail</a> / <a href="https://demo.axigenmail.com/" target="_blank" rel="noopener">WebAdmin</a></p>
+<p>Axigen 是一个<del>颜值始终在线</del>自有的，跨平台的邮件服务器。其免费版本支持最多5个账户+5个用户组+5个域名，其余版本可以在官网上<a href="https://www.axigen.com/buy/" target="_blank" rel="noopener">购买</a>。(但是确实，它颜值始终在线)</p>
+<h2 id="软硬件需求"><a href="#软硬件需求" class="headerlink" title="软硬件需求"></a>软硬件需求</h2><ul>
+<li>以下两者任选其一：<ul>
+<li>VPS一台（推荐<a href="https://www.vultr.com/?ref=7360251" target="_blank" rel="noopener">这一家</a>，在<strong>纽约</strong>的服务器最低只要2.5美元一个月）</li>
+<li>接入公网的本地系统</li>
+</ul>
+</li>
+<li>Ubuntu 18.04 (或其他Linux系统，但下文均基于此操作系统)</li>
+</ul>
+<h2 id="安装-Axigen"><a href="#安装-Axigen" class="headerlink" title="安装 Axigen"></a>安装 Axigen</h2><p><strong>注意</strong>: 记录本文时，<code>Axigen</code>最新版本为<code>10.3.1</code>，最新版本安装方法可能不同</p>
+<p>登录<a href="https://www.axigen.com/mail-server/download/#" target="_blank" rel="noopener">官网下载页面</a>, <strong>根据自己的系统</strong>选择合适的版本，并<strong>下载</strong></p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E4%B8%8B%E8%BD%BD%E9%A1%B5%E9%9D%A2.png" class="" title="下载页面">
+
+<p>下载完成后根据提示<strong>运行文件</strong>（下方为Debian风味版本安装提示界面）</p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/Debian%E9%A3%8E%E5%91%B3.png" class="" title="Debian风味">
+<p>图片中的命令：<code>sh axigen-10.3.1.amd64.deb.run</code></p>
+<p>(以下图片及部分内容源自<a href="https://www.axigen.com/documentation/installing-axigen-on-linux-p1409126" target="_blank" rel="noopener">官方安装文档</a>，上面的教程是基于RPM的，所以安装文件不同..)</p>
+<p>运行后会先提示让我们按<code>Enter</code><strong>查看协议</strong></p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E6%9F%A5%E7%9C%8B%E5%8D%8F%E8%AE%AE.png" class="" title="查看协议">
+
+<p>然后在浏览界面按<code>q</code>退出 (敏锐的我发现了这里的浏览器似乎是<code>vim</code>)</p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%8D%8F%E8%AE%AE%E5%86%85%E5%AE%B9.png" class="" title="协议内容">
+
+<p>退出后输入<code>yes</code>并回车，表示<strong>同意</strong></p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%90%8C%E6%84%8F%E5%8D%8F%E8%AE%AE.png" class="" title="同意协议">
+
+<p>然后等待脚本自动验证下载并解压，并自动运行安装脚本。据官网所说，安装脚本是一个基于菜单的向导程序，允许用户安装、卸载、升级<code>Axigen</code>或阅读相关文档。</p>
+<p>成功后如图所示：</p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%AE%89%E8%A3%85%E9%80%89%E9%A1%B9.png" class="" title="安装选项">
+
+<p>这里我们选择<code>1. Install axigen</code>进行<strong>安装</strong>。</p>
+<p>成功后结果如图</p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F.png" class="" title="安装成功">
+
+<p>注意控制台内会打印<code>WebAdmin</code>的网址（图中有两个，IPv4地址为<code>https://192.168.4.131:9443/</code>），我们还需进入网址进行设置。</p>
+<h2 id="初始化设置"><a href="#初始化设置" class="headerlink" title="初始化设置"></a>初始化设置</h2><p>（以下内容译自<a href="https://www.axigen.com/documentation/performing-the-initial-configuration-onboarding-p21594150" target="_blank" rel="noopener">官方文档</a>，图片源自相同链接）</p>
+<p>登入上面安装时显示的网址，它会带领你完成初始化设定。</p>
+<p>第一步，你会被要求<strong>浏览并同意EULA</strong>并<strong>设置管理员密码</strong>。</p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%8D%8F%E8%AE%AE.png" class="" title="协议">
+
+
+<p>然后，我们需要选择<strong>许可证类型</strong>。如果我们已经申请了许可证，可以选择第三个选项，或者我们也可以选择免费版本，或者试用60天。选择后，程序将会应用许可证并重启，我们只需等待重启完成并继续（<strong>不用</strong>关闭网页或刷新！）</p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E9%80%89%E6%8B%A9%E8%AE%B8%E5%8F%AF%E8%AF%81.png" class="" title="选择许可证">
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E9%87%8D%E5%90%AF.png" class="" title="重启">
+
+<blockquote>
+<p>用户也可以跳过上面的所有步骤。在这种情况下，我们可以在之后选择许可证类型。在没有选择之前，<code>Axigen</code>会在<code>Demo</code>模式运行3天。</p>
+</blockquote>
+<p>接下来，<code>Axigen</code>将会自动配置默认的服务，并进行提示</p>
+<blockquote>
+<p><code>Axigen</code>在安装时会生成一个自签名证书，并默认应用在一些服务上。这会导致许多客户端产生SSL证书警告，所以我们强烈推荐用户生成或上传一个有效的证书供这些服务使用。</p>
+</blockquote>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E9%BB%98%E8%AE%A4%E6%9C%8D%E5%8A%A1.png" class="" title="默认服务">
+
+<p>然后添加<strong>主域名</strong></p>
+<blockquote>
+<p>在<code>Axigen</code>中，注册了主域名的用户可以通过他们的本地部分(local part)登录（例如，如果主域名为<code>example.com</code>，用户<code>jone.doe@example.com</code>也可以通过<code>jone.doe</code>和登录。这部分对其他域名无效）</p>
+<p>每一个域名都有一个<code>postmaster</code>账号。请为这个账号设置一个密码并将密码储存在安全的地方。这个账号会被用来发送不同的系统提示(system alerts).</p>
+</blockquote>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E6%B7%BB%E5%8A%A0%E4%B8%BB%E5%9F%9F%E5%90%8D.png" class="" title="添加主域名">
+
+<p>大功告成！网站将跳转到管理员仪表板。</p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E8%AE%BE%E7%BD%AE%E6%88%90%E5%8A%9F.png" class="" title="设置成功">
+
+<h2 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h2><p>这里根据域名解析提供商的不同，配置方法会有所不同，故不提供详细说明。</p>
+<p>我们需要添加以下两条记录:</p>
+<ul>
+<li>邮件服务器域名A记录 (如<code>mail.example.com</code>)，指向服务器的IP地址</li>
+<li>根域的MX记录，指向服务器所使用的域名</li>
+</ul>
+<h2 id="添加用户账号"><a href="#添加用户账号" class="headerlink" title="添加用户账号"></a>添加用户账号</h2><p>在管理员界面左侧的目录中选择<code>DOMAINS &amp; ACCOUNTS</code>&gt;<code>Manage Accounts</code>,进入如下界面</p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7.png" class="" title="管理用户">
+
+<p>单击右侧的<code>Add Account</code>,输入相关内容（账号、密码和域名为必填项），点击<code>QUICK ADD</code></p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7.png" class="" title="添加用户">
+
+<p>成功！</p>
+<h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>在浏览器地址栏中，输入绑定的域名或服务器IP地址（与管理员页面域名相同，默认为80/443端口）并访问<br>登陆界面如下</p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E7%99%BB%E9%99%86%E7%95%8C%E9%9D%A2.png" class="" title="登录界面">
+
+<h2 id="开启SSL"><a href="#开启SSL" class="headerlink" title="开启SSL"></a>开启SSL</h2><p>在开启SSL之前，请务必确认我们自己添加的域名解析正常工作</p>
+<p>首先我们需要申请Let’s encrypt的SSL证书</p>
+<p>在管理员界面目录中选择<code>SECURITY &amp; FILTERING</code>&gt;<code>SSL Certificates</code>,进入如下界面</p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E7%AE%A1%E7%90%86%E8%AF%81%E4%B9%A6.png" class="" title="管理证书">
+
+<p>单击<code>ADD</code>, 在弹出界面中下方选择<code>Let&#39;s Encrypt</code>，填入邮件域名(如<code>mail.example.com</code>，勾选同意协议，点击<code>GENERATE CERTIFICATE</code></p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E7%94%B3%E8%AF%B7%E8%AF%81%E4%B9%A6.png" class="" title="申请证书">
+
+<p>然后一个服务一个服务地设置（略麻烦…）</p>
+<p>在左侧的<code>SERVICES</code>项中，对<code>SMTP Receiving</code>、<code>IMAP</code>、<code>WebMail</code>、<code>WebAdmin</code>和<code>CLI</code>分别进行如下操作：</p>
+<p>进入对应的服务页面，点击<code>Listeners</code>中带有<code>SSL</code>的项，或点击右侧对应的<code>Edit</code>（如下方的<code>0.0.0.0:465</code>）</p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/SMTP%E9%85%8D%E7%BD%AE%E9%A1%B5%E9%9D%A2.png" class="" title="SMTP配置页面">
+
+<p>单击上方的<code>SSL SETTINGS</code></p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/SMTP%E7%AB%AF%E5%8F%A3%E8%AE%BE%E7%BD%AE%E7%95%8C%E9%9D%A2.png" class="" title="SMTP端口设置界面">
+
+<p>在这里选择刚刚申请的证书，然后点击下面的<code>SAVE CONFIGURATION</code></p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/SMTP_SSL%E8%AE%BE%E7%BD%AE.png" class="" title="SMTP SSL设置">
+
+<p>记得要对<code>SMTP Receiving</code>、<code>IMAP</code>、<code>WebMail</code>、<code>WebAdmin</code>和<code>CLI</code>这<strong>五个服务</strong>的<strong>每一个SSL端口</strong>，都设置一遍…</p>
+<p>(或者你可以跟我一样，关闭IPv6的端口…)</p>
+<p>最后，开启80端口和9000端口的自动重定向。<br>进入<code>WebMail</code>服务的80端口配置</p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/WebMail_80%E7%AB%AF%E5%8F%A3.png" class="" title="WebMail 80端口">
+
+<p>在<code>SSL SETTINGS</code>设置中，勾选<code>Redirect to secure login page</code>，选择<code>Automatically</code></p>
+<img src="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/WebMail_80%E7%AB%AF%E5%8F%A3_SSL%E8%AE%BE%E7%BD%AE.png" class="" title="WebMail 80端口 SSL设置">
+
+<p>并对<code>WebAdmin</code>服务的9000端口开启相同配置。</p>
+<p>完成！</p>
+<h2 id="开启-ClamAV-反病毒系统-未完成"><a href="#开启-ClamAV-反病毒系统-未完成" class="headerlink" title="开启 ClamAV 反病毒系统 (未完成)"></a>开启 ClamAV 反病毒系统 (未完成)</h2><p>通过SSH登入控制台，进行如下操作：</p>
+<p>使用<code>apt-get</code>安装<code>ClamAV</code>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install clamav-base clamav-daemon clamav-docs clamav</span><br></pre></td></tr></table></figure>
+
+<p>将用户<code>clamav</code>添加进<code>axigen</code>用户组:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpasswd -a clamav axigen</span><br></pre></td></tr></table></figure>
+
+<p>打开<code>ClamAV</code>配置文件<code>/etc/clamav/clamd.conf</code>,在其末尾添加如下两行:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Added by H1MSK</span><br><span class="line">TCPSocket 3310</span><br><span class="line">TCPAddr 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<p>重启防病毒服务:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/clamav-daemon restart</span><br></pre></td></tr></table></figure>
+
+<p>此时本地服务安装配置完毕。之后登录WebAdmin，依次进入<br><code>SECURITY &amp; FILTERING</code>&gt;<code>AntiVirus &amp; AntiSpam</code>&gt;<code>SUPPORTED APPLICATIONS</code>，<br>将<code>ClamAV</code>启用就好啦</p>
+<p><strong>并不！！</strong></p>
+<p>在这里我发现<code>ClamAV</code>的状态从<code>Could not connect</code>变成了<code>Not Available</code>…</p>
+<p>然后各种查日志、查资料，都没有办法成功让两者正常通讯，只好作罢…</p>
+<p>附上报错日志:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># clamav</span><br><span class="line">~&#x2F;var&#x2F;opt&#x2F;axigen&#x2F;&#x2F;queue&#x2F;26&#x2F;DE950.00: Can&#39;t open file or directory ERROR</span><br><span class="line"></span><br><span class="line"># Axigen</span><br><span class="line">Filter ClamAV(127.0.0.1:3310):[ERROR]: Can&#39;t open file or directory ERROR</span><br></pre></td></tr></table></figure>
+
+<h2 id="开启-SpamAssassin-防垃圾邮件"><a href="#开启-SpamAssassin-防垃圾邮件" class="headerlink" title="开启 SpamAssassin 防垃圾邮件"></a>开启 SpamAssassin 防垃圾邮件</h2><p>参考链接：<a href="https://www.axigen.com/forum/forum/support-discussion-lists/spam-virus-protection/101-howto-setup-spamassassin-to-work-with-axigen?t=100" target="_blank" rel="noopener">[HOWTO] Setup SpamAssassin to work with Axigen (#1)</a></p>
+<p>为了在<code>Axigen</code>中开启<code>spamassassin</code>，我们需要先安装它:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install spamassassin</span><br></pre></td></tr></table></figure>
+
+<p>然后我们需要在设置中开启它。打开<code>/etc/default/spamassassin</code>, 将</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENABLE&#x3D;0</span><br></pre></td></tr></table></figure>
+<p>更改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENABLE&#x3D;1</span><br></pre></td></tr></table></figure>
+
+<p>保存文件，启动服务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/spamassassin start</span><br></pre></td></tr></table></figure>
+
+<p>检查SpamAssassin是否正常启动，键入以下命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -tlpn</span><br></pre></td></tr></table></figure>
+<p>并查看是否端口783被<code>spamd</code>监听</p>
+<p>之后登录WebAdmin，依次进入<br><code>SECURITY &amp; FILTERING</code>&gt;<code>AntiVirus &amp; AntiSpam</code>&gt;<code>SUPPORTED APPLICATIONS</code>，<br>启用<code>SpamAssassin</code></p>
+<p>OK~</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://blog.h1msk.cc/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" data-id="ck9k2mp5y0003litldgdtejgg" class="article-share-link" data-share="baidu" data-title="搭建Axigen邮件服务器">Share</a>
+      
+
+      
+
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Axigen/" rel="tag">Axigen</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/" rel="tag">个人网站</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">邮件服务器</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/04/27/%E8%BD%AC-Ubuntu%E4%BD%BF%E7%94%A8Snap%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85NextCloud%E7%BD%91%E7%9B%98%EF%BC%8C%E5%B9%B6%E9%85%8D%E7%BD%AE%E5%9F%9F%E5%90%8D%E5%8F%8ASSL%E8%AF%81%E4%B9%A6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">[转] Ubuntu使用Snap快速安装NextCloud网盘，并配置域名及SSL证书</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Axigen/" rel="tag">Axigen</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BUG/" rel="tag">BUG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CubeMX/" rel="tag">CubeMX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MSYS2/" rel="tag">MSYS2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nextcloud/" rel="tag">Nextcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pacman/" rel="tag">Pacman</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH/" rel="tag">SSH</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STM32/" rel="tag">STM32</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/USB/" rel="tag">USB</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Windows/" rel="tag">Windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/live2d/" rel="tag">live2d</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/" rel="tag">个人网站</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%9B%98/" rel="tag">网盘</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">邮件服务器</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Axigen/" style="font-size: 10px;">Axigen</a> <a href="/tags/BUG/" style="font-size: 10px;">BUG</a> <a href="/tags/CubeMX/" style="font-size: 10px;">CubeMX</a> <a href="/tags/Hexo/" style="font-size: 20px;">Hexo</a> <a href="/tags/MSYS2/" style="font-size: 10px;">MSYS2</a> <a href="/tags/Nextcloud/" style="font-size: 10px;">Nextcloud</a> <a href="/tags/Pacman/" style="font-size: 10px;">Pacman</a> <a href="/tags/SSH/" style="font-size: 10px;">SSH</a> <a href="/tags/STM32/" style="font-size: 10px;">STM32</a> <a href="/tags/USB/" style="font-size: 10px;">USB</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/live2d/" style="font-size: 10px;">live2d</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/" style="font-size: 15px;">个人网站</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 15px;">前端</a> <a href="/tags/%E7%BD%91%E7%9B%98/" style="font-size: 10px;">网盘</a> <a href="/tags/%E7%BE%8E%E5%8C%96/" style="font-size: 20px;">美化</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a> <a href="/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 10px;">邮件服务器</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/27/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/">搭建Axigen邮件服务器</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/27/%E8%BD%AC-Ubuntu%E4%BD%BF%E7%94%A8Snap%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85NextCloud%E7%BD%91%E7%9B%98%EF%BC%8C%E5%B9%B6%E9%85%8D%E7%BD%AE%E5%9F%9F%E5%90%8D%E5%8F%8ASSL%E8%AF%81%E4%B9%A6/">[转] Ubuntu使用Snap快速安装NextCloud网盘，并配置域名及SSL证书</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/17/STM32CubeMX-USB-VCP-%E9%A9%B1%E5%8A%A8%E6%AD%A3%E5%B8%B8%E4%BD%86%E4%B8%8D%E8%83%BD%E8%BF%9E%E6%8E%A5-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">STM32CubeMX USB-VCP 驱动正常但不能连接 - 解决方法</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/13/MSYS2-%E6%8D%A2%E6%BA%90/">MSYS2 换源 &amp; Pacman常用命令</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/11/Hexo-Widget%E6%8A%98%E5%8F%A0%E6%95%88%E6%9E%9C/">Hexo Widget折叠效果</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://arvinxiang.com" target="_blank">主题作者</a>
+          </li>
+        
+          <li>
+            <a href="http://blog.h1msk.pro" target="_blank">本博客地址</a>
+          </li>
+        
+          <li>
+            <a href="https://github.com/H1MSK" target="_blank">我的Github</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme based on <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>
+  function SetShareData(cmd, config) {
+    if (shareDataTitle && shareDataUrl) {
+      config.bdText = shareDataTitle;
+      config.bdUrl = shareDataUrl;
+    }
+    return config;
+  }
+  window._bd_share_config={
+    "common":{onBeforeClick: SetShareData},
+    "share":{"bdCustomStyle":"/css/bdshare.css"}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+                processEscapes: true
+                    
+}
+  
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                  
+}
+    
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                            all[i].SourceElement().parentNode.className += ' has-jax';
+                                    
+            }
+                
+        });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"pluginModelPath":"assets/","display":{"position":"right","vOffset":50,"width":150,"height":300},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
