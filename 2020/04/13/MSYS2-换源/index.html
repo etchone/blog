@@ -15,7 +15,7 @@
 <meta property="og:locale" content="cn">
 <meta property="og:image" content="https://blog.h1msk.cc/2020/04/13/MSYS2-%E6%8D%A2%E6%BA%90/1.png">
 <meta property="article:published_time" content="2020-04-13T14:40:29.000Z">
-<meta property="article:modified_time" content="2020-04-29T03:35:14.576Z">
+<meta property="article:modified_time" content="2020-04-29T07:48:13.581Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="MSYS2">
 <meta property="article:tag" content="Pacman">
@@ -168,7 +168,7 @@
 <a id="more"></a>
 
 <hr>
-<h2 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h2><h3 id="第一步-找到配置文件"><a href="#第一步-找到配置文件" class="headerlink" title="第一步: 找到配置文件"></a>第一步: 找到配置文件</h3><p>配置文件储存于<code>msys/etc/pacman.d/</code>下, 文件夹内文件如图`: </p>
+<h2 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h2><h3 id="第一步-找到配置文件"><a href="#第一步-找到配置文件" class="headerlink" title="第一步: 找到配置文件"></a>第一步: 找到配置文件</h3><p>配置文件储存于<code>msys/etc/pacman.d/</code>下, 文件夹内文件如图`:</p>
 <img src="/2020/04/13/MSYS2-%E6%8D%A2%E6%BA%90/2.png" class="" title="配置文件夹">
 
 <h3 id="第二步-添加清华大学的源"><a href="#第二步-添加清华大学的源" class="headerlink" title="第二步: 添加清华大学的源"></a>第二步: 添加清华大学的源</h3><p>分别打开三个<code>mirrorslist.*</code>文件，在所有的<code>Server =</code>行的<strong>前面</strong>分别添加如下命令:</p>
@@ -193,15 +193,13 @@
 <li><code>pacman -Rsc name</code>: 在删除包的同时，删除所有依赖这个软件包的程序</li>
 <li><code>pacman -Rd name</code>: 在删除包时不检查依赖。</li>
 </ul>
-<p>搜索包</p>
-<ul>
+<h3 id="搜索包"><a href="#搜索包" class="headerlink" title="搜索包"></a>搜索包</h3><ul>
 <li><code>pacman -Ss keyword</code>: 在仓库中搜索含keyword的包。</li>
 <li><code>pacman -Qs keyword</code>:  搜索已安装的包。</li>
 <li><code>pacman -Qi name</code>: 查看有关包的详尽信息。</li>
 <li><code>pacman -Ql name</code>: 列出该包的文件。</li>
 </ul>
-<p>其他用法</p>
-<ul>
+<h3 id="其他用法"><a href="#其他用法" class="headerlink" title="其他用法"></a>其他用法</h3><ul>
 <li><code>pacman -Sw name</code>: 只下载包，不安装。</li>
 <li><code>pacman -Sc</code>: 清理未安装的包文件，包文件位于 /var/cache/pacman/pkg/ 目录。</li>
 <li><code>pacman -Scc</code>: 清理所有的缓存文件。</li>
