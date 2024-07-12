@@ -10,8 +10,29 @@
         </author>
         <description>/&#39;ɛʧˌwʌn/</description>
         <language>zh-CN</language>
-        <pubDate>Wed, 10 Jul 2024 16:57:22 +0800</pubDate>
-        <lastBuildDate>Wed, 10 Jul 2024 16:57:22 +0800</lastBuildDate>
+        <pubDate>Fri, 12 Jul 2024 15:58:18 +0800</pubDate>
+        <lastBuildDate>Fri, 12 Jul 2024 15:58:18 +0800</lastBuildDate>
+        <item>
+            <guid isPermalink="true">https://etchone.ink/2024/07/12/note/ops/APT%E8%AD%A6%E5%91%8A-Key-is-stored-in-legacy-trusted-gpg-keyring-etc-apt-trusted-gpg/</guid>
+            <title>APT警告: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg)</title>
+            <link>https://etchone.ink/2024/07/12/note/ops/APT%E8%AD%A6%E5%91%8A-Key-is-stored-in-legacy-trusted-gpg-keyring-etc-apt-trusted-gpg/</link>
+            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
+            <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
+            <category term="linux" scheme="https://etchone.ink/tags/linux/" />
+            <pubDate>Fri, 12 Jul 2024 15:58:18 +0800</pubDate>
+            <description><![CDATA[ &lt;p&gt;翻译自：&lt;a href=&#34;https://askubuntu.com/a/1409732&#34;&gt;Answer to &amp;quot;Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg)&amp;quot;&lt;/a&gt;&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+&lt;hr /&gt;
+&lt;h2 id=&#34;问题描述&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#问题描述&#34;&gt;#&lt;/a&gt; 问题描述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;sudo apt update&lt;/code&gt;  运行时输出了如下警告&lt;/p&gt;
+&lt;figure class=&#34;highlight plaintext&#34;&gt;&lt;figcaption data-lang=&#34;plaintext&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;W: https://linux.teamviewer.com/deb/dists/stable/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;W: http://apt.keepsolid.com/ubuntu/dists/groovy/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;W: http://linux.dropbox.com/ubuntu/dists/disco/Release.gpg: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;W: http://download.virtualbox.org/virtualbox/debian/dists/hirsute/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;W: http://ppa.launchpad.net/team-xbmc/ppa/ubuntu/dists/jammy/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h2 id=&#34;解决方案&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#解决方案&#34;&gt;#&lt;/a&gt; 解决方案&lt;/h2&gt;
+&lt;p&gt;以最后一条警告作为例子：&lt;/p&gt;
+&lt;figure class=&#34;highlight plaintext&#34;&gt;&lt;figcaption data-lang=&#34;plaintext&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;W: http://ppa.launchpad.net/team-xbmc/ppa/ubuntu/dists/jammy/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;使用 &lt;code&gt;sudo apt-key list&lt;/code&gt;  寻找关于 &lt;code&gt;xbmc&lt;/code&gt;  的条目：&lt;/p&gt;
+&lt;figure class=&#34;highlight plaintext&#34;&gt;&lt;figcaption data-lang=&#34;plaintext&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;pub   rsa1024 2009-01-20 [SC]&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      1897 01DA 570C 56B9 488E  F60A 6D97 5C47 91E7 EE5E&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;uid           [ unknown] Launchpad PPA for XBMC for Linux&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;通过第二行的最后 8 个 16 进制数字，如下命令可以将该条目转化为.gpg 文件：&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; apt-key &lt;span class=&#34;token builtin class-name&#34;&gt;export&lt;/span&gt; 91E7EE5E &lt;span class=&#34;token operator&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; gpg &lt;span class=&#34;token parameter variable&#34;&gt;--dearmour&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-o&lt;/span&gt; /etc/apt/trusted.gpg.d/team-xbmc.gpg&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;在转换成功后，可以使用如下命令将被废弃的密钥从 &lt;code&gt;/etc/apt/trusted.gpg&lt;/code&gt;  中移出&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; apt-key &lt;span class=&#34;token parameter variable&#34;&gt;--keyring&lt;/span&gt; /etc/apt/trusted.gpg del 91E7EE5E&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;对每个列出警告的条目，重复上述命令即可解决该问题。&lt;/p&gt;
+ ]]></description>
+        </item>
         <item>
             <guid isPermalink="true">https://etchone.ink/2024/07/10/note/riscv/risc-v%E6%9E%B6%E6%9E%84%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</guid>
             <title>risc-v架构思维导图</title>
@@ -29,6 +50,73 @@
 &lt;/div&gt;
 
  ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://etchone.ink/2024/07/02/website/blog/%E4%BD%BF%E7%94%A8Hexo%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
+            <title>使用Hexo快速搭建博客</title>
+            <link>https://etchone.ink/2024/07/02/website/blog/%E4%BD%BF%E7%94%A8Hexo%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
+            <pubDate>Tue, 02 Jul 2024 19:24:45 +0800</pubDate>
+            <description><![CDATA[ &lt;p&gt;cli 是个好文明&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+&lt;hr /&gt;
+&lt;h2 id=&#34;前置准备&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#前置准备&#34;&gt;#&lt;/a&gt; 前置准备&lt;/h2&gt;
+&lt;p&gt;在开始搭建博客之前，你需要准备：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;github 账号，或 git 服务器&lt;/li&gt;
+&lt;li&gt;Node.js 18 以上的版本，以及对应的 npm/pnpm&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以下命令均以 npm 作为包管理器&lt;/p&gt;
+&lt;h2 id=&#34;安装hexo准备环境&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#安装hexo准备环境&#34;&gt;#&lt;/a&gt; 安装 hexo，准备环境&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;参考&lt;a href=&#34;https://hexo.io/zh-cn/docs/setup&#34;&gt; hexo 建站文档&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;使用下列命令以安装 hexo 及准备博客的文件。&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;npm&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-g&lt;/span&gt; hexo-cli     &lt;span class=&#34;token comment&#34;&gt;# 下载安装 hexo 的 cli&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;hexo init &lt;span class=&#34;token operator&#34;&gt;&amp;lt;&lt;/span&gt;folder&lt;span class=&#34;token operator&#34;&gt;&gt;&lt;/span&gt;          &lt;span class=&#34;token comment&#34;&gt;# 初始化 hexo 博客环境&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token builtin class-name&#34;&gt;cd&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;&amp;lt;&lt;/span&gt;folder&lt;span class=&#34;token operator&#34;&gt;&gt;&lt;/span&gt;                 &lt;span class=&#34;token comment&#34;&gt;# 进入博客的目录 folder&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;npm&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt;                 &lt;span class=&#34;token comment&#34;&gt;# 安装依赖包&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;执行成功后，该文件夹的目录如下。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;_config.yml:  博客的&lt;a href=&#34;https://hexo.io/zh-cn/docs/configuration&#34;&gt;配置文件&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;package.json: node.js 应用程序的信息&lt;/li&gt;
+&lt;li&gt;node_modules: node.js 的依赖包文件夹&lt;/li&gt;
+&lt;li&gt;scaffolds:    &lt;a href=&#34;https://hexo.io/zh-cn/docs/writing#%E6%A8%A1%E7%89%88%EF%BC%88Scaffold%EF%BC%89&#34;&gt;模版&lt;/a&gt;文件夹&lt;/li&gt;
+&lt;li&gt;source:       存放用户资源的文件夹&lt;/li&gt;
+&lt;li&gt;themes:       用于生成静态页面的&lt;a href=&#34;https://hexo.io/zh-cn/docs/themes&#34;&gt;主题&lt;/a&gt;文件夹&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;source 文件夹内，除 &lt;code&gt;_posts&lt;/code&gt;  子文件夹之外，开头命名为 &lt;code&gt;_&lt;/code&gt; (下划线) 的文件 / 文件夹和隐藏的文件将会被忽略。Markdown 和 HTML 文件会被解析并放到 public 文件夹，而其他文件会被拷贝过去。&lt;/p&gt;
+&lt;h2 id=&#34;安装shokax主题&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#安装shokax主题&#34;&gt;#&lt;/a&gt; 安装 ShokaX 主题&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;参考&lt;a href=&#34;https://docs.kaitaku.xyz/guide/&#34;&gt; ShokaX 文档&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;npm&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-g&lt;/span&gt; shokax-cli&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;npm&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-g&lt;/span&gt; hexo-lightning-minify    &lt;span class=&#34;token comment&#34;&gt;# ShokaX 的依赖&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# cd [folder]&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;SXC &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; shokaX&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;执行成功后按照命令的输出进行文件重命名等操作。&lt;/p&gt;
+&lt;h2 id=&#34;配置博客及主题&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#配置博客及主题&#34;&gt;#&lt;/a&gt; 配置博客及主题&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;参考&lt;a href=&#34;https://hexo.io/zh-cn/docs/configuration&#34;&gt; Hexo 配置文档&lt;/a&gt;及&lt;a href=&#34;https://docs.kaitaku.xyz/guide/&#34;&gt; ShokaX 文档&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在博客的根目录下找到 &lt;code&gt;_config.yml&lt;/code&gt; ，打开编辑。&lt;/p&gt;
+&lt;p&gt;在文件内添加如下信息以配置 markdown：&lt;/p&gt;
+&lt;figure class=&#34;highlight yml&#34;&gt;&lt;figcaption data-lang=&#34;YAML&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token key atrule&#34;&gt;markdown&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token key atrule&#34;&gt;render&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;# 渲染器设置&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;html&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token boolean important&#34;&gt;false&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;# 过滤 HTML 标签&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;xhtmlOut&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token boolean important&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;# 使用 &#39;/&#39; 来闭合单标签 （比如 &amp;lt;br /&gt;）。&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;breaks&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token boolean important&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;# 转换段落里的 &#39;\n&#39; 到 &amp;lt;br&gt;。&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;linkify&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token boolean important&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;# 将类似 URL 的文本自动转换为链接。&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;typographer&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;8&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;quotes&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#34;“”‘’&#34;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;9&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token key atrule&#34;&gt;plugins&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;# markdown-it 插件设置&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;10&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;token key atrule&#34;&gt;plugin&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;11&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token key atrule&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; markdown&lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt;it&lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt;toc&lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt;and&lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt;anchor&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;12&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token key atrule&#34;&gt;enable&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token boolean important&#34;&gt;true&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;13&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token key atrule&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;# 文章目录以及锚点应用的 class 名称，shoka 系主题必须设置成这样&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;14&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;          &lt;span class=&#34;token key atrule&#34;&gt;tocClassName&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#34;toc&#34;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;15&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;          &lt;span class=&#34;token key atrule&#34;&gt;anchorClassName&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#34;anchor&#34;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;16&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;token key atrule&#34;&gt;plugin&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;17&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token key atrule&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; markdown&lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt;it&lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt;multimd&lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt;table&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;18&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token key atrule&#34;&gt;enable&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token boolean important&#34;&gt;true&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;19&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token key atrule&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;20&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;          &lt;span class=&#34;token key atrule&#34;&gt;multiline&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token boolean important&#34;&gt;true&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;21&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;          &lt;span class=&#34;token key atrule&#34;&gt;rowspan&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token boolean important&#34;&gt;true&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;22&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;          &lt;span class=&#34;token key atrule&#34;&gt;headerless&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token boolean important&#34;&gt;true&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;23&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;token key atrule&#34;&gt;plugin&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;24&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token key atrule&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; ./markdown&lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt;it&lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt;furigana&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;25&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token key atrule&#34;&gt;enable&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token boolean important&#34;&gt;true&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;26&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token key atrule&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;27&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;          &lt;span class=&#34;token key atrule&#34;&gt;fallbackParens&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#34;()&#34;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;28&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;token key atrule&#34;&gt;plugin&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;29&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token key atrule&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; ./markdown&lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt;it&lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt;spoiler&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;30&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token key atrule&#34;&gt;enable&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token boolean important&#34;&gt;true&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;31&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token key atrule&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;32&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;          &lt;span class=&#34;token key atrule&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#34;你知道得太多了&#34;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;33&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;34&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token key atrule&#34;&gt;autoprefixer&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;35&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token key atrule&#34;&gt;exclude&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;36&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#34;*.min.css&#34;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;ShokaX 接管了代码高亮，故需要停用 hexo 提供的默认代码高亮。全新安装的 hexo 版本均在 &lt;code&gt;7.0.0-rc1&lt;/code&gt;  以上，故可以参考文档相应部分，在 &lt;code&gt;config.yml&lt;/code&gt;  中作如下修改：&lt;/p&gt;
+&lt;figure class=&#34;highlight yml&#34;&gt;&lt;figcaption data-lang=&#34;YAML&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token key atrule&#34;&gt;syntax_highlighter&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token boolean important&#34;&gt;false&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h2 id=&#34;本地预览博客&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#本地预览博客&#34;&gt;#&lt;/a&gt; 本地预览博客&lt;/h2&gt;
+&lt;p&gt;至此，初期准备已完成，可以使用下面的命令在本地对博客进行预览。&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;hexo generate   &lt;span class=&#34;token comment&#34;&gt;# 生成静态页面文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;hexo server     &lt;span class=&#34;token comment&#34;&gt;# 启动本地服务器&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;命令会输出一个 url 地址，访问该地址以进行预览。&lt;/p&gt;
+&lt;h2 id=&#34;部署配置&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#部署配置&#34;&gt;#&lt;/a&gt; 部署配置&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;参考 hexo 的&lt;a href=&#34;https://hexo.io/zh-cn/docs/one-command-deployment&#34;&gt;一键部署&lt;/a&gt;页面的 &lt;code&gt;Git&lt;/code&gt;  部分&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;安装&lt;a href=&#34;https://github.com/hexojs/hexo-deployer-git&#34;&gt; hexo-deployer-git&lt;/a&gt;：&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;npm&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; hexo-deployer-git &lt;span class=&#34;token parameter variable&#34;&gt;--save&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;在 git 服务器上新建一个仓库，并修改 &lt;code&gt;_config.yml&lt;/code&gt;  中的 deploy 部分：&lt;/p&gt;
+&lt;figure class=&#34;highlight yml&#34;&gt;&lt;figcaption data-lang=&#34;YAML&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token key atrule&#34;&gt;deploy&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token key atrule&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; git&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token key atrule&#34;&gt;repo&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &amp;lt;repository url&lt;span class=&#34;token punctuation&#34;&gt;&gt;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token key atrule&#34;&gt;branch&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;branch&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token key atrule&#34;&gt;message&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;message&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;配置完成后即可使用如下命令进行推送。&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;hexo deploy&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h2 id=&#34;开通公网访问&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#开通公网访问&#34;&gt;#&lt;/a&gt; 开通公网访问&lt;/h2&gt;
+&lt;h3 id=&#34;1github-pages&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#1github-pages&#34;&gt;#&lt;/a&gt; 1.GitHub Pages&lt;/h3&gt;
+&lt;p&gt;如果你的网页是部署在 github 上的，则可以在仓库设置 - Pages (链接为 &lt;code&gt;https://github.com/[用户名]/[仓库名]/settings/pages&lt;/code&gt; ) 中进行配置。&lt;/p&gt;
+&lt;h3 id=&#34;2vercel&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2vercel&#34;&gt;#&lt;/a&gt; 2.Vercel&lt;/h3&gt;
+&lt;p&gt;由于一些众所周知的原因，在国内访问 GitHub 的服务器会较慢，有时还会出现无法访问的情况，故可以考虑将网页部署在 Vercel 上。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Vercel 是一个支持静态和动态网站部署的云服务平台，其特点包括个人版免费、内置 CICD、自动部署、GitHub 集成和丰富的集成能力。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;并且 Vercel 的个人版永久免费。&lt;/p&gt;
+&lt;p&gt;该部分教程可参考&lt;a href=&#34;https://blog.csdn.net/zhouwei8725/article/details/130847303&#34;&gt;该博客&lt;/a&gt;的 &lt;code&gt;将项目部署到 vercel 上&lt;/code&gt; 部分。&lt;/p&gt;
+&lt;h2 id=&#34;添加文章并更新&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#添加文章并更新&#34;&gt;#&lt;/a&gt; 添加文章并更新&lt;/h2&gt;
+&lt;p&gt;若想进行写作请参考 hexo 文档的&lt;a href=&#34;https://hexo.io/zh-cn/docs/writing&#34;&gt;写作&lt;/a&gt;部分。&lt;/p&gt;
+&lt;p&gt;使用如下命令进行更新：&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;hexo generate   &lt;span class=&#34;token comment&#34;&gt;# 更新文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# hexo server   # 本地预览&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;hexo deploy     &lt;span class=&#34;token comment&#34;&gt;# 部署&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt; ]]></description>
         </item>
         <item>
             <guid isPermalink="true">https://etchone.ink/2024/06/30/website/blog/2024%E5%8D%9A%E5%AE%A2%E7%84%95%E6%96%B0/</guid>
@@ -1292,182 +1380,6 @@ C:\WINDOWS\system32&amp;gt;netsh int ipv4 set dynamicport udp start=49152 num=16
 &lt;p&gt;(视频内容引用自&lt;a href=&#34;https://www.typora.io/&#34;&gt;产品官网&lt;/a&gt;)&lt;/p&gt;
 &lt;h2 id=&#34;安装&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#安装&#34;&gt;#&lt;/a&gt; 安装&lt;/h2&gt;
 &lt;p&gt;安装教程参考&lt;a href=&#34;https://www.typora.io/&#34;&gt;官网&lt;/a&gt;&lt;/p&gt;
- ]]></description>
-        </item>
-        <item>
-            <guid isPermalink="true">https://etchone.ink/2020/04/29/note/ops/NPM-%E6%8D%A2%E6%BA%90%E5%B7%A5%E5%85%B7-NRM-%E7%AE%80%E4%BB%8B/</guid>
-            <title>NPM 换源工具 NRM 简介</title>
-            <link>https://etchone.ink/2020/04/29/note/ops/NPM-%E6%8D%A2%E6%BA%90%E5%B7%A5%E5%85%B7-NRM-%E7%AE%80%E4%BB%8B/</link>
-            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-            <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-            <category term="npm" scheme="https://etchone.ink/tags/npm/" />
-            <pubDate>Wed, 29 Apr 2020 11:34:52 +0800</pubDate>
-            <description><![CDATA[ &lt;p&gt;nrm 带你&lt;s&gt;一行&lt;/s&gt;三行代码快速换源&lt;/p&gt;
-&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
-&lt;hr /&gt;
-&lt;h2 id=&#34;简介&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#简介&#34;&gt;#&lt;/a&gt; 简介&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;nrm&lt;/code&gt; ( &lt;code&gt;npm registry manager&lt;/code&gt; ) 是 &lt;code&gt;npm&lt;/code&gt;  的镜像源管理工具，使用它可以快速地&lt;br /&gt;
-在不同的 npm 源间切换&lt;/p&gt;
-&lt;h2 id=&#34;安装&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#安装&#34;&gt;#&lt;/a&gt; 安装&lt;/h2&gt;
-&lt;p&gt;在控制台中键入如下命令进行安装&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;npm&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; nrm &lt;span class=&#34;token parameter variable&#34;&gt;-g&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h2 id=&#34;使用&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#使用&#34;&gt;#&lt;/a&gt; 使用&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;列出可用的源 (带 * 的是当前使用的源) :  &lt;code&gt;nrm ls&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;测速指定的源 (不输入 &lt;code&gt;name&lt;/code&gt;  以测试所有的源) :  &lt;code&gt;nrm test [name]&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;使用指定的源:  &lt;code&gt;nrm use &amp;lt;name&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;添加一个自定义源:  &lt;code&gt;nrm add &amp;lt;name&amp;gt; &amp;lt;url&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
- ]]></description>
-        </item>
-        <item>
-            <guid isPermalink="true">https://etchone.ink/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
-            <title>搭建Axigen邮件服务器</title>
-            <link>https://etchone.ink/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
-            <category term="建站" scheme="https://etchone.ink/categories/website/" />
-            <pubDate>Mon, 27 Apr 2020 23:38:47 +0800</pubDate>
-            <description><![CDATA[ &lt;p&gt;你收到了来自 &lt;code&gt;me@mydomain.com&lt;/code&gt;  的新邮件，是否查看？&lt;/p&gt;
-&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
-&lt;hr /&gt;
-&lt;h2 id=&#34;axigen-简介&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#axigen-简介&#34;&gt;#&lt;/a&gt; Axigen 简介&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.axigen.com/&#34;&gt;官网链接&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;在线 Demo: &lt;a href=&#34;https://web.axigenmail.com/&#34;&gt;WebMail&lt;/a&gt; / &lt;a href=&#34;https://demo.axigenmail.com/&#34;&gt;WebAdmin&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Axigen 是一个&lt;s&gt;颜值始终在线&lt;/s&gt;自有的，跨平台的邮件服务器。其免费版本支持最多 5 个账户 + 5 个用户组 + 5 个域名，其余版本可以在官网上&lt;a href=&#34;https://www.axigen.com/buy/&#34;&gt;购买&lt;/a&gt;。(但是确实，它颜值始终在线)&lt;/p&gt;
-&lt;h2 id=&#34;软硬件需求&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#软硬件需求&#34;&gt;#&lt;/a&gt; 软硬件需求&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;以下两者任选其一：
-&lt;ul&gt;
-&lt;li&gt;VPS 一台（推荐&lt;a href=&#34;https://www.vultr.com/?ref=7360251&#34;&gt;这一家&lt;/a&gt;，在&lt;strong&gt;纽约&lt;/strong&gt;的服务器最低只要 2.5 美元一个月）&lt;/li&gt;
-&lt;li&gt;接入公网的本地系统&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Ubuntu 18.04 (或其他 Linux 系统，但下文均基于此操作系统)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;安装-axigen&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#安装-axigen&#34;&gt;#&lt;/a&gt; 安装 Axigen&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：记录本文时， &lt;code&gt;Axigen&lt;/code&gt;  最新版本为 &lt;code&gt;10.3.1&lt;/code&gt; ，最新版本安装方法可能不同&lt;/p&gt;
-&lt;p&gt;登录&lt;a href=&#34;https://www.axigen.com/mail-server/download/#&#34;&gt;官网下载页面&lt;/a&gt;，&lt;strong&gt;根据自己的系统&lt;/strong&gt;选择合适的版本，并&lt;strong&gt;下载&lt;/strong&gt;&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E4%B8%8B%E8%BD%BD%E9%A1%B5%E9%9D%A2.png&#34; class=&#34;&#34; title=&#34;下载页面&#34;&gt;
-&lt;p&gt;下载完成后根据提示&lt;strong&gt;运行文件&lt;/strong&gt;（下方为 Debian 风味版本安装提示界面）&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/Debian%E9%A3%8E%E5%91%B3.png&#34; class=&#34;&#34; title=&#34;Debian风味&#34;&gt;
-&lt;p&gt;图片中的命令： &lt;code&gt;sh axigen-10.3.1.amd64.deb.run&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;(以下图片及部分内容源自&lt;a href=&#34;https://www.axigen.com/documentation/installing-axigen-on-linux-p1409126&#34;&gt;官方安装文档&lt;/a&gt;，上面的教程是基于 RPM 的，所以安装文件不同..)&lt;/p&gt;
-&lt;p&gt;运行后会先提示让我们按 &lt;code&gt;Enter&lt;/code&gt; &lt;strong&gt; 查看协议&lt;/strong&gt;&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E6%9F%A5%E7%9C%8B%E5%8D%8F%E8%AE%AE.png&#34; class=&#34;&#34; title=&#34;查看协议&#34;&gt;
-&lt;p&gt;然后在浏览界面按 &lt;code&gt;q&lt;/code&gt;  退出 (敏锐的我发现了这里的浏览器似乎是 &lt;code&gt;vim&lt;/code&gt; )&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%8D%8F%E8%AE%AE%E5%86%85%E5%AE%B9.png&#34; class=&#34;&#34; title=&#34;协议内容&#34;&gt;
-&lt;p&gt;退出后输入 &lt;code&gt;yes&lt;/code&gt;  并回车，表示&lt;strong&gt;同意&lt;/strong&gt;&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%90%8C%E6%84%8F%E5%8D%8F%E8%AE%AE.png&#34; class=&#34;&#34; title=&#34;同意协议&#34;&gt;
-&lt;p&gt;然后等待脚本自动验证下载并解压，并自动运行安装脚本。据官网所说，安装脚本是一个基于菜单的向导程序，允许用户安装、卸载、升级 &lt;code&gt;Axigen&lt;/code&gt;  或阅读相关文档。&lt;/p&gt;
-&lt;p&gt;成功后如图所示：&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%AE%89%E8%A3%85%E9%80%89%E9%A1%B9.png&#34; class=&#34;&#34; title=&#34;安装选项&#34;&gt;
-&lt;p&gt;这里我们选择 &lt;code&gt;1. Install axigen&lt;/code&gt;  进行&lt;strong&gt;安装&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;成功后结果如图&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F.png&#34; class=&#34;&#34; title=&#34;安装成功&#34;&gt;
-&lt;p&gt;注意控制台内会打印 &lt;code&gt;WebAdmin&lt;/code&gt;  的网址（图中有两个，IPv4 地址为 &lt;code&gt;https://192.168.4.131:9443/&lt;/code&gt; ），我们还需进入网址进行设置。&lt;/p&gt;
-&lt;h2 id=&#34;初始化设置&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#初始化设置&#34;&gt;#&lt;/a&gt; 初始化设置&lt;/h2&gt;
-&lt;p&gt;（以下内容译自&lt;a href=&#34;https://www.axigen.com/documentation/performing-the-initial-configuration-onboarding-p21594150&#34;&gt;官方文档&lt;/a&gt;，图片源自相同链接）&lt;/p&gt;
-&lt;p&gt;登入上面安装时显示的网址，它会带领你完成初始化设定。&lt;/p&gt;
-&lt;p&gt;第一步，你会被要求&lt;strong&gt;浏览并同意 EULA&lt;/strong&gt; 并&lt;strong&gt;设置管理员密码&lt;/strong&gt;。&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%8D%8F%E8%AE%AE.png&#34; class=&#34;&#34; title=&#34;协议&#34;&gt;
-
-&lt;p&gt;然后，我们需要选择&lt;strong&gt;许可证类型&lt;/strong&gt;。如果我们已经申请了许可证，可以选择第三个选项，或者我们也可以选择免费版本，或者试用 60 天。选择后，程序将会应用许可证并重启，我们只需等待重启完成并继续（&lt;strong&gt;不用&lt;/strong&gt;关闭网页或刷新！）&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E9%80%89%E6%8B%A9%E8%AE%B8%E5%8F%AF%E8%AF%81.png&#34; class=&#34;&#34; title=&#34;选择许可证&#34;&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E9%87%8D%E5%90%AF.png&#34; class=&#34;&#34; title=&#34;重启&#34;&gt;
-&lt;blockquote&gt;
-&lt;p&gt;用户也可以跳过上面的所有步骤。在这种情况下，我们可以在之后选择许可证类型。在没有选择之前， &lt;code&gt;Axigen&lt;/code&gt;  会在 &lt;code&gt;Demo&lt;/code&gt;  模式运行 3 天。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;接下来， &lt;code&gt;Axigen&lt;/code&gt;  将会自动配置默认的服务，并进行提示&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;Axigen&lt;/code&gt;  在安装时会生成一个自签名证书，并默认应用在一些服务上。这会导致许多客户端产生 SSL 证书警告，所以我们强烈推荐用户生成或上传一个有效的证书供这些服务使用。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E9%BB%98%E8%AE%A4%E6%9C%8D%E5%8A%A1.png&#34; class=&#34;&#34; title=&#34;默认服务&#34;&gt;
-&lt;p&gt;然后添加&lt;strong&gt;主域名&lt;/strong&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;在 &lt;code&gt;Axigen&lt;/code&gt;  中，注册了主域名的用户可以通过他们的本地部分 (local part) 登录（例如，如果主域名为 &lt;code&gt;example.com&lt;/code&gt; ，用户 &lt;code&gt;jone.doe@example.com&lt;/code&gt;  也可以通过 &lt;code&gt;jone.doe&lt;/code&gt;  和登录。这部分对其他域名无效）&lt;/p&gt;
-&lt;p&gt;每一个域名都有一个 &lt;code&gt;postmaster&lt;/code&gt;  账号。请为这个账号设置一个密码并将密码储存在安全的地方。这个账号会被用来发送不同的系统提示 (system alerts).&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E6%B7%BB%E5%8A%A0%E4%B8%BB%E5%9F%9F%E5%90%8D.png&#34; class=&#34;&#34; title=&#34;添加主域名&#34;&gt;
-&lt;p&gt;大功告成！网站将跳转到管理员仪表板。&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E8%AE%BE%E7%BD%AE%E6%88%90%E5%8A%9F.png&#34; class=&#34;&#34; title=&#34;设置成功&#34;&gt;
-&lt;h2 id=&#34;绑定域名&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#绑定域名&#34;&gt;#&lt;/a&gt; 绑定域名&lt;/h2&gt;
-&lt;p&gt;这里根据域名解析提供商的不同，配置方法会有所不同，故不提供详细说明。&lt;/p&gt;
-&lt;p&gt;我们需要添加以下两条记录:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;邮件服务器域名 A 记录 (如 &lt;code&gt;mail.example.com&lt;/code&gt; )，指向服务器的 IP 地址&lt;/li&gt;
-&lt;li&gt;根域的 MX 记录，指向服务器所使用的域名&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;添加用户账号&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#添加用户账号&#34;&gt;#&lt;/a&gt; 添加用户账号&lt;/h2&gt;
-&lt;p&gt;在管理员界面左侧的目录中选择 &lt;code&gt;DOMAINS &amp;amp; ACCOUNTS&lt;/code&gt; &amp;gt; &lt;code&gt;Manage Accounts&lt;/code&gt; , 进入如下界面&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7.png&#34; class=&#34;&#34; title=&#34;管理用户&#34;&gt;
-&lt;p&gt;单击右侧的 &lt;code&gt;Add Account&lt;/code&gt; , 输入相关内容（账号、密码和域名为必填项），点击 &lt;code&gt;QUICK ADD&lt;/code&gt;&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7.png&#34; class=&#34;&#34; title=&#34;添加用户&#34;&gt;
-&lt;p&gt;成功！&lt;/p&gt;
-&lt;h2 id=&#34;登录&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#登录&#34;&gt;#&lt;/a&gt; 登录&lt;/h2&gt;
-&lt;p&gt;在浏览器地址栏中，输入绑定的域名或服务器 IP 地址（与管理员页面域名相同，默认为 80/443 端口）并访问&lt;br /&gt;
-登陆界面如下&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E7%99%BB%E9%99%86%E7%95%8C%E9%9D%A2.png&#34; class=&#34;&#34; title=&#34;登录界面&#34;&gt;
-&lt;h2 id=&#34;开启ssl&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#开启ssl&#34;&gt;#&lt;/a&gt; 开启 SSL&lt;/h2&gt;
-&lt;p&gt;在开启 SSL 之前，请务必确认我们自己添加的域名解析正常工作&lt;/p&gt;
-&lt;p&gt;首先我们需要申请 Let&#39;s encrypt 的 SSL 证书&lt;/p&gt;
-&lt;p&gt;在管理员界面目录中选择 &lt;code&gt;SECURITY &amp;amp; FILTERING&lt;/code&gt; &amp;gt; &lt;code&gt;SSL Certificates&lt;/code&gt; , 进入如下界面&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E7%AE%A1%E7%90%86%E8%AF%81%E4%B9%A6.png&#34; class=&#34;&#34; title=&#34;管理证书&#34;&gt;
-&lt;p&gt;单击 &lt;code&gt;ADD&lt;/code&gt; , 在弹出界面中下方选择 &lt;code&gt;Let&#39;s Encrypt&lt;/code&gt; ，填入邮件域名 (如 &lt;code&gt;mail.example.com&lt;/code&gt; ，勾选同意协议，点击 &lt;code&gt;GENERATE CERTIFICATE&lt;/code&gt;&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/%E7%94%B3%E8%AF%B7%E8%AF%81%E4%B9%A6.png&#34; class=&#34;&#34; title=&#34;申请证书&#34;&gt;
-&lt;p&gt;然后一个服务一个服务地设置（略麻烦...）&lt;/p&gt;
-&lt;p&gt;在左侧的 &lt;code&gt;SERVICES&lt;/code&gt;  项中，对 &lt;code&gt;SMTP Receiving&lt;/code&gt; 、 &lt;code&gt;IMAP&lt;/code&gt; 、 &lt;code&gt;WebMail&lt;/code&gt; 、 &lt;code&gt;WebAdmin&lt;/code&gt;  和 &lt;code&gt;CLI&lt;/code&gt;  分别进行如下操作：&lt;/p&gt;
-&lt;p&gt;进入对应的服务页面，点击 &lt;code&gt;Listeners&lt;/code&gt;  中带有 &lt;code&gt;SSL&lt;/code&gt;  的项，或点击右侧对应的 &lt;code&gt;Edit&lt;/code&gt; （如下方的 &lt;code&gt;0.0.0.0:465&lt;/code&gt; ）&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/SMTP%E9%85%8D%E7%BD%AE%E9%A1%B5%E9%9D%A2.png&#34; class=&#34;&#34; title=&#34;SMTP配置页面&#34;&gt;
-&lt;p&gt;单击上方的 &lt;code&gt;SSL SETTINGS&lt;/code&gt;&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/SMTP%E7%AB%AF%E5%8F%A3%E8%AE%BE%E7%BD%AE%E7%95%8C%E9%9D%A2.png&#34; class=&#34;&#34; title=&#34;SMTP端口设置界面&#34;&gt;
-&lt;p&gt;在这里选择刚刚申请的证书，然后点击下面的 &lt;code&gt;SAVE CONFIGURATION&lt;/code&gt;&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/SMTP_SSL%E8%AE%BE%E7%BD%AE.png&#34; class=&#34;&#34; title=&#34;SMTP SSL设置&#34;&gt;
-&lt;p&gt;记得要对 &lt;code&gt;SMTP Receiving&lt;/code&gt; 、 &lt;code&gt;IMAP&lt;/code&gt; 、 &lt;code&gt;WebMail&lt;/code&gt; 、 &lt;code&gt;WebAdmin&lt;/code&gt;  和 &lt;code&gt;CLI&lt;/code&gt;  这&lt;strong&gt;五个服务&lt;/strong&gt;的&lt;strong&gt;每一个 SSL 端口&lt;/strong&gt;，都设置一遍...&lt;/p&gt;
-&lt;p&gt;(或者你可以跟我一样，关闭 IPv6 的端口...)&lt;/p&gt;
-&lt;p&gt;最后，开启 80 端口和 9000 端口的自动重定向。&lt;br /&gt;
-进入 &lt;code&gt;WebMail&lt;/code&gt;  服务的 80 端口配置&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/WebMail_80%E7%AB%AF%E5%8F%A3.png&#34; class=&#34;&#34; title=&#34;WebMail 80端口&#34;&gt;
-&lt;p&gt;在 &lt;code&gt;SSL SETTINGS&lt;/code&gt;  设置中，勾选 &lt;code&gt;Redirect to secure login page&lt;/code&gt; ，选择 &lt;code&gt;Automatically&lt;/code&gt;&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2020/04/27/website/%E6%90%AD%E5%BB%BAAxigen%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/WebMail_80%E7%AB%AF%E5%8F%A3_SSL%E8%AE%BE%E7%BD%AE.png&#34; class=&#34;&#34; title=&#34;WebMail 80端口 SSL设置&#34;&gt;
-&lt;p&gt;并对 &lt;code&gt;WebAdmin&lt;/code&gt;  服务的 9000 端口开启相同配置。&lt;/p&gt;
-&lt;p&gt;完成！&lt;/p&gt;
-&lt;h2 id=&#34;开启-clamav-反病毒系统-未完成&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#开启-clamav-反病毒系统-未完成&#34;&gt;#&lt;/a&gt; 开启 ClamAV 反病毒系统 (未完成)&lt;/h2&gt;
-&lt;p&gt;通过 SSH 登入控制台，进行如下操作：&lt;/p&gt;
-&lt;p&gt;使用 &lt;code&gt;apt-get&lt;/code&gt;  安装 &lt;code&gt;ClamAV&lt;/code&gt; :&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;apt-get&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; clamav-base clamav-daemon clamav-docs clamav&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;将用户 &lt;code&gt;clamav&lt;/code&gt;  添加进 &lt;code&gt;axigen&lt;/code&gt;  用户组:&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;gpasswd &lt;span class=&#34;token parameter variable&#34;&gt;-a&lt;/span&gt; clamav axigen&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;打开 &lt;code&gt;ClamAV&lt;/code&gt;  配置文件 &lt;code&gt;/etc/clamav/clamd.conf&lt;/code&gt; , 在其末尾添加如下两行:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-conf&#34;&gt;# Added by H1MSK
-TCPSocket 3310
-TCPAddr 127.0.0.1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;重启防病毒服务:&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;/etc/init.d/clamav-daemon restart&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;此时本地服务安装配置完毕。之后登录 WebAdmin，依次进入&lt;br /&gt;
- &lt;code&gt;SECURITY &amp;amp; FILTERING&lt;/code&gt; &amp;gt; &lt;code&gt;AntiVirus &amp;amp; AntiSpam&lt;/code&gt; &amp;gt; &lt;code&gt;SUPPORTED APPLICATIONS&lt;/code&gt; ，&lt;br /&gt;
-将 &lt;code&gt;ClamAV&lt;/code&gt;  启用就好啦&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;并不！！&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;在这里我发现 &lt;code&gt;ClamAV&lt;/code&gt;  的状态从 &lt;code&gt;Could not connect&lt;/code&gt;  变成了 &lt;code&gt;Not Available&lt;/code&gt; ...&lt;/p&gt;
-&lt;p&gt;然后各种查日志、查资料，都没有办法成功让两者正常通讯，只好作罢...&lt;/p&gt;
-&lt;p&gt;附上报错日志:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# clamav
-~/var/opt/axigen//queue/26/DE950.00: Can&#39;t open file or directory ERROR
-
-# Axigen
-Filter ClamAV(127.0.0.1:3310):[ERROR]: Can&#39;t open file or directory ERROR
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2 id=&#34;开启-spamassassin-防垃圾邮件&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#开启-spamassassin-防垃圾邮件&#34;&gt;#&lt;/a&gt; 开启 SpamAssassin 防垃圾邮件&lt;/h2&gt;
-&lt;p&gt;参考链接：&lt;a href=&#34;https://www.axigen.com/forum/forum/support-discussion-lists/spam-virus-protection/101-howto-setup-spamassassin-to-work-with-axigen?t=100&#34;&gt;[HOWTO] Setup SpamAssassin to work with Axigen (#1)&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;为了在 &lt;code&gt;Axigen&lt;/code&gt;  中开启 &lt;code&gt;spamassassin&lt;/code&gt; ，我们需要先安装它:&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;apt-get&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; spamassassin&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;然后我们需要在设置中开启它。打开 &lt;code&gt;/etc/default/spamassassin&lt;/code&gt; , 将&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-conf&#34;&gt;ENABLE=0
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;更改为&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-conf&#34;&gt;ENABLE=1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;保存文件，启动服务：&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;/etc/init.d/spamassassin start&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;检查 SpamAssassin 是否正常启动，键入以下命令&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;netstat&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-tlpn&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;并查看是否端口 783 被 &lt;code&gt;spamd&lt;/code&gt;  监听&lt;/p&gt;
-&lt;p&gt;之后登录 WebAdmin，依次进入&lt;br /&gt;
- &lt;code&gt;SECURITY &amp;amp; FILTERING&lt;/code&gt; &amp;gt; &lt;code&gt;AntiVirus &amp;amp; AntiSpam&lt;/code&gt; &amp;gt; &lt;code&gt;SUPPORTED APPLICATIONS&lt;/code&gt; ，&lt;br /&gt;
-启用 &lt;code&gt;SpamAssassin&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;OK~&lt;/p&gt;
  ]]></description>
         </item>
     </channel>
