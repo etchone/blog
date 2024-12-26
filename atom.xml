@@ -13,7 +13,10 @@
         <id>https://etchone.ink/2024/12/25/website/%E8%B5%84%E6%BA%90%E6%95%B4%E5%90%88-%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%BF%81%E7%A7%BB%E7%AC%94%E8%AE%B0%EF%BC%8C%E5%90%AB%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E3%80%81docker%E3%80%81%E5%BB%BA%E7%AB%99%E3%80%81HTTPS%E5%8F%8ASMTP/</id>
         <title>[资源整合]云服务迁移笔记，含用户配置、docker、建站、HTTPS及SMTP</title>
         <link rel="alternate" href="https://etchone.ink/2024/12/25/website/%E8%B5%84%E6%BA%90%E6%95%B4%E5%90%88-%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%BF%81%E7%A7%BB%E7%AC%94%E8%AE%B0%EF%BC%8C%E5%90%AB%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E3%80%81docker%E3%80%81%E5%BB%BA%E7%AB%99%E3%80%81HTTPS%E5%8F%8ASMTP/"/>
-        <content type="html">&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+        <content type="html">&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;scp -R my@old_server:/all/stuff my@new_server:/&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
 &lt;h2 id=&#34;新服务器配置&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#新服务器配置&#34;&gt;#&lt;/a&gt; 新服务器配置&lt;/h2&gt;
 &lt;p&gt;以下命令均基于 Ubuntu 22.04 系统&lt;/p&gt;
@@ -49,6 +52,7 @@
 &lt;h3 id=&#34;5-smtp服务器配置&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#5-smtp服务器配置&#34;&gt;#&lt;/a&gt; 5. SMTP 服务器配置&lt;/h3&gt;
 &lt;p&gt;选用 MailJet 作为 SMTP 服务器，参照&lt;a href=&#34;https://documentation.mailjet.com/hc/en-us/sections/360009524873-Getting-started&#34;&gt;官方文档&lt;/a&gt;配置即可&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
+        <category term="建站" scheme="https://etchone.ink/categories/website/" />
         <updated>2024-12-25T03:22:19.000Z</updated>
     </entry>
     <entry>
