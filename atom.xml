@@ -8,48 +8,87 @@
     <author>
       <name>etchone</name>
     </author>
-    <updated>2024-12-25T03:22:19.000Z</updated>
+    <updated>2025-02-26T10:23:50.000Z</updated>
+    <entry>
+        <id>https://etchone.ink/2025/02/26/note/ic/SpinalHDL-RegIf-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</id>
+        <title>SpinalHDL RegIf 源码阅读笔记</title>
+        <link rel="alternate" href="https://etchone.ink/2025/02/26/note/ic/SpinalHDL-RegIf-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
+        <content type="html">&lt;p&gt;本文记录了 SpinalHDL 中 RegIf 模块的源码阅读笔记，基于 SpinalHDL 1.11.0。&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+&lt;hr /&gt;
+&lt;h2 id=&#34;实现细节&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#实现细节&#34;&gt;#&lt;/a&gt; 实现细节&lt;/h2&gt;
+&lt;p&gt;该模块的代码生成主要分为两个部分：用户调用 &lt;code&gt;RegInst.field*&lt;/code&gt;  时，创建数据写入逻辑，并在 &lt;code&gt;component.addPrePopTask&lt;/code&gt;  中调用 &lt;code&gt;readGenerator&lt;/code&gt;  生成数据、错误的读取逻辑及写入错误逻辑。&lt;/p&gt;
+&lt;figure class=&#34;highlight scala&#34;&gt;&lt;figcaption data-lang=&#34;scala&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;component&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;addPrePopTask&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;=&gt;&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token keyword&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;readGenerator&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;token comment&#34;&gt;// 生成所有读取逻辑&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token keyword&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;withSecFireWall&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;writeErrorGenerator&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;token comment&#34;&gt;// 如果启用了安全防火墙，则生成写入错误逻辑&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h3 id=&#34;写入数据&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#写入数据&#34;&gt;#&lt;/a&gt; 写入数据&lt;/h3&gt;
+&lt;p&gt;写入数据在用户调用 &lt;code&gt;RegInst.field*&lt;/code&gt;  时按需生成。&lt;/p&gt;
+&lt;p&gt;TODO&lt;/p&gt;
+&lt;h3 id=&#34;读取数据及错误&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#读取数据及错误&#34;&gt;#&lt;/a&gt; 读取数据及错误&lt;/h3&gt;
+&lt;p&gt;读取逻辑最终生成的变量为 &lt;code&gt;bus_rdata&lt;/code&gt;  与 &lt;code&gt;reg_rderr&lt;/code&gt;  两个变量。其中， &lt;code&gt;reg_rderr&lt;/code&gt;  仅会在未开启 &lt;code&gt;withStrb&lt;/code&gt; ，且 &lt;code&gt;readAddress&lt;/code&gt;  未对齐时，置为 &lt;code&gt;True&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;readGenerator&lt;/code&gt;  定义在第 296 行，定义如下。该函数会优先生成寄存器及 fifo 的读取逻辑，将 &lt;code&gt;reg_rdata&lt;/code&gt;  赋值为寄存器读取结果，然后生成 RAM 及寄存器读取逻辑，并使用 &lt;code&gt;bus_rdata&lt;/code&gt;  输出最终的读取结果。&lt;/p&gt;
+&lt;figure class=&#34;highlight scala&#34;&gt;&lt;figcaption data-lang=&#34;scala&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;def&lt;/span&gt; readGenerator&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;Unit&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token keyword&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;regReadGenerator&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;token comment&#34;&gt;// 生成寄存器及 fifo 的读取逻辑，将 reg_rdata 赋值为寄存器读取结果&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token comment&#34;&gt;// 接下来枚举所有的 RAM，如果 RAM 被选中读取，则生成 RAM 读取逻辑，将 bus_rdata 赋值为 RAM 读取结果&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token keyword&#34;&gt;val&lt;/span&gt; mux &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; WhenBuilder&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  RamInsts&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;foreach&lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt; ram &lt;span class=&#34;token keyword&#34;&gt;=&gt;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    mux&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;when&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;ram&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;ram_rdvalid&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;  &lt;span class=&#34;token comment&#34;&gt;//ram_rdvalid 定义为 readAddress 在所定义的范围内，askRead 有效，且通过安全校验&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;8&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      bus_rdata &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; ram&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;readBits&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;9&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;10&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;11&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token comment&#34;&gt;// 如果没有 RAM 被选中读取，则将 bus_rdata 赋值为寄存器读取结果&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;12&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  mux&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;otherwise &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;13&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    bus_rdata &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; reg_rdata&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;14&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;15&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;code&gt;regReadGenerator&lt;/code&gt;  定义在 296 行，定义如下。该函数会在 askRead 有效时，处理寄存器及 fifo 的读取逻辑，将 &lt;code&gt;reg_rdata&lt;/code&gt;  赋值为寄存器读取结果。否则，会将 &lt;code&gt;red_rdata&lt;/code&gt;  赋值为 &lt;code&gt;readDefaultValue&lt;/code&gt; ， &lt;code&gt;reg_rderr&lt;/code&gt;  赋值为 &lt;code&gt;False&lt;/code&gt; 。&lt;/p&gt;
+&lt;figure class=&#34;highlight scala&#34;&gt;&lt;figcaption data-lang=&#34;scala&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;def&lt;/span&gt; regReadGenerator&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  when&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;askRead&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    regReadPart&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;otherwise&lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token comment&#34;&gt;// 为了避免数据泄露，在读取后，将 reg_rdata 置为默认值，reg_rderr 置为 False&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token comment&#34;&gt;//do not keep readData after read for the reason of security risk&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    reg_rdata &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; readDefaultValue&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;8&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    reg_rderr &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; False&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;9&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;10&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;其中， &lt;code&gt;regReadPart&lt;/code&gt;  定义在第 278 行，该函数及内部使用的相关函数的源码如下。该函数会枚举所有的寄存器和 Fifo，在 &lt;code&gt;readAddress&lt;/code&gt;  等于该实例时，将 &lt;code&gt;reg_rdata&lt;/code&gt;  赋值为寄存器读取结果，并在该寄存器包含 WO 属性的域时将 &lt;code&gt;reg_rderr&lt;/code&gt;  赋值为 &lt;code&gt;True&lt;/code&gt; 。如果没有寄存器或 Fifo 被选中读取，则将 &lt;code&gt;reg_rdata&lt;/code&gt;  赋值为 &lt;code&gt;readDefaultValue&lt;/code&gt; ，并在启用 &lt;code&gt;withStrb&lt;/code&gt;  时将 &lt;code&gt;reg_rderr&lt;/code&gt;  赋值为 &lt;code&gt;False&lt;/code&gt; ，未启用时则将 &lt;code&gt;reg_rderr&lt;/code&gt;  赋值为 &lt;code&gt;True&lt;/code&gt; 。&lt;/p&gt;
+&lt;figure class=&#34;highlight scala&#34;&gt;&lt;figcaption data-lang=&#34;scala&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;def&lt;/span&gt; regReadPart&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    switch&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;readAddress&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      RegAndFifos&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;foreach&lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;x&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; RegSlice&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;=&gt;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token keyword&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;!&lt;/span&gt;x&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;allIsNA&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; x&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;readGenerator&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      default &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        reg_rdata &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; readDefaultValue&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;8&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token comment&#34;&gt;//Reserved Address Set False, True is too much strict for software&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;9&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;withStrb&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;10&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;          reg_rderr &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; False&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;11&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;12&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;          &lt;span class=&#34;token keyword&#34;&gt;val&lt;/span&gt; alignreadhit &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; readAddress&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;take&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;log2Up&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;wordAddressInc&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;orR&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;13&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;          reg_rderr &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; Mux&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;alignreadhit&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; True&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; False&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;14&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;15&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;16&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;17&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;18&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;19&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token comment&#34;&gt;// RegInst.scala:392, 生成寄存器读取逻辑&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;20&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token keyword&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;def&lt;/span&gt; readGenerator&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;21&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    is&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;addr&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;22&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      bi&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;reg_rdata &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; rdSecurePassage&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;rdata&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;23&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      bi&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;reg_rderr &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; rdSecureError&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;Bool&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;haveWO&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;24&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;25&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h3 id=&#34;写入错误逻辑生成&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#写入错误逻辑生成&#34;&gt;#&lt;/a&gt; 写入错误逻辑生成&lt;/h3&gt;
+&lt;p&gt;TODO&lt;/p&gt;
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
+        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
+        <category term="IC设计" scheme="https://etchone.ink/categories/note/IC%E8%AE%BE%E8%AE%A1/" />
+        <updated>2025-02-26T10:23:50.000Z</updated>
+    </entry>
+    <entry>
+        <id>https://etchone.ink/2024/12/29/note/ops/Conda%E7%8E%AF%E5%A2%83%E5%AF%BC%E5%85%A5DLL%E6%8A%A5WinError-1114%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</id>
+        <title>Conda环境导入DLL报WinError 1114错误原因及解决方案</title>
+        <link rel="alternate" href="https://etchone.ink/2024/12/29/note/ops/Conda%E7%8E%AF%E5%A2%83%E5%AF%BC%E5%85%A5DLL%E6%8A%A5WinError-1114%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+        <content type="html">&lt;p&gt;微软 VC 运行库更新&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+&lt;hr /&gt;
+&lt;h2 id=&#34;背景及原因&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#背景及原因&#34;&gt;#&lt;/a&gt; 背景及原因&lt;/h2&gt;
+&lt;p&gt;久违地打开 MAA Python 脚本，发现在 ctypes.WinDLL load MaaCore.dll 时出现 WinError 1114 问题&lt;/p&gt;
+&lt;p&gt;翻阅仓库 issue，找到了&lt;a href=&#34;https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/11018&#34;&gt; Issue 11018&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;发现是 vc 运行库未更新导致的问题&lt;/p&gt;
+&lt;h2 id=&#34;解决方案&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#解决方案&#34;&gt;#&lt;/a&gt; 解决方案&lt;/h2&gt;
+&lt;p&gt;更新运行库&lt;/p&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;conda &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; conda-forge::vc14_runtime&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
+        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
+        <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
+        <updated>2024-12-29T05:12:50.000Z</updated>
+    </entry>
     <entry>
         <id>https://etchone.ink/2024/12/25/website/%E8%B5%84%E6%BA%90%E6%95%B4%E5%90%88-%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%BF%81%E7%A7%BB%E7%AC%94%E8%AE%B0%EF%BC%8C%E5%90%AB%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E3%80%81docker%E3%80%81%E5%BB%BA%E7%AB%99%E3%80%81HTTPS%E5%8F%8ASMTP/</id>
         <title>[资源整合]云服务迁移笔记，含用户配置、docker、建站、HTTPS及SMTP</title>
         <link rel="alternate" href="https://etchone.ink/2024/12/25/website/%E8%B5%84%E6%BA%90%E6%95%B4%E5%90%88-%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%BF%81%E7%A7%BB%E7%AC%94%E8%AE%B0%EF%BC%8C%E5%90%AB%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E3%80%81docker%E3%80%81%E5%BB%BA%E7%AB%99%E3%80%81HTTPS%E5%8F%8ASMTP/"/>
-        <content type="html">&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;scp -R my@old_server:/all/stuff my@new_server:/&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+        <content type="html">&lt;p&gt;&lt;code&gt;scp -R my@old_server:/all/stuff my@new_server:/&lt;/code&gt;&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
-&lt;h2 id=&#34;新服务器配置&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#新服务器配置&#34;&gt;#&lt;/a&gt; 新服务器配置&lt;/h2&gt;
 &lt;p&gt;以下命令均基于 Ubuntu 22.04 系统&lt;/p&gt;
-&lt;h3 id=&#34;0-注意事项&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#0-注意事项&#34;&gt;#&lt;/a&gt; 0. 注意事项&lt;/h3&gt;
+&lt;h2 id=&#34;0-注意事项&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#0-注意事项&#34;&gt;#&lt;/a&gt; 0. 注意事项&lt;/h2&gt;
 &lt;p&gt;推荐在更改服务器配置时，&lt;strong&gt;始终保留&lt;/strong&gt;一个 root 的 ssh 连接 session，以便配置出错时进行恢复&lt;/p&gt;
-&lt;h3 id=&#34;1-用户及登录&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#1-用户及登录&#34;&gt;#&lt;/a&gt; 1. 用户及登录&lt;/h3&gt;
+&lt;h2 id=&#34;1-用户及登录&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#1-用户及登录&#34;&gt;#&lt;/a&gt; 1. 用户及登录&lt;/h2&gt;
 &lt;p&gt;在服务器上输入以下命令以新建用户：&lt;/p&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;adduser &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;username&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;执行时根据提示输入密码及相关信息，后者可以留空。&lt;/p&gt;
 &lt;p&gt;以下命令将对新建的用户赋予 sudo 权限（添加进 sudo 组）：&lt;/p&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;usermod&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-aG&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;username&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;为了使新用户可以通过 ssh 连接，需要在服务器上对应账户的 &lt;code&gt;~/.ssh/authorized_keys&lt;/code&gt;  中添加本地公钥，一台客户端一行。&lt;/p&gt;
 &lt;p&gt;然后使用以下命令更改文件的所属及权限：&lt;/p&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;chown&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;username&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt;:&lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;username&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt; ~/.ssh/authorized_keys&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;chmod&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;600&lt;/span&gt; ~/.ssh/authorized_keys&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;为了防止非法连接，推荐在服务器上的 &lt;code&gt;/etc/ssh/sshd_config&lt;/code&gt;  中，将对应条目改为如下值，以禁用 openssh 的 root 登录及密码登录，仅开启密钥登录&lt;/p&gt;
-&lt;figure class=&#34;highlight plaintext&#34;&gt;&lt;figcaption data-lang=&#34;plaintext&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;PubkeyAuthentication yes&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;PermitRootLogin no&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;PasswordAuthentication no&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h3 id=&#34;2-软件配置&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2-软件配置&#34;&gt;#&lt;/a&gt; 2. 软件配置&lt;/h3&gt;
-&lt;h4 id=&#34;docker&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#docker&#34;&gt;#&lt;/a&gt; docker&lt;/h4&gt;
+&lt;figure class=&#34;highlight plaintext&#34;&gt;&lt;figcaption data-lang=&#34;plaintext&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;PubkeyAuthentication yes&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;PermitRootLogin no&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;PasswordAuthentication no&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h2 id=&#34;2-软件配置&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2-软件配置&#34;&gt;#&lt;/a&gt; 2. 软件配置&lt;/h2&gt;
+&lt;h3 id=&#34;docker&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#docker&#34;&gt;#&lt;/a&gt; docker&lt;/h3&gt;
 &lt;p&gt;参考&lt;a href=&#34;https://help.aliyun.com/zh/ecs/use-cases/install-and-use-docker&#34;&gt;阿里云的官方文档&lt;/a&gt;进行配置即可&lt;/p&gt;
-&lt;h4 id=&#34;zsh-oh-my-zsh&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#zsh-oh-my-zsh&#34;&gt;#&lt;/a&gt; zsh &amp;amp; oh-my-zsh&lt;/h4&gt;
+&lt;h3 id=&#34;zsh-oh-my-zsh&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#zsh-oh-my-zsh&#34;&gt;#&lt;/a&gt; zsh &amp;amp; oh-my-zsh&lt;/h3&gt;
 &lt;p&gt;使用如下命令安装 zsh 及 oh-my-zsh，并将默认 shell 配置为 zsh&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;apt&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;zsh&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sh&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-c&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#34;&lt;span class=&#34;token variable&#34;&gt;&lt;span class=&#34;token variable&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;wget&lt;/span&gt; https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh &lt;span class=&#34;token parameter variable&#34;&gt;-O&lt;/span&gt; -&lt;span class=&#34;token variable&#34;&gt;)&lt;/span&gt;&lt;/span&gt;&#34;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;chsh &lt;span class=&#34;token parameter variable&#34;&gt;-s&lt;/span&gt; /bin/zsh&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h3 id=&#34;3-https证书申请&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#3-https证书申请&#34;&gt;#&lt;/a&gt; 3. HTTPS 证书申请&lt;/h3&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;apt&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;zsh&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sh&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-c&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#34;&lt;span class=&#34;token variable&#34;&gt;&lt;span class=&#34;token variable&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;wget&lt;/span&gt; https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh &lt;span class=&#34;token parameter variable&#34;&gt;-O&lt;/span&gt; -&lt;span class=&#34;token variable&#34;&gt;)&lt;/span&gt;&lt;/span&gt;&#34;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;chsh &lt;span class=&#34;token parameter variable&#34;&gt;-s&lt;/span&gt; /bin/zsh&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h2 id=&#34;3-https证书申请&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#3-https证书申请&#34;&gt;#&lt;/a&gt; 3. HTTPS 证书申请&lt;/h2&gt;
 &lt;p&gt;使用 &lt;code&gt;certbot&lt;/code&gt; ，向&lt;a href=&#34;https://letsencrypt.org/&#34;&gt; Let&#39;s Encrypt&lt;/a&gt; 申请证书。&lt;/p&gt;
 &lt;p&gt;首先使用 &lt;code&gt;dry-run&lt;/code&gt;  观察命令执行正确与否：&lt;/p&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;certbot certonly --dry-run &lt;span class=&#34;token parameter variable&#34;&gt;-d&lt;/span&gt; domain.com &lt;span class=&#34;token parameter variable&#34;&gt;-d&lt;/span&gt; XXX.domain.com &lt;span class=&#34;token parameter variable&#34;&gt;-d&lt;/span&gt; YYY.domain.com&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;在验证域名所属时，可在配置好解析、确认服务器 80 端口未被占用的情况下，选择 &lt;code&gt;spin up a temporary server&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;确定一切无误后，去掉 &lt;code&gt;dry-run&lt;/code&gt;  参数，进行实际的证书申请：&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;certbot certonly &lt;span class=&#34;token parameter variable&#34;&gt;-d&lt;/span&gt; domain.com &lt;span class=&#34;token parameter variable&#34;&gt;-d&lt;/span&gt; XXX.domain.com &lt;span class=&#34;token parameter variable&#34;&gt;-d&lt;/span&gt; YYY.domain.com&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h3 id=&#34;4-服务搭建及搬迁&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#4-服务搭建及搬迁&#34;&gt;#&lt;/a&gt; 4. 服务搭建及搬迁&lt;/h3&gt;
-&lt;h4 id=&#34;nginx&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#nginx&#34;&gt;#&lt;/a&gt; Nginx&lt;/h4&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;certbot certonly &lt;span class=&#34;token parameter variable&#34;&gt;-d&lt;/span&gt; domain.com &lt;span class=&#34;token parameter variable&#34;&gt;-d&lt;/span&gt; XXX.domain.com &lt;span class=&#34;token parameter variable&#34;&gt;-d&lt;/span&gt; YYY.domain.com&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h2 id=&#34;4-服务搭建及搬迁&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#4-服务搭建及搬迁&#34;&gt;#&lt;/a&gt; 4. 服务搭建及搬迁&lt;/h2&gt;
+&lt;h3 id=&#34;nginx&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#nginx&#34;&gt;#&lt;/a&gt; Nginx&lt;/h3&gt;
 &lt;p&gt;在服务器上使用以下命令安装 &lt;code&gt;Nginx&lt;/code&gt; ：&lt;/p&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;apt&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; nginx&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;安装好后，在 &lt;code&gt;/etc/nginx/sites-available&lt;/code&gt;  中使用如下模板创建服务解析&lt;/p&gt;
 &lt;figure class=&#34;highlight nginx&#34;&gt;&lt;figcaption data-lang=&#34;nginx&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;server&lt;/span&gt;&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;listen&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;443&lt;/span&gt; ssl http2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;server_name&lt;/span&gt; git.etchone.ink&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;ssl_certificate&lt;/span&gt; /etc/letsencrypt/live/git.etchone.ink/fullchain.pem&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;ssl_certificate_key&lt;/span&gt; /etc/letsencrypt/live/git.etchone.ink/privkey.pem&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;ssl_session_timeout&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;5m&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;8&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;ssl_ciphers&lt;/span&gt; HIGH:!aNULL:!MD5&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;9&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;ssl_protocols&lt;/span&gt; SSLv3 TLSv1 TLSv1.1 TLSv1.2 TLSv1.3&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;10&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;ssl_prefer_server_ciphers&lt;/span&gt; &lt;span class=&#34;token boolean&#34;&gt;on&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;11&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;12&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;location&lt;/span&gt; /&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;13&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;proxy_pass&lt;/span&gt; http://127.0.0.1:3000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;14&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;proxy_set_header&lt;/span&gt; Host &lt;span class=&#34;token variable&#34;&gt;$host&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;15&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;proxy_set_header&lt;/span&gt; X-Real-IP &lt;span class=&#34;token variable&#34;&gt;$remote_addr&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;16&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;proxy_set_header&lt;/span&gt; X-Forwarded-For &lt;span class=&#34;token variable&#34;&gt;$proxy_add_x_forwarded_for&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;17&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;proxy_set_header&lt;/span&gt; X-Forwarded-Proto &lt;span class=&#34;token variable&#34;&gt;$scheme&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;18&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;root&lt;/span&gt; /usr/share/nginx/html&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;19&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;index&lt;/span&gt; index.html index.htm&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;20&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;21&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;22&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token directive&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;client_max_body_size&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;800m&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;23&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;然后 cd 进 &lt;code&gt;/etc/nginx/sites-enabled&lt;/code&gt; ，使用如下命令创建软链接，使 nginx 可以使用相关配置&lt;/p&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;ln&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-s&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;..&lt;/span&gt;/sites-available/gitea &lt;span class=&#34;token builtin class-name&#34;&gt;.&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;然后测试并启用网站&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;nginx &lt;span class=&#34;token parameter variable&#34;&gt;-t&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;nginx &lt;span class=&#34;token parameter variable&#34;&gt;-s&lt;/span&gt; reload&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h4 id=&#34;gitea&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#gitea&#34;&gt;#&lt;/a&gt; Gitea&lt;/h4&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;nginx &lt;span class=&#34;token parameter variable&#34;&gt;-t&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;nginx &lt;span class=&#34;token parameter variable&#34;&gt;-s&lt;/span&gt; reload&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h3 id=&#34;gitea&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#gitea&#34;&gt;#&lt;/a&gt; Gitea&lt;/h3&gt;
 &lt;p&gt;可参照&lt;a href=&#34;https://docs.gitea.com/zh-cn/installation/install-with-docker&#34;&gt;官方文档&lt;/a&gt;进行配置&lt;/p&gt;
 &lt;p&gt;在空白文件夹中创建文件 &lt;code&gt;docker-compose.yml&lt;/code&gt; ，然后输入以下内容&lt;/p&gt;
 &lt;figure class=&#34;highlight yaml&#34;&gt;&lt;figcaption data-lang=&#34;YAML&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token key atrule&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#34;3&#34;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token key atrule&#34;&gt;networks&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token key atrule&#34;&gt;gitea&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;external&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token boolean important&#34;&gt;false&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token key atrule&#34;&gt;services&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;8&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token key atrule&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;9&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; docker.io/gitea/gitea&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;latest&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;10&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;container_name&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; gitea&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;11&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;environment&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;12&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      &lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt; USER_UID=1000&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;13&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      &lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt; USER_GID=1000&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;14&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;restart&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; always&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;15&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;networks&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;16&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      &lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt; gitea&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;17&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;volumes&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;18&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      &lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt; /data/gitea&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;/data &lt;span class=&#34;token comment&#34;&gt;# 本地 -&gt; 容器内的数据路径映射，格式为 &#34;&amp;#123;本地&amp;#125;:&amp;#123;容器&amp;#125;&#34;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;19&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      &lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt; /etc/timezone&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;/etc/timezone&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;ro&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;20&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      &lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt; /etc/localtime&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;/etc/localtime&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;ro&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;21&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token key atrule&#34;&gt;ports&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;22&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      &lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#34;3000:3000&#34;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;23&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      &lt;span class=&#34;token punctuation&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#34;222:22&#34;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;然后把旧服务器上的本地 data 文件夹全部挪过来就好&lt;/p&gt;
-&lt;h3 id=&#34;5-smtp服务器配置&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#5-smtp服务器配置&#34;&gt;#&lt;/a&gt; 5. SMTP 服务器配置&lt;/h3&gt;
+&lt;h2 id=&#34;5-smtp服务器配置&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#5-smtp服务器配置&#34;&gt;#&lt;/a&gt; 5. SMTP 服务器配置&lt;/h2&gt;
 &lt;p&gt;选用 MailJet 作为 SMTP 服务器，参照&lt;a href=&#34;https://documentation.mailjet.com/hc/en-us/sections/360009524873-Getting-started&#34;&gt;官方文档&lt;/a&gt;配置即可&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="建站" scheme="https://etchone.ink/categories/website/" />
@@ -70,7 +109,7 @@
 &lt;figure class=&#34;highlight plaintext&#34;&gt;&lt;figcaption data-lang=&#34;plaintext&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;pub   rsa1024 2009-01-20 [SC]&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      1897 01DA 570C 56B9 488E  F60A 6D97 5C47 91E7 EE5E&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;uid           [ unknown] Launchpad PPA for XBMC for Linux&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;通过第二行的最后 8 个 16 进制数字，如下命令可以将该条目转化为.gpg 文件：&lt;/p&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; apt-key &lt;span class=&#34;token builtin class-name&#34;&gt;export&lt;/span&gt; 91E7EE5E &lt;span class=&#34;token operator&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; gpg &lt;span class=&#34;token parameter variable&#34;&gt;--dearmour&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-o&lt;/span&gt; /etc/apt/trusted.gpg.d/team-xbmc.gpg&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;在转换成功后，可以使用如下命令将被废弃的密钥从 &lt;code&gt;/etc/apt/trusted.gpg&lt;/code&gt;  中移出&lt;/p&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; apt-key &lt;span class=&#34;token parameter variable&#34;&gt;--keyring&lt;/span&gt; /etc/apt/trusted.gpg del 91E7EE5E&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;对每个列出警告的条目，重复上述命令即可解决该问题。&lt;/p&gt;
-</content>
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="笔记" scheme="https://etchone.ink/categories/note/" />
         <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
         <category term="linux" scheme="https://etchone.ink/tags/linux/" />
@@ -193,7 +232,7 @@
 &lt;h2 id=&#34;添加文章并更新&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#添加文章并更新&#34;&gt;#&lt;/a&gt; 添加文章并更新&lt;/h2&gt;
 &lt;p&gt;若想进行写作请参考 hexo 文档的&lt;a href=&#34;https://hexo.io/zh-cn/docs/writing&#34;&gt;写作&lt;/a&gt;部分。&lt;/p&gt;
 &lt;p&gt;使用如下命令进行更新：&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;hexo generate   &lt;span class=&#34;token comment&#34;&gt;# 更新文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# hexo server   # 本地预览&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;hexo deploy     &lt;span class=&#34;token comment&#34;&gt;# 部署&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;hexo generate   &lt;span class=&#34;token comment&#34;&gt;# 更新文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# hexo server   # 本地预览&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;hexo deploy     &lt;span class=&#34;token comment&#34;&gt;# 部署&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <updated>2024-07-02T11:24:45.000Z</updated>
     </entry>
     <entry>
@@ -207,11 +246,11 @@
 &lt;p&gt;这个主题还有合集功能，之后一些干货可以放在这里&lt;/p&gt;
 &lt;h2 id=&#34;图标&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#图标&#34;&gt;#&lt;/a&gt; 图标&lt;/h2&gt;
 &lt;p&gt;新的图标使用&lt;a href=&#34;https://mi-logo.lvwzhen.com/&#34;&gt; Mi Style Logo Maker&lt;/a&gt; 制作，如图&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2024/06/30/website/blog/2024%E5%8D%9A%E5%AE%A2%E7%84%95%E6%96%B0/favicon.png&#34; class=&#34;&#34; title=&#34;logo&#34;&gt;
+&lt;img src=&#34;/2024/06/30/website/blog/2024%E5%8D%9A%E5%AE%A2%E7%84%95%E6%96%B0/favicon.png&#34; class=&#34;&#34; title=&#34;logo&#34;&gt;
 &lt;h2 id=&#34;主题&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#主题&#34;&gt;#&lt;/a&gt; 主题&lt;/h2&gt;
 &lt;p&gt;从 Landscape-plus 切换到了&lt;a href=&#34;https://github.com/theme-shoka-x/hexo-theme-shokaX&#34;&gt; ShokaX&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;原先的页面长这样：&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2024/06/30/website/blog/2024%E5%8D%9A%E5%AE%A2%E7%84%95%E6%96%B0/prev_blog.gif&#34; class=&#34;&#34; title=&#34;prev_blog&#34;&gt;
+&lt;img src=&#34;/2024/06/30/website/blog/2024%E5%8D%9A%E5%AE%A2%E7%84%95%E6%96%B0/prev_blog.gif&#34; class=&#34;&#34; title=&#34;prev_blog&#34;&gt;
 &lt;h2 id=&#34;域名&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#域名&#34;&gt;#&lt;/a&gt; 域名&lt;/h2&gt;
 &lt;p&gt;盘了个域名当博客用，如地址栏所示&lt;/p&gt;
 &lt;h2 id=&#34;博客更新日志&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#博客更新日志&#34;&gt;#&lt;/a&gt; 博客更新日志&lt;/h2&gt;
@@ -234,7 +273,7 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-</content>
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="建站" scheme="https://etchone.ink/categories/website/" />
         <category term="博客" scheme="https://etchone.ink/categories/website/blog/" />
         <updated>2024-06-30T08:36:20.000Z</updated>
@@ -249,11 +288,10 @@
 &lt;h2 id=&#34;markmap&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#markmap&#34;&gt;#&lt;/a&gt; markmap&lt;/h2&gt;
 &lt;p&gt;它要好看点，但是和 ShokaX 的兼容性似乎不太好&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/maxchang3/hexo-markmap&#34;&gt;仓库链接在这里&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&#34;markmap-container&#34; style=&#34;height:400px&#34;&gt;
-  &lt;svg data=&#34;{&amp;quot;t&amp;quot;:&amp;quot;list_item&amp;quot;,&amp;quot;d&amp;quot;:2,&amp;quot;p&amp;quot;:{&amp;quot;lines&amp;quot;:[0,1]},&amp;quot;v&amp;quot;:&amp;quot;abc&amp;quot;,&amp;quot;c&amp;quot;:[{&amp;quot;t&amp;quot;:&amp;quot;list_item&amp;quot;,&amp;quot;d&amp;quot;:4,&amp;quot;p&amp;quot;:{&amp;quot;lines&amp;quot;:[1,2]},&amp;quot;v&amp;quot;:&amp;quot;normal&amp;quot;,&amp;quot;c&amp;quot;:[{&amp;quot;t&amp;quot;:&amp;quot;list_item&amp;quot;,&amp;quot;d&amp;quot;:6,&amp;quot;p&amp;quot;:{&amp;quot;lines&amp;quot;:[2,3]},&amp;quot;v&amp;quot;:&amp;quot;links&amp;quot;}]},{&amp;quot;t&amp;quot;:&amp;quot;list_item&amp;quot;,&amp;quot;d&amp;quot;:4,&amp;quot;p&amp;quot;:{&amp;quot;lines&amp;quot;:[3,4]},&amp;quot;v&amp;quot;:&amp;quot;advanced&amp;quot;,&amp;quot;c&amp;quot;:[{&amp;quot;t&amp;quot;:&amp;quot;list_item&amp;quot;,&amp;quot;d&amp;quot;:6,&amp;quot;p&amp;quot;:{&amp;quot;lines&amp;quot;:[4,5]},&amp;quot;v&amp;quot;:&amp;quot;&amp;lt;strong&amp;gt;inline&amp;lt;/strong&amp;gt; &amp;lt;del&amp;gt;text&amp;lt;/del&amp;gt; &amp;lt;em&amp;gt;styles&amp;lt;/em&amp;gt;&amp;quot;},{&amp;quot;t&amp;quot;:&amp;quot;list_item&amp;quot;,&amp;quot;d&amp;quot;:6,&amp;quot;p&amp;quot;:{&amp;quot;lines&amp;quot;:[5,7]},&amp;quot;v&amp;quot;:&amp;quot;multiline&amp;lt;br&amp;gt;\ntext&amp;quot;}]},{&amp;quot;t&amp;quot;:&amp;quot;list_item&amp;quot;,&amp;quot;d&amp;quot;:4,&amp;quot;p&amp;quot;:{&amp;quot;lines&amp;quot;:[7,8]},&amp;quot;v&amp;quot;:&amp;quot;formula&amp;quot;,&amp;quot;c&amp;quot;:[{&amp;quot;t&amp;quot;:&amp;quot;list_item&amp;quot;,&amp;quot;d&amp;quot;:6,&amp;quot;p&amp;quot;:{&amp;quot;lines&amp;quot;:[8,9]},&amp;quot;v&amp;quot;:&amp;quot;KaTeX - &amp;lt;span class=\&amp;quot;katex\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;katex-mathml\&amp;quot;&amp;gt;&amp;lt;math xmlns=\&amp;quot;http://www.w3.org/1998/Math/MathML\&amp;quot;&amp;gt;&amp;lt;semantics&amp;gt;&amp;lt;mrow&amp;gt;&amp;lt;mi&amp;gt;x&amp;lt;/mi&amp;gt;&amp;lt;mo&amp;gt;=&amp;lt;/mo&amp;gt;&amp;lt;mfrac&amp;gt;&amp;lt;mrow&amp;gt;&amp;lt;mo&amp;gt;−&amp;lt;/mo&amp;gt;&amp;lt;mi&amp;gt;b&amp;lt;/mi&amp;gt;&amp;lt;mo&amp;gt;±&amp;lt;/mo&amp;gt;&amp;lt;msqrt&amp;gt;&amp;lt;mrow&amp;gt;&amp;lt;msup&amp;gt;&amp;lt;mi&amp;gt;b&amp;lt;/mi&amp;gt;&amp;lt;mn&amp;gt;2&amp;lt;/mn&amp;gt;&amp;lt;/msup&amp;gt;&amp;lt;mo&amp;gt;−&amp;lt;/mo&amp;gt;&amp;lt;mn&amp;gt;4&amp;lt;/mn&amp;gt;&amp;lt;mi&amp;gt;a&amp;lt;/mi&amp;gt;&amp;lt;mi&amp;gt;c&amp;lt;/mi&amp;gt;&amp;lt;/mrow&amp;gt;&amp;lt;/msqrt&amp;gt;&amp;lt;/mrow&amp;gt;&amp;lt;mrow&amp;gt;&amp;lt;mn&amp;gt;2&amp;lt;/mn&amp;gt;&amp;lt;mi&amp;gt;a&amp;lt;/mi&amp;gt;&amp;lt;/mrow&amp;gt;&amp;lt;/mfrac&amp;gt;&amp;lt;/mrow&amp;gt;&amp;lt;annotation encoding=\&amp;quot;application/x-tex\&amp;quot;&amp;gt;x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}&amp;lt;/annotation&amp;gt;&amp;lt;/semantics&amp;gt;&amp;lt;/math&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;katex-html\&amp;quot; aria-hidden=\&amp;quot;true\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;base\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;strut\&amp;quot; style=\&amp;quot;height:0.4306em;\&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mord mathnormal\&amp;quot;&amp;gt;x&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mspace\&amp;quot; style=\&amp;quot;margin-right:0.2778em;\&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mrel\&amp;quot;&amp;gt;=&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mspace\&amp;quot; style=\&amp;quot;margin-right:0.2778em;\&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;base\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;strut\&amp;quot; style=\&amp;quot;height:1.3845em;vertical-align:-0.345em;\&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mord\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;mord\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;mopen nulldelimiter\&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mfrac\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;vlist-t vlist-t2\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;vlist-r\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;vlist\&amp;quot; style=\&amp;quot;height:1.0395em;\&amp;quot;&amp;gt;&amp;lt;span style=\&amp;quot;top:-2.655em;\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;pstrut\&amp;quot; style=\&amp;quot;height:3em;\&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;sizing reset-size6 size3 mtight\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;mord mtight\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;mord mtight\&amp;quot;&amp;gt;2&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mord mathnormal mtight\&amp;quot;&amp;gt;a&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span style=\&amp;quot;top:-3.23em;\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;pstrut\&amp;quot; style=\&amp;quot;height:3em;\&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;frac-line\&amp;quot; style=\&amp;quot;border-bottom-width:0.04em;\&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span style=\&amp;quot;top:-3.394em;\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;pstrut\&amp;quot; style=\&amp;quot;height:3em;\&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;sizing reset-size6 size3 mtight\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;mord mtight\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;mord mtight\&amp;quot;&amp;gt;−&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mord mathnormal mtight\&amp;quot;&amp;gt;b&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mbin mtight\&amp;quot;&amp;gt;±&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mord sqrt mtight\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;vlist-t vlist-t2\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;vlist-r\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;vlist\&amp;quot; style=\&amp;quot;height:0.9221em;\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;svg-align\&amp;quot; style=\&amp;quot;top:-3em;\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;pstrut\&amp;quot; style=\&amp;quot;height:3em;\&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mord mtight\&amp;quot; style=\&amp;quot;padding-left:0.833em;\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;mord mtight\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;mord mathnormal mtight\&amp;quot;&amp;gt;b&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;msupsub\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;vlist-t\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;vlist-r\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;vlist\&amp;quot; style=\&amp;quot;height:0.7463em;\&amp;quot;&amp;gt;&amp;lt;span style=\&amp;quot;top:-2.786em;margin-right:0.0714em;\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;pstrut\&amp;quot; style=\&amp;quot;height:2.5em;\&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;sizing reset-size3 size1 mtight\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;mord mtight\&amp;quot;&amp;gt;2&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mbin mtight\&amp;quot;&amp;gt;−&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mord mtight\&amp;quot;&amp;gt;4&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mord mathnormal mtight\&amp;quot;&amp;gt;a&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mord mathnormal mtight\&amp;quot;&amp;gt;c&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span style=\&amp;quot;top:-2.8821em;\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;pstrut\&amp;quot; style=\&amp;quot;height:3em;\&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;hide-tail mtight\&amp;quot; style=\&amp;quot;min-width:0.853em;height:1.08em;\&amp;quot;&amp;gt;&amp;lt;svg xmlns=\&amp;quot;http://www.w3.org/2000/svg\&amp;quot; width=\&amp;quot;400em\&amp;quot; height=\&amp;quot;1.08em\&amp;quot; viewBox=\&amp;quot;0 0 400000 1080\&amp;quot; preserveAspectRatio=\&amp;quot;xMinYMin slice\&amp;quot;&amp;gt;&amp;lt;path d=\&amp;quot;M95,702\nc-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14\nc0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54\nc44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10\ns173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429\nc69,-144,104.5,-217.7,106.5,-221\nl0 -0\nc5.3,-9.3,12,-14,20,-14\nH400000v40H845.2724\ns-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7\nc-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z\nM834 80h400000v40h-400000z\&amp;quot;/&amp;gt;&amp;lt;/svg&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;vlist-s\&amp;quot;&amp;gt;​&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;vlist-r\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;vlist\&amp;quot; style=\&amp;quot;height:0.1179em;\&amp;quot;&amp;gt;&amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;vlist-s\&amp;quot;&amp;gt;​&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;vlist-r\&amp;quot;&amp;gt;&amp;lt;span class=\&amp;quot;vlist\&amp;quot; style=\&amp;quot;height:0.345em;\&amp;quot;&amp;gt;&amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span class=\&amp;quot;mclose nulldelimiter\&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;}]}]}&#34;&gt;&lt;/svg&gt;
-&lt;/div&gt;
-
+&lt;div class=&#34;markmap-wrap&#34; id=&#34;m7lsnqcfmy&#34;&gt;
+			&lt;script type=&#34;application/json&#34;&gt;{&#34;content&#34;:&#34;abc&#34;,&#34;children&#34;:[{&#34;content&#34;:&#34;normal&#34;,&#34;children&#34;:[{&#34;content&#34;:&#34;links&#34;,&#34;children&#34;:[],&#34;payload&#34;:{&#34;tag&#34;:&#34;li&#34;,&#34;lines&#34;:&#34;2,3&#34;}}],&#34;payload&#34;:{&#34;tag&#34;:&#34;li&#34;,&#34;lines&#34;:&#34;1,3&#34;}},{&#34;content&#34;:&#34;advanced&#34;,&#34;children&#34;:[{&#34;content&#34;:&#34;&lt;strong&gt;inline&lt;/strong&gt; &lt;s&gt;text&lt;/s&gt; &lt;em&gt;styles&lt;/em&gt;&#34;,&#34;children&#34;:[],&#34;payload&#34;:{&#34;tag&#34;:&#34;li&#34;,&#34;lines&#34;:&#34;4,5&#34;}},{&#34;content&#34;:&#34;multiline&lt;br&gt;\ntext&#34;,&#34;children&#34;:[],&#34;payload&#34;:{&#34;tag&#34;:&#34;li&#34;,&#34;lines&#34;:&#34;5,7&#34;}}],&#34;payload&#34;:{&#34;tag&#34;:&#34;li&#34;,&#34;lines&#34;:&#34;3,7&#34;}},{&#34;content&#34;:&#34;formula&#34;,&#34;children&#34;:[{&#34;content&#34;:&#34;KaTeX - &lt;span class=\&#34;katex\&#34;&gt;&lt;span class=\&#34;katex-mathml\&#34;&gt;&lt;math xmlns=\&#34;http://www.w3.org/1998/Math/MathML\&#34;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mfrac&gt;&lt;mrow&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mo&gt;&amp;#xb1;&lt;/mo&gt;&lt;msqrt&gt;&lt;mrow&gt;&lt;msup&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;4&lt;/mn&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;/mrow&gt;&lt;/msqrt&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;/mrow&gt;&lt;/mfrac&gt;&lt;/mrow&gt;&lt;annotation encoding=\&#34;application/x-tex\&#34;&gt;x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=\&#34;katex-html\&#34; aria-hidden=\&#34;true\&#34;&gt;&lt;span class=\&#34;base\&#34;&gt;&lt;span class=\&#34;strut\&#34; style=\&#34;height:0.4306em;\&#34;&gt;&lt;/span&gt;&lt;span class=\&#34;mord mathnormal\&#34;&gt;x&lt;/span&gt;&lt;span class=\&#34;mspace\&#34; style=\&#34;margin-right:0.2778em;\&#34;&gt;&lt;/span&gt;&lt;span class=\&#34;mrel\&#34;&gt;=&lt;/span&gt;&lt;span class=\&#34;mspace\&#34; style=\&#34;margin-right:0.2778em;\&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=\&#34;base\&#34;&gt;&lt;span class=\&#34;strut\&#34; style=\&#34;height:1.3845em;vertical-align:-0.345em;\&#34;&gt;&lt;/span&gt;&lt;span class=\&#34;mord\&#34;&gt;&lt;span class=\&#34;mord\&#34;&gt;&lt;span class=\&#34;mopen nulldelimiter\&#34;&gt;&lt;/span&gt;&lt;span class=\&#34;mfrac\&#34;&gt;&lt;span class=\&#34;vlist-t vlist-t2\&#34;&gt;&lt;span class=\&#34;vlist-r\&#34;&gt;&lt;span class=\&#34;vlist\&#34; style=\&#34;height:1.0395em;\&#34;&gt;&lt;span style=\&#34;top:-2.655em;\&#34;&gt;&lt;span class=\&#34;pstrut\&#34; style=\&#34;height:3em;\&#34;&gt;&lt;/span&gt;&lt;span class=\&#34;sizing reset-size6 size3 mtight\&#34;&gt;&lt;span class=\&#34;mord mtight\&#34;&gt;&lt;span class=\&#34;mord mtight\&#34;&gt;2&lt;/span&gt;&lt;span class=\&#34;mord mathnormal mtight\&#34;&gt;a&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=\&#34;top:-3.23em;\&#34;&gt;&lt;span class=\&#34;pstrut\&#34; style=\&#34;height:3em;\&#34;&gt;&lt;/span&gt;&lt;span class=\&#34;frac-line\&#34; style=\&#34;border-bottom-width:0.04em;\&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=\&#34;top:-3.394em;\&#34;&gt;&lt;span class=\&#34;pstrut\&#34; style=\&#34;height:3em;\&#34;&gt;&lt;/span&gt;&lt;span class=\&#34;sizing reset-size6 size3 mtight\&#34;&gt;&lt;span class=\&#34;mord mtight\&#34;&gt;&lt;span class=\&#34;mord mtight\&#34;&gt;&amp;#x2212;&lt;/span&gt;&lt;span class=\&#34;mord mathnormal mtight\&#34;&gt;b&lt;/span&gt;&lt;span class=\&#34;mbin mtight\&#34;&gt;&amp;#xb1;&lt;/span&gt;&lt;span class=\&#34;mord sqrt mtight\&#34;&gt;&lt;span class=\&#34;vlist-t vlist-t2\&#34;&gt;&lt;span class=\&#34;vlist-r\&#34;&gt;&lt;span class=\&#34;vlist\&#34; style=\&#34;height:0.9221em;\&#34;&gt;&lt;span class=\&#34;svg-align\&#34; style=\&#34;top:-3em;\&#34;&gt;&lt;span class=\&#34;pstrut\&#34; style=\&#34;height:3em;\&#34;&gt;&lt;/span&gt;&lt;span class=\&#34;mord mtight\&#34; style=\&#34;padding-left:0.833em;\&#34;&gt;&lt;span class=\&#34;mord mtight\&#34;&gt;&lt;span class=\&#34;mord mathnormal mtight\&#34;&gt;b&lt;/span&gt;&lt;span class=\&#34;msupsub\&#34;&gt;&lt;span class=\&#34;vlist-t\&#34;&gt;&lt;span class=\&#34;vlist-r\&#34;&gt;&lt;span class=\&#34;vlist\&#34; style=\&#34;height:0.7463em;\&#34;&gt;&lt;span style=\&#34;top:-2.786em;margin-right:0.0714em;\&#34;&gt;&lt;span class=\&#34;pstrut\&#34; style=\&#34;height:2.5em;\&#34;&gt;&lt;/span&gt;&lt;span class=\&#34;sizing reset-size3 size1 mtight\&#34;&gt;&lt;span class=\&#34;mord mtight\&#34;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=\&#34;mbin mtight\&#34;&gt;&amp;#x2212;&lt;/span&gt;&lt;span class=\&#34;mord mtight\&#34;&gt;4&lt;/span&gt;&lt;span class=\&#34;mord mathnormal mtight\&#34;&gt;a&lt;/span&gt;&lt;span class=\&#34;mord mathnormal mtight\&#34;&gt;c&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=\&#34;top:-2.8821em;\&#34;&gt;&lt;span class=\&#34;pstrut\&#34; style=\&#34;height:3em;\&#34;&gt;&lt;/span&gt;&lt;span class=\&#34;hide-tail mtight\&#34; style=\&#34;min-width:0.853em;height:1.08em;\&#34;&gt;&lt;svg xmlns=\&#34;http://www.w3.org/2000/svg\&#34; width=\&#34;400em\&#34; height=\&#34;1.08em\&#34; viewBox=\&#34;0 0 400000 1080\&#34; preserveAspectRatio=\&#34;xMinYMin slice\&#34;&gt;&lt;path d=\&#34;M95,702\nc-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14\nc0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54\nc44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10\ns173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429\nc69,-144,104.5,-217.7,106.5,-221\nl0 -0\nc5.3,-9.3,12,-14,20,-14\nH400000v40H845.2724\ns-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7\nc-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z\nM834 80h400000v40h-400000z\&#34;/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=\&#34;vlist-s\&#34;&gt;&amp;#x200b;&lt;/span&gt;&lt;/span&gt;&lt;span class=\&#34;vlist-r\&#34;&gt;&lt;span class=\&#34;vlist\&#34; style=\&#34;height:0.1179em;\&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=\&#34;vlist-s\&#34;&gt;&amp;#x200b;&lt;/span&gt;&lt;/span&gt;&lt;span class=\&#34;vlist-r\&#34;&gt;&lt;span class=\&#34;vlist\&#34; style=\&#34;height:0.345em;\&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=\&#34;mclose nulldelimiter\&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&#34;,&#34;children&#34;:[],&#34;payload&#34;:{&#34;tag&#34;:&#34;li&#34;,&#34;lines&#34;:&#34;8,9&#34;}}],&#34;payload&#34;:{&#34;tag&#34;:&#34;li&#34;,&#34;lines&#34;:&#34;7,9&#34;}}],&#34;payload&#34;:{&#34;tag&#34;:&#34;li&#34;,&#34;lines&#34;:&#34;0,9&#34;}}&lt;/script&gt;
+			&lt;script type=&#34;application/json&#34;&gt;undefined&lt;/script&gt;
+		&lt;/div&gt;
 &lt;h2 id=&#34;simple-mindmap&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#simple-mindmap&#34;&gt;#&lt;/a&gt; simple mindmap&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/HunterXuan/hexo-simple-mindmap&#34;&gt;仓库链接&lt;/a&gt;&lt;/p&gt;
 &lt;blockquote class=&#34;pullquote mindmap mindmap-md&#34;&gt;&lt;ul&gt;
@@ -271,7 +309,104 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
-&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
+&lt;script src=&#34;https://cdn.jsdelivr.net/npm/d3@7&#34;&gt;&lt;/script&gt;&lt;script src=&#34;https://cdn.jsdelivr.net/npm/markmap-view&#34;&gt;&lt;/script&gt;&lt;script src=&#34;https://cdn.jsdelivr.net/npm/markmap-toolbar&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.jsdelivr.net/npm/markmap-toolbar/dist/style.css&#34;&gt;&lt;/link&gt;&lt;style&gt;undefined&lt;/style&gt;&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.jsdelivr.net/npm/katex@0.16.18/dist/katex.min.css&#34;&gt;&lt;script&gt;((getMarkmap) =&gt; {
+          window.WebFontConfig = {
+            custom: {
+              families: [
+                &#34;KaTeX_AMS&#34;,
+                &#34;KaTeX_Caligraphic:n4,n7&#34;,
+                &#34;KaTeX_Fraktur:n4,n7&#34;,
+                &#34;KaTeX_Main:n4,n7,i4,i7&#34;,
+                &#34;KaTeX_Math:i4,i7&#34;,
+                &#34;KaTeX_Script&#34;,
+                &#34;KaTeX_SansSerif:n4,n7,i4&#34;,
+                &#34;KaTeX_Size1&#34;,
+                &#34;KaTeX_Size2&#34;,
+                &#34;KaTeX_Size3&#34;,
+                &#34;KaTeX_Size4&#34;,
+                &#34;KaTeX_Typewriter&#34;
+              ]
+            },
+            active: () =&gt; {
+              getMarkmap().refreshHook.call();
+            }
+          };
+        })(() =&gt; window.markmap)&lt;/script&gt;&lt;script src=&#34;https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js&#34; defer&gt;&lt;/script&gt;&lt;style&gt;
+  .markmap-wrap {
+    position: relative;
+    height: 500px;
+    width: 100%;
+    background: #FFFFFF;
+  }
+  
+  .dark .markmap-wrap {
+    background: #1a1a1a;
+  }
+  
+  .markmap-wrap &gt; svg {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .mm-toolbar {
+    position: absolute;
+    right: .5em;
+    bottom: .5em;
+  }
+  
+  .dark .markmap {
+    --markmap-code-bg: #1a1b26;
+    --markmap-code-color: #ddd;
+    --markmap-circle-open-bg: #444;
+    --markmap-text-color: #eee;
+  }
+  
+  .dark .mm-toolbar {
+    --un-border-opacity: 1;
+    border-color: rgb(82 82 91 / var(--un-border-opacity));
+    --un-bg-opacity: 1;
+    background-color: rgb(39 39 42 / var(--un-bg-opacity));
+    --un-text-opacity: 1;
+    color: rgb(161 161 170 / var(--un-text-opacity));
+  }
+  &lt;/style&gt;&lt;script&gt;(function default_1() {
+    const { Markmap, Toolbar, deriveOptions } = window.markmap;
+    const resize = {
+        event: new Event(&#39;resize&#39;),
+        observer: new ResizeObserver((entries) =&gt; entries.forEach((entry) =&gt; entry.target.dispatchEvent(resize.event))),
+        observe: (el, func) =&gt; {
+            resize.observer.observe(el);
+            el.addEventListener(&#39;resize&#39;, func);
+        },
+    };
+    const debounce = (callback, wait) =&gt; {
+        let timeout;
+        return function (...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() =&gt; callback.apply(this, args), wait);
+        };
+    };
+    const toolbar = (markmapInstance, { fullscreenElement }) =&gt; {
+        const toolbar = Toolbar.create(markmapInstance);
+        toolbar.setBrand(false);
+        toolbar.register({
+            id: &#39;fullScreen&#39;,
+            title: &#39;Full Screen View&#39;,
+            content: Toolbar.icon(&#39;M4 9v-4h4v2h-2v2zM4 11v4h4v-2h-2v-2zM16 9v-4h-4v2h2v2zM16 11v4h-4v-2h2v-2z&#39;),
+            onClick: () =&gt; document.fullscreenElement ? document.exitFullscreen() : fullscreenElement.requestFullscreen()
+        });
+        toolbar.setItems([...toolbar.items, &#39;fullScreen&#39;]);
+        return toolbar.el;
+    };
+    document.querySelectorAll(&#39;.markmap-wrap&#39;).forEach((wrap) =&gt; {
+        const [root, jsonOptions] = [].slice.call(wrap.children).map(el =&gt; JSON.parse(el.innerHTML));
+        wrap.innerHTML = &#39;&lt;svg&gt;&lt;/svg&gt;&#39;;
+        const svg = wrap.querySelector(&#39;svg&#39;);
+        const markmapInstance = Markmap.create(svg, deriveOptions(jsonOptions), root);
+        wrap.append(toolbar(markmapInstance, { fullscreenElement: wrap }));
+        resize.observe(wrap, debounce(() =&gt; markmapInstance.fit(), 100));
+    });
+})();&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="测试页面" scheme="https://etchone.ink/categories/test-page/" />
         <updated>2024-06-29T13:15:29.000Z</updated>
     </entry>
@@ -388,13 +523,13 @@
 &lt;hr /&gt;
 &lt;h2 id=&#34;问题背景&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#问题背景&#34;&gt;#&lt;/a&gt; 问题背景&lt;/h2&gt;
 &lt;p&gt;今天启动电脑时，代理报了这个错误&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/ssr%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5.png&#34; class=&#34;&#34; title=&#34;ssr绑定失败&#34;&gt;
+&lt;img src=&#34;/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/ssr%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5.png&#34; class=&#34;&#34; title=&#34;ssr绑定失败&#34;&gt;
 &lt;p&gt;管理员执行指令 &lt;code&gt;netstat -ano | findstr &amp;quot;1080&amp;quot;&lt;/code&gt;  试图寻找占用软件时，未发现端口占用&lt;/p&gt;
 &lt;p&gt;故而使用 STFW 技能，搜索到了一篇文章，链接如上&lt;/p&gt;
 &lt;h2 id=&#34;定位问题&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#定位问题&#34;&gt;#&lt;/a&gt; 定位问题&lt;/h2&gt;
 &lt;p&gt;使用如下命令确定端口是否被 Hyper-v 保留&lt;/p&gt;
 &lt;figure class=&#34;highlight powershell&#34;&gt;&lt;figcaption data-lang=&#34;PowerShell&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;netsh interface ipv4 show excludedportrange protocol=tcp&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;输出如下内容，确定端口被 hyper-v 保留&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/hyper-v%E4%BF%9D%E7%95%99%E7%AB%AF%E5%8F%A3.png&#34; class=&#34;&#34; title=&#34;ssr绑定失败&#34;&gt;
+&lt;img src=&#34;/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/hyper-v%E4%BF%9D%E7%95%99%E7%AB%AF%E5%8F%A3.png&#34; class=&#34;&#34; title=&#34;ssr绑定失败&#34;&gt;
 &lt;h2 id=&#34;解决问题&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#解决问题&#34;&gt;#&lt;/a&gt; 解决问题&lt;/h2&gt;
 &lt;p&gt;首先禁用 Hyper-V，并重启电脑&lt;/p&gt;
 &lt;figure class=&#34;highlight powershell&#34;&gt;&lt;figcaption data-lang=&#34;PowerShell&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;dism&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;exe &lt;span class=&#34;token operator&#34;&gt;/&lt;/span&gt;Online &lt;span class=&#34;token operator&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;Disable-Feature&lt;/span&gt;:Microsoft-Hyper-V&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;重启后，保留需要使用的端口。命令中各参数含义如其英文名所示&lt;/p&gt;
@@ -402,7 +537,7 @@
 &lt;figure class=&#34;highlight powershell&#34;&gt;&lt;figcaption data-lang=&#34;PowerShell&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;netsh int ipv4 &lt;span class=&#34;token function&#34;&gt;set&lt;/span&gt; dynamicport tcp &lt;span class=&#34;token function&#34;&gt;start&lt;/span&gt;=49999 num=15537&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;重置网络，暂时不重启&lt;/p&gt;
 &lt;figure class=&#34;highlight powershell&#34;&gt;&lt;figcaption data-lang=&#34;PowerShell&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;netsh winsock reset&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;然后开启 Hyper-V，重启电脑&lt;/p&gt;
 &lt;figure class=&#34;highlight powershell&#34;&gt;&lt;figcaption data-lang=&#34;PowerShell&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;dism&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;exe &lt;span class=&#34;token operator&#34;&gt;/&lt;/span&gt;Online &lt;span class=&#34;token operator&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;Enable-Feature&lt;/span&gt;:Microsoft-Hyper-V &lt;span class=&#34;token operator&#34;&gt;/&lt;/span&gt;All&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;再次查询保留端口，输出如下：&lt;/p&gt;
-&lt;figure class=&#34;highlight powershell&#34;&gt;&lt;figcaption data-lang=&#34;PowerShell&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;netsh int ipv4 show excludedportrange protocol=tcp&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/%E6%9B%B4%E6%94%B9%E5%90%8E%E4%BF%9D%E7%95%99%E7%AB%AF%E5%8F%A3.png&#34; class=&#34;&#34; title=&#34;ssr绑定失败&#34;&gt;
+&lt;figure class=&#34;highlight powershell&#34;&gt;&lt;figcaption data-lang=&#34;PowerShell&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;netsh int ipv4 show excludedportrange protocol=tcp&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;img src=&#34;/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/%E6%9B%B4%E6%94%B9%E5%90%8E%E4%BF%9D%E7%95%99%E7%AB%AF%E5%8F%A3.png&#34; class=&#34;&#34; title=&#34;ssr绑定失败&#34;&gt;
 &lt;p&gt;问题解决。&lt;/p&gt;
 &lt;h2 id=&#34;参考&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#参考&#34;&gt;#&lt;/a&gt; 参考&lt;/h2&gt;
 &lt;ul&gt;
@@ -410,7 +545,7 @@
 &lt;li&gt;&lt;a href=&#34;https://blog.csdn.net/yihuajack/article/details/126842823&#34;&gt;https://blog.csdn.net/yihuajack/article/details/126842823&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.jianshu.com/p/25643eb9cefb&#34;&gt;https://www.jianshu.com/p/25643eb9cefb&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</content>
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="笔记" scheme="https://etchone.ink/categories/note/" />
         <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
         <category term="hyper-v" scheme="https://etchone.ink/tags/hyper-v/" />
@@ -431,7 +566,7 @@
 &lt;p&gt;预览块公式：&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;katex-display&#34;&gt;&lt;span class=&#34;katex&#34;&gt;&lt;span class=&#34;katex-mathml&#34;&gt;&lt;math xmlns=&#34;http://www.w3.org/1998/Math/MathML&#34; display=&#34;block&#34;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mfrac&gt;&lt;mrow&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;d&lt;/mi&gt;&lt;mi&gt;V&lt;/mi&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;d&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/mrow&gt;&lt;/mfrac&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mo&gt;∮&lt;/mo&gt;&lt;mi mathvariant=&#34;bold-italic&#34;&gt;v&lt;/mi&gt;&lt;mo&gt;⋅&lt;/mo&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;d&lt;/mi&gt;&lt;mi mathvariant=&#34;bold-italic&#34;&gt;s&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;\frac{\mathrm d V}{\mathrm d t} = \oint \boldsymbol v \cdot \mathrm d \boldsymbol s
 &lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&#34;katex-html&#34; aria-hidden=&#34;true&#34;&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:2.0574em;vertical-align:-0.686em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mopen nulldelimiter&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mfrac&#34;&gt;&lt;span class=&#34;vlist-t vlist-t2&#34;&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:1.3714em;&#34;&gt;&lt;span style=&#34;top:-2.314em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord mathrm&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;mord mathnormal&#34;&gt;t&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;top:-3.23em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;frac-line&#34; style=&#34;border-bottom-width:0.04em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;top:-3.677em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord mathrm&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;mord mathnormal&#34; style=&#34;margin-right:0.22222em;&#34;&gt;V&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-s&#34;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:0.686em;&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;mclose nulldelimiter&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2778em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mrel&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2778em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:2.2222em;vertical-align:-0.8622em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mop op-symbol large-op&#34; style=&#34;margin-right:0.44445em;position:relative;top:-0.0011em;&#34;&gt;∮&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.1667em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord boldsymbol&#34; style=&#34;margin-right:0.03704em;&#34;&gt;v&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mbin&#34;&gt;⋅&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.6944em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord mathrm&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord boldsymbol&#34;&gt;s&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
-</content>
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="测试页面" scheme="https://etchone.ink/categories/test-page/" />
         <updated>2022-09-28T05:39:54.000Z</updated>
     </entry>
@@ -682,7 +817,7 @@ V^\star(s_t; \boldsymbol \omega):&amp;amp; &amp;amp; L^{A2C}(\boldsymbol \omega)
 &lt;p&gt;使用不同的网络进行数据生成和训练，并定时将训练网络的参数同步至数据生成网络。&lt;/p&gt;
 &lt;p&gt;文章中提出了两种损失函数的设计方式，均已列在下方。&lt;/p&gt;
 &lt;p&gt;训练伪代码如下：&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2022/09/28/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/PPO_algo.png&#34; class=&#34;&#34; title=&#34;PPO_algo&#34;&gt;
+&lt;img src=&#34;/2022/09/28/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/PPO_algo.png&#34; class=&#34;&#34; title=&#34;PPO_algo&#34;&gt;
 &lt;p&gt;损失函数为：&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;katex-display&#34;&gt;&lt;span class=&#34;katex&#34;&gt;&lt;span class=&#34;katex-mathml&#34;&gt;&lt;math xmlns=&#34;http://www.w3.org/1998/Math/MathML&#34; display=&#34;block&#34;&gt;&lt;semantics&gt;&lt;mtable rowspacing=&#34;0.25em&#34; columnalign=&#34;right left right left&#34; columnspacing=&#34;0em 1em 0em&#34;&gt;&lt;mtr&gt;&lt;mtd&gt;&lt;mstyle scriptlevel=&#34;0&#34; displaystyle=&#34;true&#34;&gt;&lt;mrow&gt;&lt;/mrow&gt;&lt;/mstyle&gt;&lt;/mtd&gt;&lt;mtd&gt;&lt;mstyle scriptlevel=&#34;0&#34; displaystyle=&#34;true&#34;&gt;&lt;mrow&gt;&lt;/mrow&gt;&lt;/mstyle&gt;&lt;/mtd&gt;&lt;mtd&gt;&lt;mstyle scriptlevel=&#34;0&#34; displaystyle=&#34;true&#34;&gt;&lt;mrow&gt;&lt;msubsup&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;mrow&gt;&lt;mi&gt;C&lt;/mi&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;mi&gt;I&lt;/mi&gt;&lt;mi&gt;P&lt;/mi&gt;&lt;/mrow&gt;&lt;/msubsup&gt;&lt;mo stretchy=&#34;false&#34;&gt;(&lt;/mo&gt;&lt;mi mathvariant=&#34;bold-italic&#34;&gt;θ&lt;/mi&gt;&lt;mo stretchy=&#34;false&#34;&gt;)&lt;/mo&gt;&lt;/mrow&gt;&lt;/mstyle&gt;&lt;/mtd&gt;&lt;mtd&gt;&lt;mstyle scriptlevel=&#34;0&#34; displaystyle=&#34;true&#34;&gt;&lt;mrow&gt;&lt;mrow&gt;&lt;/mrow&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;msub&gt;&lt;mi mathvariant=&#34;double-struck&#34;&gt;E&lt;/mi&gt;&lt;mrow&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mo&gt;∼&lt;/mo&gt;&lt;mi&gt;π&lt;/mi&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mrow&gt;&lt;mo fence=&#34;true&#34;&gt;[&lt;/mo&gt;&lt;mi&gt;min&lt;/mi&gt;&lt;mo&gt;⁡&lt;/mo&gt;&lt;mrow&gt;&lt;mo fence=&#34;true&#34;&gt;(&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&#34;false&#34;&gt;(&lt;/mo&gt;&lt;mi mathvariant=&#34;bold-italic&#34;&gt;θ&lt;/mi&gt;&lt;mo stretchy=&#34;false&#34;&gt;)&lt;/mo&gt;&lt;msub&gt;&lt;mover accent=&#34;true&#34;&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo&gt;^&lt;/mo&gt;&lt;/mover&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/msub&gt;&lt;mo separator=&#34;true&#34;&gt;,&lt;/mo&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;clip&lt;/mi&gt;&lt;mo&gt;⁡&lt;/mo&gt;&lt;mrow&gt;&lt;mo fence=&#34;true&#34;&gt;(&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&#34;false&#34;&gt;(&lt;/mo&gt;&lt;mi mathvariant=&#34;bold-italic&#34;&gt;θ&lt;/mi&gt;&lt;mo stretchy=&#34;false&#34;&gt;)&lt;/mo&gt;&lt;mo separator=&#34;true&#34;&gt;,&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;−&lt;/mo&gt;&lt;mi&gt;ϵ&lt;/mi&gt;&lt;mo separator=&#34;true&#34;&gt;,&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;ϵ&lt;/mi&gt;&lt;mo fence=&#34;true&#34;&gt;)&lt;/mo&gt;&lt;/mrow&gt;&lt;msub&gt;&lt;mover accent=&#34;true&#34;&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo&gt;^&lt;/mo&gt;&lt;/mover&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/msub&gt;&lt;mo fence=&#34;true&#34;&gt;)&lt;/mo&gt;&lt;/mrow&gt;&lt;mo fence=&#34;true&#34;&gt;]&lt;/mo&gt;&lt;/mrow&gt;&lt;/mrow&gt;&lt;/mstyle&gt;&lt;/mtd&gt;&lt;/mtr&gt;&lt;mtr&gt;&lt;mtd&gt;&lt;mstyle scriptlevel=&#34;0&#34; displaystyle=&#34;true&#34;&gt;&lt;mrow&gt;&lt;mi&gt;o&lt;/mi&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;/mrow&gt;&lt;/mstyle&gt;&lt;/mtd&gt;&lt;mtd&gt;&lt;mstyle scriptlevel=&#34;0&#34; displaystyle=&#34;true&#34;&gt;&lt;mrow&gt;&lt;/mrow&gt;&lt;/mstyle&gt;&lt;/mtd&gt;&lt;mtd&gt;&lt;mstyle scriptlevel=&#34;0&#34; displaystyle=&#34;true&#34;&gt;&lt;mrow&gt;&lt;msup&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;mrow&gt;&lt;mi&gt;K&lt;/mi&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;mi&gt;P&lt;/mi&gt;&lt;mi&gt;E&lt;/mi&gt;&lt;mi&gt;N&lt;/mi&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;mo stretchy=&#34;false&#34;&gt;(&lt;/mo&gt;&lt;mi mathvariant=&#34;bold-italic&#34;&gt;θ&lt;/mi&gt;&lt;mo stretchy=&#34;false&#34;&gt;)&lt;/mo&gt;&lt;/mrow&gt;&lt;/mstyle&gt;&lt;/mtd&gt;&lt;mtd&gt;&lt;mstyle scriptlevel=&#34;0&#34; displaystyle=&#34;true&#34;&gt;&lt;mrow&gt;&lt;mrow&gt;&lt;/mrow&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;msub&gt;&lt;mi mathvariant=&#34;double-struck&#34;&gt;E&lt;/mi&gt;&lt;mrow&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mo&gt;∼&lt;/mo&gt;&lt;mi&gt;π&lt;/mi&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mrow&gt;&lt;mo fence=&#34;true&#34;&gt;[&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&#34;false&#34;&gt;(&lt;/mo&gt;&lt;mi mathvariant=&#34;bold-italic&#34;&gt;θ&lt;/mi&gt;&lt;mo stretchy=&#34;false&#34;&gt;)&lt;/mo&gt;&lt;msub&gt;&lt;mover accent=&#34;true&#34;&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo&gt;^&lt;/mo&gt;&lt;/mover&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/msub&gt;&lt;mo&gt;−&lt;/mo&gt;&lt;mi&gt;β&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;KL&lt;/mi&gt;&lt;mo&gt;⁡&lt;/mo&gt;&lt;mo stretchy=&#34;false&#34;&gt;[&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;π&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;θ&lt;/mi&gt;&lt;mrow&gt;&lt;mi&gt;o&lt;/mi&gt;&lt;mi&gt;l&lt;/mi&gt;&lt;mi&gt;d&lt;/mi&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;/msub&gt;&lt;mo stretchy=&#34;false&#34;&gt;(&lt;/mo&gt;&lt;mo&gt;⋅&lt;/mo&gt;&lt;mo&gt;∣&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&#34;false&#34;&gt;)&lt;/mo&gt;&lt;mo separator=&#34;true&#34;&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;π&lt;/mi&gt;&lt;mi&gt;θ&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&#34;false&#34;&gt;(&lt;/mo&gt;&lt;mo&gt;⋅&lt;/mo&gt;&lt;mo&gt;∣&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&#34;false&#34;&gt;)&lt;/mo&gt;&lt;mo stretchy=&#34;false&#34;&gt;]&lt;/mo&gt;&lt;mo fence=&#34;true&#34;&gt;]&lt;/mo&gt;&lt;/mrow&gt;&lt;/mrow&gt;&lt;/mstyle&gt;&lt;/mtd&gt;&lt;/mtr&gt;&lt;/mtable&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;\begin{aligned}
 &amp;amp; &amp;amp; L_t^{CLIP}(\boldsymbol \theta)&amp;amp;=\mathbb E_{a\sim\pi}\left[ \min\left(
@@ -738,7 +873,7 @@ X = Y[n-1] + Y[0:n-1] - \operatorname{max}(Y[0:n-1])
 &lt;p&gt;虽然按照理论推导，使用&lt;span class=&#34;katex&#34;&gt;&lt;span class=&#34;katex-mathml&#34;&gt;&lt;math xmlns=&#34;http://www.w3.org/1998/Math/MathML&#34;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;max&lt;/mi&gt;&lt;mo&gt;⁡&lt;/mo&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;\max&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&#34;katex-html&#34; aria-hidden=&#34;true&#34;&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.4306em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mop&#34;&gt;max&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt; 函数才具有实际意义，但实践中使用&lt;span class=&#34;katex&#34;&gt;&lt;span class=&#34;katex-mathml&#34;&gt;&lt;math xmlns=&#34;http://www.w3.org/1998/Math/MathML&#34;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;mean&lt;/mi&gt;&lt;mo&gt;⁡&lt;/mo&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;\operatorname{mean}&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&#34;katex-html&#34; aria-hidden=&#34;true&#34;&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.4306em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mop&#34;&gt;&lt;span class=&#34;mord mathrm&#34;&gt;mean&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt; 得到的效果更好。&lt;/p&gt;
 &lt;p&gt;理论推导如下：&lt;/p&gt;
 &lt;p&gt;咕。&lt;/p&gt;
-</content>
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="笔记" scheme="https://etchone.ink/categories/note/" />
         <category term="深度学习" scheme="https://etchone.ink/categories/note/deep-learning/" />
         <category term="强化学习" scheme="https://etchone.ink/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" />
@@ -763,7 +898,7 @@ X = Y[n-1] + Y[0:n-1] - \operatorname{max}(Y[0:n-1])
 &lt;p&gt;运行后 IP 即修改成功。&lt;/p&gt;
 &lt;h2 id=&#34;5-可选windows侧添加自启&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#5-可选windows侧添加自启&#34;&gt;#&lt;/a&gt; 5. (可选) Windows 侧添加自启&lt;/h2&gt;
 &lt;p&gt;将 Windows 侧的脚本添加到 &lt;code&gt;C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup&lt;/code&gt;  目录即可。&lt;/p&gt;
-</content>
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="笔记" scheme="https://etchone.ink/categories/note/" />
         <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
         <category term="wsl" scheme="https://etchone.ink/tags/wsl/" />
@@ -811,7 +946,7 @@ X = Y[n-1] + Y[0:n-1] - \operatorname{max}(Y[0:n-1])
 &lt;p&gt;[1] &lt;a href=&#34;https://www.cnblogs.com/linuxxl/p/11391280.html&#34;&gt;记录一次 setcap 提权失败的经历&lt;/a&gt;&lt;br /&gt;
  [2] &lt;a href=&#34;https://blog.csdn.net/Adrian503/article/details/106801755&#34;&gt;Failed to get capabilities of file (Operation not supported)&lt;/a&gt;&lt;br /&gt;
 [3] &lt;a href=&#34;https://blog.csdn.net/dou3516/article/details/105120221&#34;&gt;dpkg: error processing package *** (--configure) 错误解决办法&lt;/a&gt;&lt;/p&gt;
-</content>
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="笔记" scheme="https://etchone.ink/categories/note/" />
         <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
         <category term="linux" scheme="https://etchone.ink/tags/linux/" />
@@ -854,7 +989,7 @@ X = Y[n-1] + Y[0:n-1] - \operatorname{max}(Y[0:n-1])
 &lt;p&gt;感觉这种 hack 有点不安全.. 不过很爽 /doge&lt;/p&gt;
 &lt;h2 id=&#34;参考&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#参考&#34;&gt;#&lt;/a&gt; 参考&lt;/h2&gt;
 &lt;p&gt;[1] &lt;a href=&#34;https://blog.csdn.net/yygydjkthh/article/details/36695243&#34;&gt;对一个 deb 包的解压、修改、重新打包全过程方法&lt;/a&gt;&lt;/p&gt;
-</content>
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="笔记" scheme="https://etchone.ink/categories/note/" />
         <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
         <category term="linux" scheme="https://etchone.ink/tags/linux/" />
@@ -869,7 +1004,7 @@ X = Y[n-1] + Y[0:n-1] - \operatorname{max}(Y[0:n-1])
 &lt;hr /&gt;
 &lt;h2 id=&#34;起因&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#起因&#34;&gt;#&lt;/a&gt; 起因&lt;/h2&gt;
 &lt;p&gt;今天在某站网上冲浪的时候，看到了某个 up（似乎暴露了平台？不过不要声张 /doge）在玩这款很早之前玩过的小游戏&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/%E6%B8%B8%E6%88%8F%E7%95%8C%E9%9D%A2.png&#34; class=&#34;&#34; title=&#34;游戏界面&#34;&gt;
+&lt;img src=&#34;/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/%E6%B8%B8%E6%88%8F%E7%95%8C%E9%9D%A2.png&#34; class=&#34;&#34; title=&#34;游戏界面&#34;&gt;
 &lt;p&gt;突然觉得游戏的内在逻辑挺简单的，然后觉得，是不是可以写个程序计算一下最优解？&lt;/p&gt;
 &lt;p&gt;说干就干 /doge&lt;/p&gt;
 &lt;h2 id=&#34;编写之前&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#编写之前&#34;&gt;#&lt;/a&gt; 编写之前&lt;/h2&gt;
@@ -995,10 +1130,10 @@ delta(map) = \Sigma_{state(x,y) \ne 0} 5-state(x,y)
 &lt;h2 id=&#34;实测结果&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#实测结果&#34;&gt;#&lt;/a&gt; 实测结果&lt;/h2&gt;
 &lt;p&gt;在完善了输入输出之后，对真实谱面进行了测试。&lt;/p&gt;
 &lt;p&gt;对于如下谱面：&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/%E6%B5%8B%E8%AF%95%E8%B0%B1%E9%9D%A2.png&#34; class=&#34;&#34; title=&#34;测试谱面&#34;&gt;
+&lt;img src=&#34;/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/%E6%B5%8B%E8%AF%95%E8%B0%B1%E9%9D%A2.png&#34; class=&#34;&#34; title=&#34;测试谱面&#34;&gt;
 &lt;p&gt;输入的数据为：&lt;/p&gt;
 &lt;figure class=&#34;highlight plaintext&#34;&gt;&lt;figcaption data-lang=&#34;plaintext&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;6 6&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;3 4 2 2 3 2&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;0 0 0 0 2 3&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;0 4 2 0 2 3&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;2 1 2 3 3 1&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;2 4 0 3 3 0&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;4 2 4 1 1 1&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;程序运行输出如下：&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/%E6%B5%8B%E8%AF%95%E8%BE%93%E5%87%BA.png&#34; class=&#34;&#34; title=&#34;测试输出&#34;&gt;
+&lt;img src=&#34;/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/%E6%B5%8B%E8%AF%95%E8%BE%93%E5%87%BA.png&#34; class=&#34;&#34; title=&#34;测试输出&#34;&gt;
 &lt;p&gt;运行时间大概在 10s 量级，虽说还是有点慢，不过已经可以使用了&lt;/p&gt;
 &lt;p&gt;不过由于临界条件的选取与实际情况有偏差，所以在少数情况下操作后生成的谱面与计算值会有些偏差，不过嘛... 能跑就行 /doge&lt;/p&gt;
 &lt;h2 id=&#34;后记&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#后记&#34;&gt;#&lt;/a&gt; 后记&lt;/h2&gt;
@@ -1015,7 +1150,7 @@ delta(map) = \Sigma_{state(x,y) \ne 0} 5-state(x,y)
 &lt;h2 id=&#34;附件&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#附件&#34;&gt;#&lt;/a&gt; 附件&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;my_bitset.hpp&#34;&gt;bitset 头文件&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;ten_drops_of_water.cpp&#34;&gt;程序源文件&lt;/a&gt;&lt;/p&gt;
-</content>
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="笔记" scheme="https://etchone.ink/categories/note/" />
         <category term="算法" scheme="https://etchone.ink/categories/note/algorithm/" />
         <category term="C/C++" scheme="https://etchone.ink/tags/C-C/" />
@@ -1096,7 +1231,7 @@ FATAL &amp;#123; err:
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;apt&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-y&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; nodejs&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;自此，故障得以解决。&lt;/p&gt;
-</content>
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="建站" scheme="https://etchone.ink/categories/website/" />
         <category term="博客" scheme="https://etchone.ink/categories/website/blog/" />
         <updated>2021-09-25T12:19:30.000Z</updated>
@@ -1116,11 +1251,11 @@ FATAL &amp;#123; err:
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;点击左下角 &lt;a href=&#34;https://console.leancloud.app/applist.html#/newapp&#34;&gt;创建应用&lt;/a&gt; 并起一个你喜欢的名字 (请选择免费的开发版):&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://i.loli.net/2019/06/21/5d0c995c86fac81746.jpg&#34; alt=&#34;创建应用&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2019/06/21/5d0c995c86fac81746.jpg&#34; alt=&#34;创建应用&#34; /&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;进入应用，选择左下角的  &lt;code&gt;设置&lt;/code&gt;  &amp;gt;  &lt;code&gt;应用 Key&lt;/code&gt; 。你可以看到你的  &lt;code&gt;APP ID&lt;/code&gt; , &lt;code&gt;APP Key&lt;/code&gt;  和  &lt;code&gt;Master Key&lt;/code&gt; 。后续我们会用到这三个值。&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://i.loli.net/2019/06/21/5d0c995c86fac81746.jpg&#34; alt=&#34;ID 和 Key&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2019/06/21/5d0c995c86fac81746.jpg&#34; alt=&#34;ID 和 Key&#34; /&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;blockquote&gt;
@@ -1130,10 +1265,10 @@ FATAL &amp;#123; err:
 &lt;li&gt;选择  &lt;code&gt;设置&lt;/code&gt;  &amp;gt;  &lt;code&gt;域名绑定&lt;/code&gt;  &amp;gt;  &lt;code&gt;API 访问域名&lt;/code&gt;  &amp;gt;  &lt;code&gt;绑定新域名&lt;/code&gt;  &amp;gt; 输入域名 &amp;gt;  &lt;code&gt;确定&lt;/code&gt; 。&lt;/li&gt;
 &lt;li&gt;按照页面上的提示按要求在 DNS 上完成 CNAME 解析。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://i.loli.net/2020/11/09/xfsX4JKt9zhuaiB.png&#34; alt=&#34;域名设置&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2020/11/09/xfsX4JKt9zhuaiB.png&#34; alt=&#34;域名设置&#34; /&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;vercel-部署-服务端&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#vercel-部署-服务端&#34;&gt;#&lt;/a&gt; Vercel 部署 (服务端)&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://vercel.com/import/project?template=https://github.com/walinejs/waline/tree/main/example&#34;&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://vercel.com/button&#34; alt=&#34;Vercel&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://vercel.com/import/project?template=https://github.com/walinejs/waline/tree/main/example&#34;&gt;&lt;img src=&#34;https://vercel.com/button&#34; alt=&#34;Vercel&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;点击上方按钮，跳转至 Vercel 进行 Server 端部署。&lt;/p&gt;
@@ -1143,32 +1278,32 @@ FATAL &amp;#123; err:
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;输入一个你喜欢的 Vercel 项目名称并点击  &lt;code&gt;Create&lt;/code&gt;  继续:&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-1.png&#34; class=&#34;&#34; title=&#34;创建项目&#34;&gt;
+&lt;img src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-1.png&#34; class=&#34;&#34; title=&#34;创建项目&#34;&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;此时会让你创建 Team 账号，这里选择  &lt;code&gt;Skip&lt;/code&gt;  即可：&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-2.png&#34; class=&#34;&#34; title=&#34;skip team&#34;&gt;
+&lt;img src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-2.png&#34; class=&#34;&#34; title=&#34;skip team&#34;&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;此时 Vercel 会基于 Waline 模板帮助你新建并初始化仓库，仓库名为你之前输入的项目名。&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-3.png&#34; class=&#34;&#34; title=&#34;deploy&#34;&gt;
+&lt;img src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-3.png&#34; class=&#34;&#34; title=&#34;deploy&#34;&gt;
 &lt;p&gt;一两分钟后，满屏的烟花会庆祝你部署成功。此时点击  &lt;code&gt;Go to Dashboard&lt;/code&gt;  可以跳转到应用的控制台。&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-4.png&#34; class=&#34;&#34; title=&#34;deploy&#34;&gt;
+&lt;img src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-4.png&#34; class=&#34;&#34; title=&#34;deploy&#34;&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;点击顶部的  &lt;code&gt;Settings&lt;/code&gt;  -  &lt;code&gt;Environment Variables&lt;/code&gt;  进入环境变量配置页，并配置三个环境变量 &lt;code&gt;LEAN_ID&lt;/code&gt; ,  &lt;code&gt;LEAN_KEY&lt;/code&gt;  和  &lt;code&gt;LEAN_MASTER_KEY&lt;/code&gt;  。它们的值分别对应上一步在 LeanCloud 中获得的  &lt;code&gt;APP ID&lt;/code&gt; ,  &lt;code&gt;APP KEY&lt;/code&gt; ,  &lt;code&gt;Master Key&lt;/code&gt; 。&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-5.png&#34; class=&#34;&#34; title=&#34;设置环境变量&#34;&gt;
+&lt;img src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-5.png&#34; class=&#34;&#34; title=&#34;设置环境变量&#34;&gt;
 &lt;blockquote&gt;
 &lt;p&gt;如果你使用 LeanCloud 国内版，请额外配置  &lt;code&gt;LEAN_SERVER&lt;/code&gt;  环境变量，值为你绑定好的域名。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;环境变量配置完成之后点击顶部的  &lt;code&gt;Deployments&lt;/code&gt;  点击顶部最新的一次部署右侧的  &lt;code&gt;Redeploy&lt;/code&gt;  按钮进行重新部署。该步骤是为了让刚才设置的环境变量生效。&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-6.png&#34; class=&#34;&#34; title=&#34;redeploy&#34;&gt;
+&lt;img src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-6.png&#34; class=&#34;&#34; title=&#34;redeploy&#34;&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;此时会跳转到  &lt;code&gt;Overview&lt;/code&gt;  界面开始部署，等待片刻后  &lt;code&gt;STATUS&lt;/code&gt;  会变成  &lt;code&gt;Ready&lt;/code&gt; 。此时请点击  &lt;code&gt;Visit&lt;/code&gt;  ，即可跳转到部署好的网站地址，此地址即为你的服务端地址。&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-7.png&#34; class=&#34;&#34; title=&#34;redeploy success&#34;&gt;
+&lt;img src=&#34;/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/vercel-7.png&#34; class=&#34;&#34; title=&#34;redeploy success&#34;&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;html-引入-客户端&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#html-引入-客户端&#34;&gt;#&lt;/a&gt; HTML 引入 (客户端)&lt;/h2&gt;
@@ -1229,7 +1364,7 @@ FATAL &amp;#123; err:
    &amp;lt;/script&amp;gt;
 &amp;lt;/body&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-</content>
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="建站" scheme="https://etchone.ink/categories/website/" />
         <category term="博客" scheme="https://etchone.ink/categories/website/blog/" />
         <category term="Waline" scheme="https://etchone.ink/tags/Waline/" />
@@ -1245,17 +1380,17 @@ FATAL &amp;#123; err:
 &lt;h2 id=&#34;主页改版&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#主页改版&#34;&gt;#&lt;/a&gt; 主页改版&lt;/h2&gt;
 &lt;p&gt;&lt;del&gt;为了迎接 Windows11 的到来，&lt;/del&gt;今天稍微调了一下&lt;a href=&#34;https://h1msk.cc&#34;&gt;主页&lt;/a&gt;的样式。&lt;/p&gt;
 &lt;p&gt;这是原先的样式：&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/old_demo.gif&#34; class=&#34;&#34; title=&#34;old_demo&#34;&gt;
+&lt;img src=&#34;/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/old_demo.gif&#34; class=&#34;&#34; title=&#34;old_demo&#34;&gt;
 &lt;p&gt;升级后：&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/new_demo_cut.gif&#34; class=&#34;&#34; title=&#34;new_demo&#34;&gt;
+&lt;img src=&#34;/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/new_demo_cut.gif&#34; class=&#34;&#34; title=&#34;new_demo&#34;&gt;
 &lt;p&gt;升级后发生加载错误时：&lt;/p&gt;
-&lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/error_demo_cut.gif&#34; class=&#34;&#34; title=&#34;error_demo&#34;&gt;
+&lt;img src=&#34;/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/error_demo_cut.gif&#34; class=&#34;&#34; title=&#34;error_demo&#34;&gt;
 &lt;p&gt;确实要好看一些了欸&lt;/p&gt;
 &lt;h2 id=&#34;新博客上线&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#新博客上线&#34;&gt;#&lt;/a&gt; 新博客上线&lt;/h2&gt;
 &lt;p&gt;&lt;s&gt;为了保证这边的博客都是和技术有关的，我&lt;a href=&#34;https://me.h1msk.cc&#34;&gt;新开了一个博客&lt;/a&gt;来记录日常。具体搭建方法就不写啦，毕竟可能搭建过程会有点安全漏洞，我得避免我的服务器突然无了 😛&lt;/s&gt;&lt;/p&gt;
 &lt;p&gt;~~ 其实网上相关的资源也很多啦，想要搭的话自己去查查吧～~~&lt;/p&gt;
 &lt;p&gt;新开的博客下线了，还是统一记录在这里方便点&lt;/p&gt;
-</content>
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="建站" scheme="https://etchone.ink/categories/website/" />
         <category term="博客" scheme="https://etchone.ink/categories/website/blog/" />
         <updated>2021-09-24T11:44:16.000Z</updated>
@@ -1283,16 +1418,16 @@ FATAL &amp;#123; err:
 &lt;p&gt;转载时注：  &lt;code&gt;crontab&lt;/code&gt;  命令参考&lt;a href=&#34;https://www.runoob.com/linux/linux-comm-crontab.html&#34;&gt;菜鸟教程&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;/blockquote&gt;
-  &lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/1.png&#34; class=&#34;&#34; title=&#34;1.png&#34;&gt;
+  &lt;img src=&#34;/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/1.png&#34; class=&#34;&#34; title=&#34;1.png&#34;&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;自动启动 cron 服务&lt;/p&gt;
 &lt;p&gt;在～/.bashrc 上添加以下行，允许启动 cron 服务而无需输入 root 密码，&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;$ &lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;nano&lt;/span&gt; ~/.bashrc&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-z&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#34;&lt;span class=&#34;token variable&#34;&gt;&lt;span class=&#34;token variable&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;ps&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-ef&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;grep&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;cron&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;grep&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-v&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;grep&lt;/span&gt;&lt;span class=&#34;token variable&#34;&gt;)&lt;/span&gt;&lt;/span&gt;&#34;&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; /etc/init.d/cron start &lt;span class=&#34;token operator&#34;&gt;&amp;amp;&gt;&lt;/span&gt; /dev/null&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;  &lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/2.png&#34; class=&#34;&#34; title=&#34;2.png&#34;&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;$ &lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;nano&lt;/span&gt; ~/.bashrc&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-z&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#34;&lt;span class=&#34;token variable&#34;&gt;&lt;span class=&#34;token variable&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;ps&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-ef&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;grep&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;cron&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;grep&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-v&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;grep&lt;/span&gt;&lt;span class=&#34;token variable&#34;&gt;)&lt;/span&gt;&lt;/span&gt;&#34;&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; /etc/init.d/cron start &lt;span class=&#34;token operator&#34;&gt;&amp;amp;&gt;&lt;/span&gt; /dev/null&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;  &lt;img src=&#34;/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/2.png&#34; class=&#34;&#34; title=&#34;2.png&#34;&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;在 WSL bash 上执行并添加以下行：&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;$ &lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; visudo&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token assign-left variable&#34;&gt;ALL&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt;NOPASSWD: /etc/init.d/cron start&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;  &lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/3.png&#34; class=&#34;&#34; title=&#34;3.png&#34;&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;$ &lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; visudo&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token assign-left variable&#34;&gt;ALL&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt;NOPASSWD: /etc/init.d/cron start&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;  &lt;img src=&#34;/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/3.png&#34; class=&#34;&#34; title=&#34;3.png&#34;&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;硬限制最大内存&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#硬限制最大内存&#34;&gt;#&lt;/a&gt; 硬限制最大内存&lt;/h2&gt;
@@ -1307,7 +1442,7 @@ FATAL &amp;#123; err:
 &lt;h2 id=&#34;使配置生效&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#使配置生效&#34;&gt;#&lt;/a&gt; 使配置生效&lt;/h2&gt;
 &lt;p&gt;要确保所有更改都生效，请在 &lt;code&gt;powershell&lt;/code&gt;  上执行 &lt;code&gt;wsl --shutdown&lt;/code&gt; 。然后重新打开您的 WSL 终端.&lt;/p&gt;
 &lt;figure class=&#34;highlight powershell&#34;&gt;&lt;figcaption data-lang=&#34;PowerShell&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;$ wsl &lt;span class=&#34;token operator&#34;&gt;--&lt;/span&gt;shutdown&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;在 wsl 终端上可以通过查看 &lt;code&gt;/root/drop_caches_last_run&lt;/code&gt;  上次修改日期来检查 cron 作业是否正在相应地运行：&lt;/p&gt;
-&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;$ &lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;stat&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-c&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;%y&#39;&lt;/span&gt; /root/drop_caches_last_run&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/4.png&#34; class=&#34;&#34; title=&#34;4.png&#34;&gt;
+&lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;$ &lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;stat&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-c&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;%y&#39;&lt;/span&gt; /root/drop_caches_last_run&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;img src=&#34;/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/4.png&#34; class=&#34;&#34; title=&#34;4.png&#34;&gt;
 &lt;blockquote&gt;
 &lt;p&gt;上面设置的十五分钟一次，你可以计时看看有没有记录。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1315,232 +1450,11 @@ FATAL &amp;#123; err:
 &lt;p&gt;&lt;a href=&#34;https://github.com/microsoft/WSL/issues/4166&#34;&gt;这个问题，在 github 以上已经大量反馈，点击这里查看 issue 详情&lt;/a&gt;&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;Enjoy it !&lt;/p&gt;
-</content>
+&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
         <category term="笔记" scheme="https://etchone.ink/categories/note/" />
         <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-        <category term="wsl" scheme="https://etchone.ink/tags/wsl/" />
         <category term="linux" scheme="https://etchone.ink/tags/linux/" />
+        <category term="wsl" scheme="https://etchone.ink/tags/wsl/" />
         <updated>2021-02-20T15:42:57.000Z</updated>
-    </entry>
-    <entry>
-        <id>https://etchone.ink/2020/12/08/note/ops/%E8%BD%AC-Hyper-V%E5%AF%BC%E8%87%B41024-1123%E8%8C%83%E5%9B%B4%E5%86%85%E7%AB%AF%E5%8F%A3%E8%A2%AB%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/</id>
-        <title>[转] Hyper-V导致1024-1123范围内端口被占用问题</title>
-        <link rel="alternate" href="https://etchone.ink/2020/12/08/note/ops/%E8%BD%AC-Hyper-V%E5%AF%BC%E8%87%B41024-1123%E8%8C%83%E5%9B%B4%E5%86%85%E7%AB%AF%E5%8F%A3%E8%A2%AB%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/"/>
-        <content type="html">&lt;p&gt;版权声明：本文为 CSDN 用户「南国薏米」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。&lt;/p&gt;
-&lt;p&gt;原文链接：&lt;a href=&#34;https://blog.csdn.net/zzlve/article/details/105450928&#34;&gt;https://blog.csdn.net/zzlve/article/details/105450928&lt;/a&gt;&lt;/p&gt;
-&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
-&lt;hr /&gt;
-&lt;h2 id=&#34;前面的话&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#前面的话&#34;&gt;#&lt;/a&gt; 前面的话&lt;/h2&gt;
-&lt;p&gt;因为安装 Windows 版本的 Docker 环境，开启了 Hyper-V。其结果是导致了 IDEA 在运行 Tomcat 的时候提示 1099 端口占用，经过探索之后成功找到了解决方案。&lt;/p&gt;
-&lt;h2 id=&#34;壹-原因分析&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#壹-原因分析&#34;&gt;#&lt;/a&gt; 壹、原因分析&lt;/h2&gt;
-&lt;p&gt;首先我们可以查看一下我们系统默认的端口占用范围:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;netsh int ipv4 show dynamicport tcp&lt;/code&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-cmd&#34;&gt;Microsoft Windows [版本 10.0.18363.752]
-(c) 2019 Microsoft Corporation。保留所有权利。
-
-C:\Users\Chirius&amp;gt;netsh int ipv4 show dynamicport tcp
-
-协议 tcp 动态端口范围
----------------------------------
-启动端口        : 1024
-端口数          : 13977
-1
-2
-3
-4
-5
-6
-7
-8
-9
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;我们可以看到 Windows 系统默认的 tcp 动态端口范围为：1024~13977。当我们开启 Hyper-V 后，系统默认会分配给一些保留端口供 Hyper-V 使用：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;netsh interface ipv4 show excludedportrange protocol=tcp&lt;/code&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-cmd&#34;&gt;C:\Users\Chirius&amp;gt;netsh interface ipv4 show excludedportrange protocol=tcp
-协议 tcp 端口排除范围
- 
-开始端口    结束端口
-----------    --------
-      1026        1125
-      1226        1325
-      1326        1425
-      1426        1525
-      1526        1625
-      2180        2279
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;我们可以看到 IDEA 运行 Tomcat 需要 JMX 的 1099 端口刚好在端口排除范围中，这样就导致了 IDEA 需要使用 1099 端口是会被占用，这样你当然就不能运行了。&lt;/p&gt;
-&lt;h2 id=&#34;贰-解决方法&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#贰-解决方法&#34;&gt;#&lt;/a&gt; 贰、解决方法&lt;/h2&gt;
-&lt;p&gt;使用管理员身份运行 cmd，重置端口，然后重启&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-cmd&#34;&gt;C:\Users\Chirius&amp;gt;netsh winsock reset
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;这样你的 tcp 端口排除范围可能刚好不包含 1099 端口，这样你当然就可以用你的 IDEA 运行 Tomcat 应用了。但是你啥时候会出现就不得而知了。&lt;/p&gt;
-&lt;h2 id=&#34;叁-终极解决&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#叁-终极解决&#34;&gt;#&lt;/a&gt; 叁、终极解决&lt;/h2&gt;
-&lt;h3 id=&#34;31-关闭hyper-v&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#31-关闭hyper-v&#34;&gt;#&lt;/a&gt; 3.1 关闭 Hyper-V&lt;/h3&gt;
-&lt;pre&gt;&lt;code class=&#34;language-cmd&#34;&gt;Microsoft Windows [版本 10.0.18363.752]
-(c) 2019 Microsoft Corporation。保留所有权利。
-
-C:\WINDOWS\system32&amp;gt;dism.exe /Online /Disable-Feature:Microsoft-Hyper-V
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;或者采用传统方式，在控制面板的 “程序和功能” 中，找到 “Windows 功能”，取消 Hyper-V 的勾选。这两种方法都会要求重启。&lt;/p&gt;
-&lt;h3 id=&#34;32-修改动态端口范围&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#32-修改动态端口范围&#34;&gt;#&lt;/a&gt; 3.2 修改动态端口范围&lt;/h3&gt;
-&lt;p&gt;使用管理员身份运行 cmd&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-cmd&#34;&gt;C:\WINDOWS\system32&amp;gt;netsh int ipv4 set dynamicport tcp start=49152 num=16383
-确定。
-
-
-C:\WINDOWS\system32&amp;gt;netsh int ipv4 set dynamicport udp start=49152 num=16383
-确定。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;然后检查结果&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;C:\Users\Chirius&amp;gt;netsh int ipv4 show dynamicport tcp
-
-协议 tcp 动态端口范围
----------------------------------
-启动端口        : 49152
-端口数          : 16383
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3 id=&#34;33-开启hyper-v&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#33-开启hyper-v&#34;&gt;#&lt;/a&gt; 3.3 开启 Hyper-V&lt;/h3&gt;
-&lt;pre&gt;&lt;code class=&#34;language-cmd&#34;&gt;C:\WINDOWS\system32&amp;gt;dism.exe /Online /Enable-Feature:Microsoft-Hyper-V /All
-
-部署映像服务和管理工具
-版本: 10.0.18362.1
-
-映像版本: 10.0.18363.752
-
-启用一个或多个功能
-[==========================100.0%==========================]
-操作成功完成。
-重新启动 Windows 以完成该操作。
-是否立即重新启动计算机? (Y/N)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;或者采用传统方式，在控制面板的 “程序和功能” 中，找到 “Windows 功能”，取消 Hyper-V 的勾选。这两种方法都会要求重启。&lt;/p&gt;
-&lt;h2 id=&#34;后面的话&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#后面的话&#34;&gt;#&lt;/a&gt; 后面的话&lt;/h2&gt;
-&lt;p&gt;使用终极解决方案解决之后，你会发现你的 IDEA 又可以正常运行了。另外这里说一个单独排除端口的命令，后面可能会用到：&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-cmd&#34;&gt;netsh int ipv4 add excludedportrange protocol=tcp startport=50051 numberofports=1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;使用上面的命令之后我们就可以单独排除某个端口了，保障改端口不会被其他应用占用。&lt;/p&gt;
-</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-        <category term="hyper-v" scheme="https://etchone.ink/tags/hyper-v/" />
-        <updated>2020-12-08T12:16:08.000Z</updated>
-    </entry>
-    <entry>
-        <id>https://etchone.ink/2020/08/19/note/Unity-Mini-Dungeon/</id>
-        <title>[Unity]Mini Dungeon</title>
-        <link rel="alternate" href="https://etchone.ink/2020/08/19/note/Unity-Mini-Dungeon/"/>
-        <content type="html">&lt;p&gt;自制游戏一枚～&lt;/p&gt;
-&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
-&lt;h2 id=&#34;游戏&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#游戏&#34;&gt;#&lt;/a&gt; 游戏&lt;/h2&gt;
-&lt;p&gt;网站在 Github 上，加载有点慢...&lt;/p&gt;
-&lt;iframe src=&#34;//apps.h1msk.cc/Mini-Dungeon&#34;&gt;&lt;/iframe&gt;
-&lt;h2 id=&#34;下载&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#下载&#34;&gt;#&lt;/a&gt; 下载:&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/H1MSK/blog/releases/download/2020.09.03/MiniDungeon.zip&#34;&gt;Windows x64 (Zip)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/H1MSK/blog/releases/download/2020.09.03/MiniDungeon.apk&#34;&gt;Android (APK)&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;简介&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#简介&#34;&gt;#&lt;/a&gt; 简介&lt;/h2&gt;
-&lt;p&gt;最近又捡起了 Unity，想写点东西练练手&lt;/p&gt;
-&lt;p&gt;还在更新哦（虽然感觉快完成了..）&lt;/p&gt;
-&lt;p&gt;下载地址在 “游戏” 的下面一点点&lt;/p&gt;
-&lt;h3 id=&#34;灵感来源&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#灵感来源&#34;&gt;#&lt;/a&gt; 灵感来源&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;元气骑士&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://danidev.itch.io/triangle-game&#34;&gt;Triangle Game&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;背景音乐&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#背景音乐&#34;&gt;#&lt;/a&gt; 背景音乐&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://music.163.com/#/song/431259491/&#34;&gt;Dawn - DDRKirby(ISQ)&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;todo&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#todo&#34;&gt;#&lt;/a&gt; Todo&lt;/h2&gt;
-&lt;h3 id=&#34;add&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#add&#34;&gt;#&lt;/a&gt; Add&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Upgrade &amp;amp; Buff popup text&lt;/li&gt;
-&lt;li&gt;Coin? and store&lt;/li&gt;
-&lt;li&gt;Multiplayer&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;change-fix&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#change-fix&#34;&gt;#&lt;/a&gt; Change &amp;amp; Fix&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Infinity rooms in only one floor&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr /&gt;
-&lt;h2 id=&#34;2020-09-03&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2020-09-03&#34;&gt;#&lt;/a&gt; 2020-09-03&lt;/h2&gt;
-&lt;h3 id=&#34;added&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#added&#34;&gt;#&lt;/a&gt; Added&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Health Regen buff&lt;/li&gt;
-&lt;li&gt;Upgrade limit (in order to make you die 😛)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;fixed&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#fixed&#34;&gt;#&lt;/a&gt; Fixed&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Heart now heals 10% of max HP rather than 10% of current HP&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;2020-08-19&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2020-08-19&#34;&gt;#&lt;/a&gt; 2020-08-19&lt;/h2&gt;
-&lt;iframe src=&#34;//player.bilibili.com/player.html?aid=414363071&amp;bvid=BV1cV411S7yQ&amp;cid=226440484&amp;page=1&#34; scrolling=&#34;no&#34; border=&#34;0&#34; frameborder=&#34;no&#34; framespacing=&#34;0&#34; allowfullscreen=&#34;true&#34;&gt; &lt;/iframe&gt;
-&lt;h3 id=&#34;added-2&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#added-2&#34;&gt;#&lt;/a&gt; Added&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Game over menu&lt;/li&gt;
-&lt;li&gt;Auto aim for screen controllers&lt;/li&gt;
-&lt;li&gt;Switchable controll method in options menu&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;fixed-2&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#fixed-2&#34;&gt;#&lt;/a&gt; Fixed&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;BGM bug&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr /&gt;
-&lt;h2 id=&#34;2020-08-18&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2020-08-18&#34;&gt;#&lt;/a&gt; 2020-08-18&lt;/h2&gt;
-&lt;h3 id=&#34;added-3&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#added-3&#34;&gt;#&lt;/a&gt; Added&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Main Menu &amp;amp; Settings menu&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr /&gt;
-&lt;h2 id=&#34;2020-08-17&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2020-08-17&#34;&gt;#&lt;/a&gt; 2020-08-17&lt;/h2&gt;
-&lt;h3 id=&#34;added-4&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#added-4&#34;&gt;#&lt;/a&gt; Added&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;BGM: Dawn-DDRKirby(ISQ)&lt;/li&gt;
-&lt;li&gt;Item drop&lt;/li&gt;
-&lt;li&gt;Floors &amp;amp; Stairs(or doors?)&lt;/li&gt;
-&lt;li&gt;Rough properties&lt;/li&gt;
-&lt;li&gt;Door close SFX&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr /&gt;
-&lt;h2 id=&#34;2020-08-16&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2020-08-16&#34;&gt;#&lt;/a&gt; 2020-08-16&lt;/h2&gt;
-&lt;h3 id=&#34;added-5&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#added-5&#34;&gt;#&lt;/a&gt; Added&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Joystick controllers for mobile adaptions&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr /&gt;
-&lt;h2 id=&#34;2020-08-15&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2020-08-15&#34;&gt;#&lt;/a&gt; 2020-08-15&lt;/h2&gt;
-&lt;h3 id=&#34;added-6&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#added-6&#34;&gt;#&lt;/a&gt; Added&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Reconstructed all files (&amp;quot;A not great initial idea&amp;quot;)&lt;/li&gt;
-&lt;li&gt;Configurable charas&lt;/li&gt;
-&lt;li&gt;Configurable guns &amp;amp; bullets&lt;/li&gt;
-&lt;li&gt;Configurable effect&lt;/li&gt;
-&lt;li&gt;Configurable sfx&lt;/li&gt;
-&lt;li&gt;Life bar&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;changed&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#changed&#34;&gt;#&lt;/a&gt; Changed&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Tweak bullet trail effect&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr /&gt;
-&lt;h2 id=&#34;2020-08-13&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2020-08-13&#34;&gt;#&lt;/a&gt; 2020-08-13&lt;/h2&gt;
-&lt;h3 id=&#34;added-7&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#added-7&#34;&gt;#&lt;/a&gt; Added&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Randomly generated dungeon&lt;/li&gt;
-&lt;li&gt;Bullet &amp;amp; its effect&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr /&gt;
-&lt;h2 id=&#34;2020-08-12&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2020-08-12&#34;&gt;#&lt;/a&gt; 2020-08-12&lt;/h2&gt;
-&lt;h3 id=&#34;added-8&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#added-8&#34;&gt;#&lt;/a&gt; Added&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Create project&lt;/li&gt;
-&lt;li&gt;Hard coded charas&lt;/li&gt;
-&lt;li&gt;Chara generate &amp;amp; die effect&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="Unity" scheme="https://etchone.ink/tags/Unity/" />
-        <updated>2020-08-19T15:17:24.000Z</updated>
     </entry>
 </feed>
