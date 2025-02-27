@@ -3,8 +3,8 @@
     <channel>
         <title>etchone.ink</title>
         <subtitle></subtitle>
-        <icon>https://etchone.ink/assets/favicon.ico</icon>
-        <link>https://etchone.ink</link>
+        <icon>https://blog.etchone.ink/assets/favicon.ico</icon>
+        <link>https://blog.etchone.ink</link>
         <author>
           <name>etchone</name>
         </author>
@@ -13,11 +13,11 @@
         <pubDate>Wed, 26 Feb 2025 18:23:50 +0800</pubDate>
         <lastBuildDate>Wed, 26 Feb 2025 18:23:50 +0800</lastBuildDate>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2025/02/26/note/ic/SpinalHDL-RegIf-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2025/02/26/note/ic/SpinalHDL-RegIf-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</guid>
             <title>SpinalHDL RegIf 源码阅读笔记</title>
-            <link>https://etchone.ink/2025/02/26/note/ic/SpinalHDL-RegIf-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</link>
-            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-            <category term="IC设计" scheme="https://etchone.ink/categories/note/IC%E8%AE%BE%E8%AE%A1/" />
+            <link>https://blog.etchone.ink/2025/02/26/note/ic/SpinalHDL-RegIf-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</link>
+            <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+            <category term="IC设计" scheme="https://blog.etchone.ink/categories/note/IC%E8%AE%BE%E8%AE%A1/" />
             <pubDate>Wed, 26 Feb 2025 18:23:50 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;本文记录了 SpinalHDL 中 RegIf 模块的源码阅读笔记，基于 SpinalHDL 1.11.0。&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -37,11 +37,11 @@
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2024/12/29/note/ops/Conda%E7%8E%AF%E5%A2%83%E5%AF%BC%E5%85%A5DLL%E6%8A%A5WinError-1114%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2024/12/29/note/ops/Conda%E7%8E%AF%E5%A2%83%E5%AF%BC%E5%85%A5DLL%E6%8A%A5WinError-1114%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</guid>
             <title>Conda环境导入DLL报WinError 1114错误原因及解决方案</title>
-            <link>https://etchone.ink/2024/12/29/note/ops/Conda%E7%8E%AF%E5%A2%83%E5%AF%BC%E5%85%A5DLL%E6%8A%A5WinError-1114%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</link>
-            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-            <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
+            <link>https://blog.etchone.ink/2024/12/29/note/ops/Conda%E7%8E%AF%E5%A2%83%E5%AF%BC%E5%85%A5DLL%E6%8A%A5WinError-1114%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</link>
+            <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+            <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
             <pubDate>Sun, 29 Dec 2024 13:12:50 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;微软 VC 运行库更新&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -55,10 +55,10 @@
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;conda &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; conda-forge::vc14_runtime&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2024/12/25/website/%E8%B5%84%E6%BA%90%E6%95%B4%E5%90%88-%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%BF%81%E7%A7%BB%E7%AC%94%E8%AE%B0%EF%BC%8C%E5%90%AB%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E3%80%81docker%E3%80%81%E5%BB%BA%E7%AB%99%E3%80%81HTTPS%E5%8F%8ASMTP/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2024/12/25/website/%E8%B5%84%E6%BA%90%E6%95%B4%E5%90%88-%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%BF%81%E7%A7%BB%E7%AC%94%E8%AE%B0%EF%BC%8C%E5%90%AB%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E3%80%81docker%E3%80%81%E5%BB%BA%E7%AB%99%E3%80%81HTTPS%E5%8F%8ASMTP/</guid>
             <title>[资源整合]云服务迁移笔记，含用户配置、docker、建站、HTTPS及SMTP</title>
-            <link>https://etchone.ink/2024/12/25/website/%E8%B5%84%E6%BA%90%E6%95%B4%E5%90%88-%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%BF%81%E7%A7%BB%E7%AC%94%E8%AE%B0%EF%BC%8C%E5%90%AB%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E3%80%81docker%E3%80%81%E5%BB%BA%E7%AB%99%E3%80%81HTTPS%E5%8F%8ASMTP/</link>
-            <category term="建站" scheme="https://etchone.ink/categories/website/" />
+            <link>https://blog.etchone.ink/2024/12/25/website/%E8%B5%84%E6%BA%90%E6%95%B4%E5%90%88-%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%BF%81%E7%A7%BB%E7%AC%94%E8%AE%B0%EF%BC%8C%E5%90%AB%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E3%80%81docker%E3%80%81%E5%BB%BA%E7%AB%99%E3%80%81HTTPS%E5%8F%8ASMTP/</link>
+            <category term="建站" scheme="https://blog.etchone.ink/categories/website/" />
             <pubDate>Wed, 25 Dec 2024 11:22:19 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;&lt;code&gt;scp -R my@old_server:/all/stuff my@new_server:/&lt;/code&gt;&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -98,12 +98,12 @@
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2024/07/12/note/ops/APT%E8%AD%A6%E5%91%8A-Key-is-stored-in-legacy-trusted-gpg-keyring-etc-apt-trusted-gpg/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2024/07/12/note/ops/APT%E8%AD%A6%E5%91%8A-Key-is-stored-in-legacy-trusted-gpg-keyring-etc-apt-trusted-gpg/</guid>
             <title>APT警告: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg)</title>
-            <link>https://etchone.ink/2024/07/12/note/ops/APT%E8%AD%A6%E5%91%8A-Key-is-stored-in-legacy-trusted-gpg-keyring-etc-apt-trusted-gpg/</link>
-            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-            <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-            <category term="linux" scheme="https://etchone.ink/tags/linux/" />
+            <link>https://blog.etchone.ink/2024/07/12/note/ops/APT%E8%AD%A6%E5%91%8A-Key-is-stored-in-legacy-trusted-gpg-keyring-etc-apt-trusted-gpg/</link>
+            <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+            <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
+            <category term="linux" scheme="https://blog.etchone.ink/tags/linux/" />
             <pubDate>Fri, 12 Jul 2024 15:58:18 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;翻译自：&lt;a href=&#34;https://askubuntu.com/a/1409732&#34;&gt;Answer to &amp;quot;Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg)&amp;quot;&lt;/a&gt;&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -119,12 +119,12 @@
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2024/07/10/note/riscv/risc-v%E6%9E%B6%E6%9E%84%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2024/07/10/note/riscv/risc-v%E6%9E%B6%E6%9E%84%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</guid>
             <title>risc-v架构思维导图</title>
-            <link>https://etchone.ink/2024/07/10/note/riscv/risc-v%E6%9E%B6%E6%9E%84%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</link>
-            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-            <category term="riscv" scheme="https://etchone.ink/categories/note/riscv/" />
-            <category term="riscv" scheme="https://etchone.ink/tags/riscv/" />
+            <link>https://blog.etchone.ink/2024/07/10/note/riscv/risc-v%E6%9E%B6%E6%9E%84%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</link>
+            <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+            <category term="riscv" scheme="https://blog.etchone.ink/categories/note/riscv/" />
+            <category term="riscv" scheme="https://blog.etchone.ink/tags/riscv/" />
             <pubDate>Wed, 10 Jul 2024 16:57:22 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;实现 risc-v 架构时做的笔记&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -172,9 +172,9 @@
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2024/07/02/website/blog/%E4%BD%BF%E7%94%A8Hexo%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2024/07/02/website/blog/%E4%BD%BF%E7%94%A8Hexo%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
             <title>使用Hexo快速搭建博客</title>
-            <link>https://etchone.ink/2024/07/02/website/blog/%E4%BD%BF%E7%94%A8Hexo%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
+            <link>https://blog.etchone.ink/2024/07/02/website/blog/%E4%BD%BF%E7%94%A8Hexo%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
             <pubDate>Tue, 02 Jul 2024 19:24:45 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;cli 是个好文明&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -239,11 +239,11 @@
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;hexo generate   &lt;span class=&#34;token comment&#34;&gt;# 更新文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;# hexo server   # 本地预览&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;hexo deploy     &lt;span class=&#34;token comment&#34;&gt;# 部署&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2024/06/30/website/blog/2024%E5%8D%9A%E5%AE%A2%E7%84%95%E6%96%B0/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2024/06/30/website/blog/2024%E5%8D%9A%E5%AE%A2%E7%84%95%E6%96%B0/</guid>
             <title>2024博客焕新</title>
-            <link>https://etchone.ink/2024/06/30/website/blog/2024%E5%8D%9A%E5%AE%A2%E7%84%95%E6%96%B0/</link>
-            <category term="建站" scheme="https://etchone.ink/categories/website/" />
-            <category term="博客" scheme="https://etchone.ink/categories/website/blog/" />
+            <link>https://blog.etchone.ink/2024/06/30/website/blog/2024%E5%8D%9A%E5%AE%A2%E7%84%95%E6%96%B0/</link>
+            <category term="建站" scheme="https://blog.etchone.ink/categories/website/" />
+            <category term="博客" scheme="https://blog.etchone.ink/categories/website/blog/" />
             <pubDate>Sun, 30 Jun 2024 16:36:20 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;某人终于又想起了他还有个博客&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -282,10 +282,10 @@
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2024/06/29/test_page/%E8%84%91%E5%9B%BE%E6%B5%8B%E8%AF%952-0/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2024/06/29/test_page/%E8%84%91%E5%9B%BE%E6%B5%8B%E8%AF%952-0/</guid>
             <title>脑图测试3.0</title>
-            <link>https://etchone.ink/2024/06/29/test_page/%E8%84%91%E5%9B%BE%E6%B5%8B%E8%AF%952-0/</link>
-            <category term="测试页面" scheme="https://etchone.ink/categories/test-page/" />
+            <link>https://blog.etchone.ink/2024/06/29/test_page/%E8%84%91%E5%9B%BE%E6%B5%8B%E8%AF%952-0/</link>
+            <category term="测试页面" scheme="https://blog.etchone.ink/categories/test-page/" />
             <pubDate>Sat, 29 Jun 2024 21:15:29 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;历史是个圈&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -414,11 +414,11 @@
 })();&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2022/09/29/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2022/09/29/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</guid>
             <title>深度学习思维导图</title>
-            <link>https://etchone.ink/2022/09/29/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</link>
-            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-            <category term="深度学习" scheme="https://etchone.ink/categories/note/deep-learning/" />
+            <link>https://blog.etchone.ink/2022/09/29/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</link>
+            <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+            <category term="深度学习" scheme="https://blog.etchone.ink/categories/note/deep-learning/" />
             <pubDate>Thu, 29 Sep 2022 14:32:42 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;如题&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -516,12 +516,12 @@
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/</guid>
             <title>Windows 开启Hyper-v时未绑定端口绑定失败问题</title>
-            <link>https://etchone.ink/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/</link>
-            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-            <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-            <category term="hyper-v" scheme="https://etchone.ink/tags/hyper-v/" />
+            <link>https://blog.etchone.ink/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/</link>
+            <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+            <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
+            <category term="hyper-v" scheme="https://blog.etchone.ink/tags/hyper-v/" />
             <pubDate>Wed, 28 Sep 2022 15:13:17 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;第二篇相同问题的文章..&lt;/p&gt;
 &lt;p&gt;第一篇在&lt;a href=&#34;/2020/12/08/%E8%BD%AC-Hyper-V%E5%AF%BC%E8%87%B41024-1123%E8%8C%83%E5%9B%B4%E5%86%85%E7%AB%AF%E5%8F%A3%E8%A2%AB%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/&#34;&gt;这里&lt;/a&gt;&lt;/p&gt;
@@ -555,10 +555,10 @@
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2022/09/28/test_page/%E5%85%AC%E5%BC%8F%E6%B5%8B%E8%AF%95/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2022/09/28/test_page/%E5%85%AC%E5%BC%8F%E6%B5%8B%E8%AF%95/</guid>
             <title>公式测试</title>
-            <link>https://etchone.ink/2022/09/28/test_page/%E5%85%AC%E5%BC%8F%E6%B5%8B%E8%AF%95/</link>
-            <category term="测试页面" scheme="https://etchone.ink/categories/test-page/" />
+            <link>https://blog.etchone.ink/2022/09/28/test_page/%E5%85%AC%E5%BC%8F%E6%B5%8B%E8%AF%95/</link>
+            <category term="测试页面" scheme="https://blog.etchone.ink/categories/test-page/" />
             <pubDate>Wed, 28 Sep 2022 13:39:54 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;MathJax 公式测试，预览行内公式：&lt;span class=&#34;katex&#34;&gt;&lt;span class=&#34;katex-mathml&#34;&gt;&lt;math xmlns=&#34;http://www.w3.org/1998/Math/MathML&#34;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mfrac&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;mn&gt;3&lt;/mn&gt;&lt;/mfrac&gt;&lt;msubsup&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msubsup&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;y=\frac{2}{3}x_1^2&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&#34;katex-html&#34; aria-hidden=&#34;true&#34;&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.625em;vertical-align:-0.1944em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord mathnormal&#34; style=&#34;margin-right:0.03588em;&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2778em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mrel&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2778em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:1.1901em;vertical-align:-0.345em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mopen nulldelimiter&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mfrac&#34;&gt;&lt;span class=&#34;vlist-t vlist-t2&#34;&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:0.8451em;&#34;&gt;&lt;span style=&#34;top:-2.655em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;sizing reset-size6 size3 mtight&#34;&gt;&lt;span class=&#34;mord mtight&#34;&gt;&lt;span class=&#34;mord mtight&#34;&gt;3&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;top:-3.23em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;frac-line&#34; style=&#34;border-bottom-width:0.04em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;top:-3.394em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;sizing reset-size6 size3 mtight&#34;&gt;&lt;span class=&#34;mord mtight&#34;&gt;&lt;span class=&#34;mord mtight&#34;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-s&#34;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:0.345em;&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;mclose nulldelimiter&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord mathnormal&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;msupsub&#34;&gt;&lt;span class=&#34;vlist-t vlist-t2&#34;&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:0.8141em;&#34;&gt;&lt;span style=&#34;top:-2.4519em;margin-left:0em;margin-right:0.05em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:2.7em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;sizing reset-size6 size3 mtight&#34;&gt;&lt;span class=&#34;mord mtight&#34;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;top:-3.063em;margin-right:0.05em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:2.7em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;sizing reset-size6 size3 mtight&#34;&gt;&lt;span class=&#34;mord mtight&#34;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-s&#34;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:0.2481em;&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;预览块公式：&lt;/p&gt;
@@ -574,13 +574,13 @@
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2022/09/28/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2022/09/28/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</guid>
             <title>深度强化学习相关总结</title>
-            <link>https://etchone.ink/2022/09/28/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</link>
-            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-            <category term="深度学习" scheme="https://etchone.ink/categories/note/deep-learning/" />
-            <category term="强化学习" scheme="https://etchone.ink/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" />
-            <category term="数学" scheme="https://etchone.ink/tags/%E6%95%B0%E5%AD%A6/" />
+            <link>https://blog.etchone.ink/2022/09/28/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</link>
+            <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+            <category term="深度学习" scheme="https://blog.etchone.ink/categories/note/deep-learning/" />
+            <category term="强化学习" scheme="https://blog.etchone.ink/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" />
+            <category term="数学" scheme="https://blog.etchone.ink/tags/%E6%95%B0%E5%AD%A6/" />
             <pubDate>Wed, 28 Sep 2022 13:32:36 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;数学推导、伪代码及 pytorch 实现（更新中）&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -884,12 +884,12 @@ X = Y[n-1] + Y[0:n-1] - \operatorname{max}(Y[0:n-1])
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2022/08/02/note/ops/WSL2%E6%A1%A5%E6%8E%A5%E7%BD%91%E7%BB%9C%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2022/08/02/note/ops/WSL2%E6%A1%A5%E6%8E%A5%E7%BD%91%E7%BB%9C%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</guid>
             <title>WSL2桥接网络并配置静态IP</title>
-            <link>https://etchone.ink/2022/08/02/note/ops/WSL2%E6%A1%A5%E6%8E%A5%E7%BD%91%E7%BB%9C%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</link>
-            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-            <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-            <category term="wsl" scheme="https://etchone.ink/tags/wsl/" />
+            <link>https://blog.etchone.ink/2022/08/02/note/ops/WSL2%E6%A1%A5%E6%8E%A5%E7%BD%91%E7%BB%9C%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</link>
+            <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+            <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
+            <category term="wsl" scheme="https://blog.etchone.ink/tags/wsl/" />
             <pubDate>Tue, 02 Aug 2022 00:21:48 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;折腾了半天呢..&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -908,12 +908,12 @@ X = Y[n-1] + Y[0:n-1] - \operatorname{max}(Y[0:n-1])
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2022/08/01/note/ops/%E7%AC%AC%E4%B8%89%E6%96%B9linux%E5%86%85%E6%A0%B8%E4%B8%8Bapt-install%E6%97%B6%E6%8F%90%E7%A4%BAFailed-to-set-capabilities-on-file-XXX%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2022/08/01/note/ops/%E7%AC%AC%E4%B8%89%E6%96%B9linux%E5%86%85%E6%A0%B8%E4%B8%8Bapt-install%E6%97%B6%E6%8F%90%E7%A4%BAFailed-to-set-capabilities-on-file-XXX%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
             <title>第三方linux内核下apt install时提示Failed to set capabilities on file XXX解决方法</title>
-            <link>https://etchone.ink/2022/08/01/note/ops/%E7%AC%AC%E4%B8%89%E6%96%B9linux%E5%86%85%E6%A0%B8%E4%B8%8Bapt-install%E6%97%B6%E6%8F%90%E7%A4%BAFailed-to-set-capabilities-on-file-XXX%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
-            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-            <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-            <category term="linux" scheme="https://etchone.ink/tags/linux/" />
+            <link>https://blog.etchone.ink/2022/08/01/note/ops/%E7%AC%AC%E4%B8%89%E6%96%B9linux%E5%86%85%E6%A0%B8%E4%B8%8Bapt-install%E6%97%B6%E6%8F%90%E7%A4%BAFailed-to-set-capabilities-on-file-XXX%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
+            <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+            <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
+            <category term="linux" scheme="https://blog.etchone.ink/tags/linux/" />
             <pubDate>Mon, 01 Aug 2022 20:55:53 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;强行魔改最 (bìng) 为 (bù) 致命 x2&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -956,12 +956,12 @@ X = Y[n-1] + Y[0:n-1] - \operatorname{max}(Y[0:n-1])
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2022/08/01/note/ops/apt-upgrade-vim-tiny-vim-runtime%E5%86%B2%E7%AA%81%E5%8F%8A%E8%A7%A3%E5%86%B3/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2022/08/01/note/ops/apt-upgrade-vim-tiny-vim-runtime%E5%86%B2%E7%AA%81%E5%8F%8A%E8%A7%A3%E5%86%B3/</guid>
             <title>apt upgrade vim-tiny vim-runtime冲突及解决</title>
-            <link>https://etchone.ink/2022/08/01/note/ops/apt-upgrade-vim-tiny-vim-runtime%E5%86%B2%E7%AA%81%E5%8F%8A%E8%A7%A3%E5%86%B3/</link>
-            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-            <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-            <category term="linux" scheme="https://etchone.ink/tags/linux/" />
+            <link>https://blog.etchone.ink/2022/08/01/note/ops/apt-upgrade-vim-tiny-vim-runtime%E5%86%B2%E7%AA%81%E5%8F%8A%E8%A7%A3%E5%86%B3/</link>
+            <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+            <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
+            <category term="linux" scheme="https://blog.etchone.ink/tags/linux/" />
             <pubDate>Mon, 01 Aug 2022 20:36:30 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;强行魔改最 (bìng) 为 (bù) 致命&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -999,12 +999,12 @@ X = Y[n-1] + Y[0:n-1] - \operatorname{max}(Y[0:n-1])
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/</guid>
             <title>“十滴水”操作步骤求解算法的编写过程</title>
-            <link>https://etchone.ink/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/</link>
-            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-            <category term="算法" scheme="https://etchone.ink/categories/note/algorithm/" />
-            <category term="C/C++" scheme="https://etchone.ink/tags/C-C/" />
+            <link>https://blog.etchone.ink/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/</link>
+            <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+            <category term="算法" scheme="https://blog.etchone.ink/categories/note/algorithm/" />
+            <category term="C/C++" scheme="https://blog.etchone.ink/tags/C-C/" />
             <pubDate>Sat, 22 Jan 2022 23:58:47 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;一次尝试&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -1160,11 +1160,11 @@ delta(map) = \Sigma_{state(x,y) \ne 0} 5-state(x,y)
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2021/09/25/website/blog/Hexo%E5%8D%87%E7%BA%A7%E4%B8%8E%E9%97%AE%E9%A2%98%E6%8E%92%E9%99%A4-TypeError-line-matchAll-is-not-a-function/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2021/09/25/website/blog/Hexo%E5%8D%87%E7%BA%A7%E4%B8%8E%E9%97%AE%E9%A2%98%E6%8E%92%E9%99%A4-TypeError-line-matchAll-is-not-a-function/</guid>
             <title>Hexo升级与问题排除(TypeError: line.matchAll is not a function)</title>
-            <link>https://etchone.ink/2021/09/25/website/blog/Hexo%E5%8D%87%E7%BA%A7%E4%B8%8E%E9%97%AE%E9%A2%98%E6%8E%92%E9%99%A4-TypeError-line-matchAll-is-not-a-function/</link>
-            <category term="建站" scheme="https://etchone.ink/categories/website/" />
-            <category term="博客" scheme="https://etchone.ink/categories/website/blog/" />
+            <link>https://blog.etchone.ink/2021/09/25/website/blog/Hexo%E5%8D%87%E7%BA%A7%E4%B8%8E%E9%97%AE%E9%A2%98%E6%8E%92%E9%99%A4-TypeError-line-matchAll-is-not-a-function/</link>
+            <category term="建站" scheme="https://blog.etchone.ink/categories/website/" />
+            <category term="博客" scheme="https://blog.etchone.ink/categories/website/blog/" />
             <pubDate>Sat, 25 Sep 2021 20:19:30 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;Hexo 的等级提升了！&lt;/p&gt;
 &lt;p&gt;野生的问题出现了！&lt;/p&gt;
@@ -1240,12 +1240,12 @@ FATAL &amp;#123; err:
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</guid>
             <title>[转] 使用Waline搭建博客评论系统（2022.09更新迁移Waline v2）</title>
-            <link>https://etchone.ink/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</link>
-            <category term="建站" scheme="https://etchone.ink/categories/website/" />
-            <category term="博客" scheme="https://etchone.ink/categories/website/blog/" />
-            <category term="Waline" scheme="https://etchone.ink/tags/Waline/" />
+            <link>https://blog.etchone.ink/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</link>
+            <category term="建站" scheme="https://blog.etchone.ink/categories/website/" />
+            <category term="博客" scheme="https://blog.etchone.ink/categories/website/blog/" />
+            <category term="Waline" scheme="https://blog.etchone.ink/tags/Waline/" />
             <pubDate>Sat, 25 Sep 2021 01:02:25 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;原文链接：&lt;a href=&#34;https://waline.js.org/guide/get-started.html#leancloud-%E8%AE%BE%E7%BD%AE-%E6%95%B0%E6%8D%AE%E5%BA%93&#34;&gt;快速上手&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;2022.09.29 更新：迁移至 Waline v2&lt;/p&gt;
@@ -1374,11 +1374,11 @@ FATAL &amp;#123; err:
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/</guid>
             <title>主页改版+新博客上线</title>
-            <link>https://etchone.ink/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/</link>
-            <category term="建站" scheme="https://etchone.ink/categories/website/" />
-            <category term="博客" scheme="https://etchone.ink/categories/website/blog/" />
+            <link>https://blog.etchone.ink/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/</link>
+            <category term="建站" scheme="https://blog.etchone.ink/categories/website/" />
+            <category term="博客" scheme="https://blog.etchone.ink/categories/website/blog/" />
             <pubDate>Fri, 24 Sep 2021 19:44:16 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;学术生活要分家～&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -1399,13 +1399,13 @@ FATAL &amp;#123; err:
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt; ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://etchone.ink/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
+            <guid isPermalink="true">https://blog.etchone.ink/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
             <title>[转] wsl导致vmmem占用高解决办法</title>
-            <link>https://etchone.ink/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link>
-            <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-            <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-            <category term="linux" scheme="https://etchone.ink/tags/linux/" />
-            <category term="wsl" scheme="https://etchone.ink/tags/wsl/" />
+            <link>https://blog.etchone.ink/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link>
+            <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+            <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
+            <category term="linux" scheme="https://blog.etchone.ink/tags/linux/" />
+            <category term="wsl" scheme="https://blog.etchone.ink/tags/wsl/" />
             <pubDate>Sat, 20 Feb 2021 23:42:57 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;版权声明：本文为&lt;a href=&#34;https://blog.csdn.net/&#34;&gt; CSDN&lt;/a&gt; 用户「&lt;a href=&#34;https://blog.csdn.net/huiruwei1020&#34;&gt;文艺圈不知名刘先生&lt;/a&gt;」的原创文章，遵循 CC 4.0 BY 版权协议，转载请附上原文出处链接及本声明。&lt;/p&gt;
 &lt;p&gt;原文链接：&lt;a href=&#34;https://blog.csdn.net/huiruwei1020/article/details/107631502&#34;&gt;https://blog.csdn.net/huiruwei1020/article/details/107631502&lt;/a&gt;&lt;/p&gt;

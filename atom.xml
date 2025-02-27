@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://etchone.ink</id>
+    <id>https://blog.etchone.ink</id>
     <title>etchone.ink</title>
     <subtitle></subtitle>
-    <icon>https://etchone.ink/assets/favicon.ico</icon>
-    <link href="https://etchone.ink" />
+    <icon>https://blog.etchone.ink/assets/favicon.ico</icon>
+    <link href="https://blog.etchone.ink" />
     <author>
       <name>etchone</name>
     </author>
     <updated>2025-02-26T10:23:50.000Z</updated>
     <entry>
-        <id>https://etchone.ink/2025/02/26/note/ic/SpinalHDL-RegIf-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</id>
+        <id>https://blog.etchone.ink/2025/02/26/note/ic/SpinalHDL-RegIf-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</id>
         <title>SpinalHDL RegIf 源码阅读笔记</title>
-        <link rel="alternate" href="https://etchone.ink/2025/02/26/note/ic/SpinalHDL-RegIf-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2025/02/26/note/ic/SpinalHDL-RegIf-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
         <content type="html">&lt;p&gt;本文记录了 SpinalHDL 中 RegIf 模块的源码阅读笔记，基于 SpinalHDL 1.11.0。&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -29,14 +29,14 @@
 &lt;figure class=&#34;highlight scala&#34;&gt;&lt;figcaption data-lang=&#34;scala&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;def&lt;/span&gt; regReadPart&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    switch&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;readAddress&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      RegAndFifos&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;foreach&lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;x&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; RegSlice&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;=&gt;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token keyword&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;!&lt;/span&gt;x&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;allIsNA&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; x&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;readGenerator&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      default &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        reg_rdata &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; readDefaultValue&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;8&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token comment&#34;&gt;//Reserved Address Set False, True is too much strict for software&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;9&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;withStrb&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;10&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;          reg_rderr &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; False&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;11&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;12&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;          &lt;span class=&#34;token keyword&#34;&gt;val&lt;/span&gt; alignreadhit &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; readAddress&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;take&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;log2Up&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;wordAddressInc&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;orR&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;13&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;          reg_rderr &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; Mux&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;alignreadhit&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; True&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; False&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;14&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;15&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;16&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;17&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;18&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;19&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token comment&#34;&gt;// RegInst.scala:392, 生成寄存器读取逻辑&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;20&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token keyword&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;def&lt;/span&gt; readGenerator&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;21&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    is&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;addr&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;22&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      bi&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;reg_rdata &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; rdSecurePassage&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;rdata&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;23&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;      bi&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;reg_rderr &lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; rdSecureError&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;Bool&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;haveWO&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;24&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;25&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  &lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h3 id=&#34;写入错误逻辑生成&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#写入错误逻辑生成&#34;&gt;#&lt;/a&gt; 写入错误逻辑生成&lt;/h3&gt;
 &lt;p&gt;TODO&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="IC设计" scheme="https://etchone.ink/categories/note/IC%E8%AE%BE%E8%AE%A1/" />
+        <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+        <category term="IC设计" scheme="https://blog.etchone.ink/categories/note/IC%E8%AE%BE%E8%AE%A1/" />
         <updated>2025-02-26T10:23:50.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2024/12/29/note/ops/Conda%E7%8E%AF%E5%A2%83%E5%AF%BC%E5%85%A5DLL%E6%8A%A5WinError-1114%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</id>
+        <id>https://blog.etchone.ink/2024/12/29/note/ops/Conda%E7%8E%AF%E5%A2%83%E5%AF%BC%E5%85%A5DLL%E6%8A%A5WinError-1114%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</id>
         <title>Conda环境导入DLL报WinError 1114错误原因及解决方案</title>
-        <link rel="alternate" href="https://etchone.ink/2024/12/29/note/ops/Conda%E7%8E%AF%E5%A2%83%E5%AF%BC%E5%85%A5DLL%E6%8A%A5WinError-1114%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2024/12/29/note/ops/Conda%E7%8E%AF%E5%A2%83%E5%AF%BC%E5%85%A5DLL%E6%8A%A5WinError-1114%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
         <content type="html">&lt;p&gt;微软 VC 运行库更新&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -47,14 +47,14 @@
 &lt;h2 id=&#34;解决方案&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#解决方案&#34;&gt;#&lt;/a&gt; 解决方案&lt;/h2&gt;
 &lt;p&gt;更新运行库&lt;/p&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;conda &lt;span class=&#34;token function&#34;&gt;install&lt;/span&gt; conda-forge::vc14_runtime&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
+        <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+        <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
         <updated>2024-12-29T05:12:50.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2024/12/25/website/%E8%B5%84%E6%BA%90%E6%95%B4%E5%90%88-%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%BF%81%E7%A7%BB%E7%AC%94%E8%AE%B0%EF%BC%8C%E5%90%AB%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E3%80%81docker%E3%80%81%E5%BB%BA%E7%AB%99%E3%80%81HTTPS%E5%8F%8ASMTP/</id>
+        <id>https://blog.etchone.ink/2024/12/25/website/%E8%B5%84%E6%BA%90%E6%95%B4%E5%90%88-%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%BF%81%E7%A7%BB%E7%AC%94%E8%AE%B0%EF%BC%8C%E5%90%AB%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E3%80%81docker%E3%80%81%E5%BB%BA%E7%AB%99%E3%80%81HTTPS%E5%8F%8ASMTP/</id>
         <title>[资源整合]云服务迁移笔记，含用户配置、docker、建站、HTTPS及SMTP</title>
-        <link rel="alternate" href="https://etchone.ink/2024/12/25/website/%E8%B5%84%E6%BA%90%E6%95%B4%E5%90%88-%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%BF%81%E7%A7%BB%E7%AC%94%E8%AE%B0%EF%BC%8C%E5%90%AB%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E3%80%81docker%E3%80%81%E5%BB%BA%E7%AB%99%E3%80%81HTTPS%E5%8F%8ASMTP/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2024/12/25/website/%E8%B5%84%E6%BA%90%E6%95%B4%E5%90%88-%E4%BA%91%E6%9C%8D%E5%8A%A1%E8%BF%81%E7%A7%BB%E7%AC%94%E8%AE%B0%EF%BC%8C%E5%90%AB%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E3%80%81docker%E3%80%81%E5%BB%BA%E7%AB%99%E3%80%81HTTPS%E5%8F%8ASMTP/"/>
         <content type="html">&lt;p&gt;&lt;code&gt;scp -R my@old_server:/all/stuff my@new_server:/&lt;/code&gt;&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -91,13 +91,13 @@
 &lt;h2 id=&#34;5-smtp服务器配置&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#5-smtp服务器配置&#34;&gt;#&lt;/a&gt; 5. SMTP 服务器配置&lt;/h2&gt;
 &lt;p&gt;选用 MailJet 作为 SMTP 服务器，参照&lt;a href=&#34;https://documentation.mailjet.com/hc/en-us/sections/360009524873-Getting-started&#34;&gt;官方文档&lt;/a&gt;配置即可&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="建站" scheme="https://etchone.ink/categories/website/" />
+        <category term="建站" scheme="https://blog.etchone.ink/categories/website/" />
         <updated>2024-12-25T03:22:19.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2024/07/12/note/ops/APT%E8%AD%A6%E5%91%8A-Key-is-stored-in-legacy-trusted-gpg-keyring-etc-apt-trusted-gpg/</id>
+        <id>https://blog.etchone.ink/2024/07/12/note/ops/APT%E8%AD%A6%E5%91%8A-Key-is-stored-in-legacy-trusted-gpg-keyring-etc-apt-trusted-gpg/</id>
         <title>APT警告: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg)</title>
-        <link rel="alternate" href="https://etchone.ink/2024/07/12/note/ops/APT%E8%AD%A6%E5%91%8A-Key-is-stored-in-legacy-trusted-gpg-keyring-etc-apt-trusted-gpg/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2024/07/12/note/ops/APT%E8%AD%A6%E5%91%8A-Key-is-stored-in-legacy-trusted-gpg-keyring-etc-apt-trusted-gpg/"/>
         <content type="html">&lt;p&gt;翻译自：&lt;a href=&#34;https://askubuntu.com/a/1409732&#34;&gt;Answer to &amp;quot;Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg)&amp;quot;&lt;/a&gt;&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -110,15 +110,15 @@
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; apt-key &lt;span class=&#34;token builtin class-name&#34;&gt;export&lt;/span&gt; 91E7EE5E &lt;span class=&#34;token operator&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; gpg &lt;span class=&#34;token parameter variable&#34;&gt;--dearmour&lt;/span&gt; &lt;span class=&#34;token parameter variable&#34;&gt;-o&lt;/span&gt; /etc/apt/trusted.gpg.d/team-xbmc.gpg&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;在转换成功后，可以使用如下命令将被废弃的密钥从 &lt;code&gt;/etc/apt/trusted.gpg&lt;/code&gt;  中移出&lt;/p&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;figcaption data-lang=&#34;Bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; apt-key &lt;span class=&#34;token parameter variable&#34;&gt;--keyring&lt;/span&gt; /etc/apt/trusted.gpg del 91E7EE5E&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;对每个列出警告的条目，重复上述命令即可解决该问题。&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-        <category term="linux" scheme="https://etchone.ink/tags/linux/" />
+        <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+        <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
+        <category term="linux" scheme="https://blog.etchone.ink/tags/linux/" />
         <updated>2024-07-12T07:58:18.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2024/07/10/note/riscv/risc-v%E6%9E%B6%E6%9E%84%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</id>
+        <id>https://blog.etchone.ink/2024/07/10/note/riscv/risc-v%E6%9E%B6%E6%9E%84%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</id>
         <title>risc-v架构思维导图</title>
-        <link rel="alternate" href="https://etchone.ink/2024/07/10/note/riscv/risc-v%E6%9E%B6%E6%9E%84%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2024/07/10/note/riscv/risc-v%E6%9E%B6%E6%9E%84%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/"/>
         <content type="html">&lt;p&gt;实现 risc-v 架构时做的笔记&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -163,15 +163,15 @@
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="riscv" scheme="https://etchone.ink/categories/note/riscv/" />
-        <category term="riscv" scheme="https://etchone.ink/tags/riscv/" />
+        <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+        <category term="riscv" scheme="https://blog.etchone.ink/categories/note/riscv/" />
+        <category term="riscv" scheme="https://blog.etchone.ink/tags/riscv/" />
         <updated>2024-07-10T08:57:22.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2024/07/02/website/blog/%E4%BD%BF%E7%94%A8Hexo%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</id>
+        <id>https://blog.etchone.ink/2024/07/02/website/blog/%E4%BD%BF%E7%94%A8Hexo%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</id>
         <title>使用Hexo快速搭建博客</title>
-        <link rel="alternate" href="https://etchone.ink/2024/07/02/website/blog/%E4%BD%BF%E7%94%A8Hexo%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2024/07/02/website/blog/%E4%BD%BF%E7%94%A8Hexo%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/"/>
         <content type="html">&lt;p&gt;cli 是个好文明&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -236,9 +236,9 @@
         <updated>2024-07-02T11:24:45.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2024/06/30/website/blog/2024%E5%8D%9A%E5%AE%A2%E7%84%95%E6%96%B0/</id>
+        <id>https://blog.etchone.ink/2024/06/30/website/blog/2024%E5%8D%9A%E5%AE%A2%E7%84%95%E6%96%B0/</id>
         <title>2024博客焕新</title>
-        <link rel="alternate" href="https://etchone.ink/2024/06/30/website/blog/2024%E5%8D%9A%E5%AE%A2%E7%84%95%E6%96%B0/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2024/06/30/website/blog/2024%E5%8D%9A%E5%AE%A2%E7%84%95%E6%96%B0/"/>
         <content type="html">&lt;p&gt;某人终于又想起了他还有个博客&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -274,14 +274,14 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="建站" scheme="https://etchone.ink/categories/website/" />
-        <category term="博客" scheme="https://etchone.ink/categories/website/blog/" />
+        <category term="建站" scheme="https://blog.etchone.ink/categories/website/" />
+        <category term="博客" scheme="https://blog.etchone.ink/categories/website/blog/" />
         <updated>2024-06-30T08:36:20.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2024/06/29/test_page/%E8%84%91%E5%9B%BE%E6%B5%8B%E8%AF%952-0/</id>
+        <id>https://blog.etchone.ink/2024/06/29/test_page/%E8%84%91%E5%9B%BE%E6%B5%8B%E8%AF%952-0/</id>
         <title>脑图测试3.0</title>
-        <link rel="alternate" href="https://etchone.ink/2024/06/29/test_page/%E8%84%91%E5%9B%BE%E6%B5%8B%E8%AF%952-0/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2024/06/29/test_page/%E8%84%91%E5%9B%BE%E6%B5%8B%E8%AF%952-0/"/>
         <content type="html">&lt;p&gt;历史是个圈&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -407,13 +407,13 @@
         resize.observe(wrap, debounce(() =&gt; markmapInstance.fit(), 100));
     });
 })();&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="测试页面" scheme="https://etchone.ink/categories/test-page/" />
+        <category term="测试页面" scheme="https://blog.etchone.ink/categories/test-page/" />
         <updated>2024-06-29T13:15:29.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2022/09/29/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</id>
+        <id>https://blog.etchone.ink/2022/09/29/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</id>
         <title>深度学习思维导图</title>
-        <link rel="alternate" href="https://etchone.ink/2022/09/29/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2022/09/29/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/"/>
         <content type="html">&lt;p&gt;如题&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -508,14 +508,14 @@
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="深度学习" scheme="https://etchone.ink/categories/note/deep-learning/" />
+        <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+        <category term="深度学习" scheme="https://blog.etchone.ink/categories/note/deep-learning/" />
         <updated>2022-09-29T06:32:42.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/</id>
+        <id>https://blog.etchone.ink/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/</id>
         <title>Windows 开启Hyper-v时未绑定端口绑定失败问题</title>
-        <link rel="alternate" href="https://etchone.ink/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2022/09/28/note/ops/Windows-%E5%BC%80%E5%90%AFHyper-v%E6%97%B6%E6%9C%AA%E7%BB%91%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/"/>
         <content type="html">&lt;p&gt;第二篇相同问题的文章..&lt;/p&gt;
 &lt;p&gt;第一篇在&lt;a href=&#34;/2020/12/08/%E8%BD%AC-Hyper-V%E5%AF%BC%E8%87%B41024-1123%E8%8C%83%E5%9B%B4%E5%86%85%E7%AB%AF%E5%8F%A3%E8%A2%AB%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/&#34;&gt;这里&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Hyper-V 保留特定范围端口的使用权，导致应用程序绑定端口失败&lt;/p&gt;
@@ -546,15 +546,15 @@
 &lt;li&gt;&lt;a href=&#34;https://www.jianshu.com/p/25643eb9cefb&#34;&gt;https://www.jianshu.com/p/25643eb9cefb&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-        <category term="hyper-v" scheme="https://etchone.ink/tags/hyper-v/" />
+        <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+        <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
+        <category term="hyper-v" scheme="https://blog.etchone.ink/tags/hyper-v/" />
         <updated>2022-09-28T07:13:17.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2022/09/28/test_page/%E5%85%AC%E5%BC%8F%E6%B5%8B%E8%AF%95/</id>
+        <id>https://blog.etchone.ink/2022/09/28/test_page/%E5%85%AC%E5%BC%8F%E6%B5%8B%E8%AF%95/</id>
         <title>公式测试</title>
-        <link rel="alternate" href="https://etchone.ink/2022/09/28/test_page/%E5%85%AC%E5%BC%8F%E6%B5%8B%E8%AF%95/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2022/09/28/test_page/%E5%85%AC%E5%BC%8F%E6%B5%8B%E8%AF%95/"/>
         <content type="html">&lt;p&gt;MathJax 公式测试，预览行内公式：&lt;span class=&#34;katex&#34;&gt;&lt;span class=&#34;katex-mathml&#34;&gt;&lt;math xmlns=&#34;http://www.w3.org/1998/Math/MathML&#34;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mfrac&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;mn&gt;3&lt;/mn&gt;&lt;/mfrac&gt;&lt;msubsup&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msubsup&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;y=\frac{2}{3}x_1^2&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&#34;katex-html&#34; aria-hidden=&#34;true&#34;&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.625em;vertical-align:-0.1944em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord mathnormal&#34; style=&#34;margin-right:0.03588em;&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2778em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mrel&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2778em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:1.1901em;vertical-align:-0.345em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mopen nulldelimiter&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mfrac&#34;&gt;&lt;span class=&#34;vlist-t vlist-t2&#34;&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:0.8451em;&#34;&gt;&lt;span style=&#34;top:-2.655em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;sizing reset-size6 size3 mtight&#34;&gt;&lt;span class=&#34;mord mtight&#34;&gt;&lt;span class=&#34;mord mtight&#34;&gt;3&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;top:-3.23em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;frac-line&#34; style=&#34;border-bottom-width:0.04em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;top:-3.394em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;sizing reset-size6 size3 mtight&#34;&gt;&lt;span class=&#34;mord mtight&#34;&gt;&lt;span class=&#34;mord mtight&#34;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-s&#34;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:0.345em;&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;mclose nulldelimiter&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord mathnormal&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;msupsub&#34;&gt;&lt;span class=&#34;vlist-t vlist-t2&#34;&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:0.8141em;&#34;&gt;&lt;span style=&#34;top:-2.4519em;margin-left:0em;margin-right:0.05em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:2.7em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;sizing reset-size6 size3 mtight&#34;&gt;&lt;span class=&#34;mord mtight&#34;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;top:-3.063em;margin-right:0.05em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:2.7em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;sizing reset-size6 size3 mtight&#34;&gt;&lt;span class=&#34;mord mtight&#34;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-s&#34;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:0.2481em;&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;预览块公式：&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;katex-display&#34;&gt;&lt;span class=&#34;katex&#34;&gt;&lt;span class=&#34;katex-mathml&#34;&gt;&lt;math xmlns=&#34;http://www.w3.org/1998/Math/MathML&#34; display=&#34;block&#34;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mfrac&gt;&lt;mrow&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;∂&lt;/mi&gt;&lt;mi&gt;sin&lt;/mi&gt;&lt;mo&gt;⁡&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;∂&lt;/mi&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mrow&gt;&lt;/mfrac&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;cos&lt;/mi&gt;&lt;mo&gt;⁡&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;\frac{\partial \sin{x}}{\partial x} = \cos{x}
@@ -567,13 +567,13 @@
 &lt;p&gt;&lt;span class=&#34;katex-display&#34;&gt;&lt;span class=&#34;katex&#34;&gt;&lt;span class=&#34;katex-mathml&#34;&gt;&lt;math xmlns=&#34;http://www.w3.org/1998/Math/MathML&#34; display=&#34;block&#34;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mfrac&gt;&lt;mrow&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;d&lt;/mi&gt;&lt;mi&gt;V&lt;/mi&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;d&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;/mrow&gt;&lt;/mfrac&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mo&gt;∮&lt;/mo&gt;&lt;mi mathvariant=&#34;bold-italic&#34;&gt;v&lt;/mi&gt;&lt;mo&gt;⋅&lt;/mo&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;d&lt;/mi&gt;&lt;mi mathvariant=&#34;bold-italic&#34;&gt;s&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;\frac{\mathrm d V}{\mathrm d t} = \oint \boldsymbol v \cdot \mathrm d \boldsymbol s
 &lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&#34;katex-html&#34; aria-hidden=&#34;true&#34;&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:2.0574em;vertical-align:-0.686em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mopen nulldelimiter&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mfrac&#34;&gt;&lt;span class=&#34;vlist-t vlist-t2&#34;&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:1.3714em;&#34;&gt;&lt;span style=&#34;top:-2.314em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord mathrm&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;mord mathnormal&#34;&gt;t&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;top:-3.23em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;frac-line&#34; style=&#34;border-bottom-width:0.04em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;top:-3.677em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord mathrm&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;mord mathnormal&#34; style=&#34;margin-right:0.22222em;&#34;&gt;V&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-s&#34;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:0.686em;&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;mclose nulldelimiter&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2778em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mrel&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2778em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:2.2222em;vertical-align:-0.8622em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mop op-symbol large-op&#34; style=&#34;margin-right:0.44445em;position:relative;top:-0.0011em;&#34;&gt;∮&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.1667em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord boldsymbol&#34; style=&#34;margin-right:0.03704em;&#34;&gt;v&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mbin&#34;&gt;⋅&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.6944em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord mathrm&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord boldsymbol&#34;&gt;s&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="测试页面" scheme="https://etchone.ink/categories/test-page/" />
+        <category term="测试页面" scheme="https://blog.etchone.ink/categories/test-page/" />
         <updated>2022-09-28T05:39:54.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2022/09/28/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</id>
+        <id>https://blog.etchone.ink/2022/09/28/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</id>
         <title>深度强化学习相关总结</title>
-        <link rel="alternate" href="https://etchone.ink/2022/09/28/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2022/09/28/note/deep_learning/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/"/>
         <content type="html">&lt;p&gt;数学推导、伪代码及 pytorch 实现（更新中）&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -874,16 +874,16 @@ X = Y[n-1] + Y[0:n-1] - \operatorname{max}(Y[0:n-1])
 &lt;p&gt;理论推导如下：&lt;/p&gt;
 &lt;p&gt;咕。&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="深度学习" scheme="https://etchone.ink/categories/note/deep-learning/" />
-        <category term="强化学习" scheme="https://etchone.ink/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" />
-        <category term="数学" scheme="https://etchone.ink/tags/%E6%95%B0%E5%AD%A6/" />
+        <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+        <category term="深度学习" scheme="https://blog.etchone.ink/categories/note/deep-learning/" />
+        <category term="强化学习" scheme="https://blog.etchone.ink/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" />
+        <category term="数学" scheme="https://blog.etchone.ink/tags/%E6%95%B0%E5%AD%A6/" />
         <updated>2022-09-28T05:32:36.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2022/08/02/note/ops/WSL2%E6%A1%A5%E6%8E%A5%E7%BD%91%E7%BB%9C%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</id>
+        <id>https://blog.etchone.ink/2022/08/02/note/ops/WSL2%E6%A1%A5%E6%8E%A5%E7%BD%91%E7%BB%9C%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</id>
         <title>WSL2桥接网络并配置静态IP</title>
-        <link rel="alternate" href="https://etchone.ink/2022/08/02/note/ops/WSL2%E6%A1%A5%E6%8E%A5%E7%BD%91%E7%BB%9C%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2022/08/02/note/ops/WSL2%E6%A1%A5%E6%8E%A5%E7%BD%91%E7%BB%9C%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/"/>
         <content type="html">&lt;p&gt;折腾了半天呢..&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -899,15 +899,15 @@ X = Y[n-1] + Y[0:n-1] - \operatorname{max}(Y[0:n-1])
 &lt;h2 id=&#34;5-可选windows侧添加自启&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#5-可选windows侧添加自启&#34;&gt;#&lt;/a&gt; 5. (可选) Windows 侧添加自启&lt;/h2&gt;
 &lt;p&gt;将 Windows 侧的脚本添加到 &lt;code&gt;C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup&lt;/code&gt;  目录即可。&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-        <category term="wsl" scheme="https://etchone.ink/tags/wsl/" />
+        <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+        <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
+        <category term="wsl" scheme="https://blog.etchone.ink/tags/wsl/" />
         <updated>2022-08-01T16:21:48.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2022/08/01/note/ops/%E7%AC%AC%E4%B8%89%E6%96%B9linux%E5%86%85%E6%A0%B8%E4%B8%8Bapt-install%E6%97%B6%E6%8F%90%E7%A4%BAFailed-to-set-capabilities-on-file-XXX%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</id>
+        <id>https://blog.etchone.ink/2022/08/01/note/ops/%E7%AC%AC%E4%B8%89%E6%96%B9linux%E5%86%85%E6%A0%B8%E4%B8%8Bapt-install%E6%97%B6%E6%8F%90%E7%A4%BAFailed-to-set-capabilities-on-file-XXX%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</id>
         <title>第三方linux内核下apt install时提示Failed to set capabilities on file XXX解决方法</title>
-        <link rel="alternate" href="https://etchone.ink/2022/08/01/note/ops/%E7%AC%AC%E4%B8%89%E6%96%B9linux%E5%86%85%E6%A0%B8%E4%B8%8Bapt-install%E6%97%B6%E6%8F%90%E7%A4%BAFailed-to-set-capabilities-on-file-XXX%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2022/08/01/note/ops/%E7%AC%AC%E4%B8%89%E6%96%B9linux%E5%86%85%E6%A0%B8%E4%B8%8Bapt-install%E6%97%B6%E6%8F%90%E7%A4%BAFailed-to-set-capabilities-on-file-XXX%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
         <content type="html">&lt;p&gt;强行魔改最 (bìng) 为 (bù) 致命 x2&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -947,15 +947,15 @@ X = Y[n-1] + Y[0:n-1] - \operatorname{max}(Y[0:n-1])
  [2] &lt;a href=&#34;https://blog.csdn.net/Adrian503/article/details/106801755&#34;&gt;Failed to get capabilities of file (Operation not supported)&lt;/a&gt;&lt;br /&gt;
 [3] &lt;a href=&#34;https://blog.csdn.net/dou3516/article/details/105120221&#34;&gt;dpkg: error processing package *** (--configure) 错误解决办法&lt;/a&gt;&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-        <category term="linux" scheme="https://etchone.ink/tags/linux/" />
+        <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+        <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
+        <category term="linux" scheme="https://blog.etchone.ink/tags/linux/" />
         <updated>2022-08-01T12:55:53.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2022/08/01/note/ops/apt-upgrade-vim-tiny-vim-runtime%E5%86%B2%E7%AA%81%E5%8F%8A%E8%A7%A3%E5%86%B3/</id>
+        <id>https://blog.etchone.ink/2022/08/01/note/ops/apt-upgrade-vim-tiny-vim-runtime%E5%86%B2%E7%AA%81%E5%8F%8A%E8%A7%A3%E5%86%B3/</id>
         <title>apt upgrade vim-tiny vim-runtime冲突及解决</title>
-        <link rel="alternate" href="https://etchone.ink/2022/08/01/note/ops/apt-upgrade-vim-tiny-vim-runtime%E5%86%B2%E7%AA%81%E5%8F%8A%E8%A7%A3%E5%86%B3/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2022/08/01/note/ops/apt-upgrade-vim-tiny-vim-runtime%E5%86%B2%E7%AA%81%E5%8F%8A%E8%A7%A3%E5%86%B3/"/>
         <content type="html">&lt;p&gt;强行魔改最 (bìng) 为 (bù) 致命&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -990,15 +990,15 @@ X = Y[n-1] + Y[0:n-1] - \operatorname{max}(Y[0:n-1])
 &lt;h2 id=&#34;参考&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#参考&#34;&gt;#&lt;/a&gt; 参考&lt;/h2&gt;
 &lt;p&gt;[1] &lt;a href=&#34;https://blog.csdn.net/yygydjkthh/article/details/36695243&#34;&gt;对一个 deb 包的解压、修改、重新打包全过程方法&lt;/a&gt;&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-        <category term="linux" scheme="https://etchone.ink/tags/linux/" />
+        <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+        <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
+        <category term="linux" scheme="https://blog.etchone.ink/tags/linux/" />
         <updated>2022-08-01T12:36:30.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/</id>
+        <id>https://blog.etchone.ink/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/</id>
         <title>“十滴水”操作步骤求解算法的编写过程</title>
-        <link rel="alternate" href="https://etchone.ink/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2022/01/22/note/algorithm/%E2%80%9C%E5%8D%81%E6%BB%B4%E6%B0%B4%E2%80%9D%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E6%B1%82%E8%A7%A3%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%96%E5%86%99%E8%BF%87%E7%A8%8B/"/>
         <content type="html">&lt;p&gt;一次尝试&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -1151,15 +1151,15 @@ delta(map) = \Sigma_{state(x,y) \ne 0} 5-state(x,y)
 &lt;p&gt;&lt;a href=&#34;my_bitset.hpp&#34;&gt;bitset 头文件&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;ten_drops_of_water.cpp&#34;&gt;程序源文件&lt;/a&gt;&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="算法" scheme="https://etchone.ink/categories/note/algorithm/" />
-        <category term="C/C++" scheme="https://etchone.ink/tags/C-C/" />
+        <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+        <category term="算法" scheme="https://blog.etchone.ink/categories/note/algorithm/" />
+        <category term="C/C++" scheme="https://blog.etchone.ink/tags/C-C/" />
         <updated>2022-01-22T15:58:47.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2021/09/25/website/blog/Hexo%E5%8D%87%E7%BA%A7%E4%B8%8E%E9%97%AE%E9%A2%98%E6%8E%92%E9%99%A4-TypeError-line-matchAll-is-not-a-function/</id>
+        <id>https://blog.etchone.ink/2021/09/25/website/blog/Hexo%E5%8D%87%E7%BA%A7%E4%B8%8E%E9%97%AE%E9%A2%98%E6%8E%92%E9%99%A4-TypeError-line-matchAll-is-not-a-function/</id>
         <title>Hexo升级与问题排除(TypeError: line.matchAll is not a function)</title>
-        <link rel="alternate" href="https://etchone.ink/2021/09/25/website/blog/Hexo%E5%8D%87%E7%BA%A7%E4%B8%8E%E9%97%AE%E9%A2%98%E6%8E%92%E9%99%A4-TypeError-line-matchAll-is-not-a-function/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2021/09/25/website/blog/Hexo%E5%8D%87%E7%BA%A7%E4%B8%8E%E9%97%AE%E9%A2%98%E6%8E%92%E9%99%A4-TypeError-line-matchAll-is-not-a-function/"/>
         <content type="html">&lt;p&gt;Hexo 的等级提升了！&lt;/p&gt;
 &lt;p&gt;野生的问题出现了！&lt;/p&gt;
 &lt;p&gt;问题被打败了！&lt;/p&gt;
@@ -1232,14 +1232,14 @@ FATAL &amp;#123; err:
 &lt;/ol&gt;
 &lt;p&gt;自此，故障得以解决。&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="建站" scheme="https://etchone.ink/categories/website/" />
-        <category term="博客" scheme="https://etchone.ink/categories/website/blog/" />
+        <category term="建站" scheme="https://blog.etchone.ink/categories/website/" />
+        <category term="博客" scheme="https://blog.etchone.ink/categories/website/blog/" />
         <updated>2021-09-25T12:19:30.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</id>
+        <id>https://blog.etchone.ink/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</id>
         <title>[转] 使用Waline搭建博客评论系统（2022.09更新迁移Waline v2）</title>
-        <link rel="alternate" href="https://etchone.ink/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2021/09/25/website/blog/%E4%BD%BF%E7%94%A8Waline%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/"/>
         <content type="html">&lt;p&gt;原文链接：&lt;a href=&#34;https://waline.js.org/guide/get-started.html#leancloud-%E8%AE%BE%E7%BD%AE-%E6%95%B0%E6%8D%AE%E5%BA%93&#34;&gt;快速上手&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;2022.09.29 更新：迁移至 Waline v2&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -1365,15 +1365,15 @@ FATAL &amp;#123; err:
 &amp;lt;/body&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="建站" scheme="https://etchone.ink/categories/website/" />
-        <category term="博客" scheme="https://etchone.ink/categories/website/blog/" />
-        <category term="Waline" scheme="https://etchone.ink/tags/Waline/" />
+        <category term="建站" scheme="https://blog.etchone.ink/categories/website/" />
+        <category term="博客" scheme="https://blog.etchone.ink/categories/website/blog/" />
+        <category term="Waline" scheme="https://blog.etchone.ink/tags/Waline/" />
         <updated>2021-09-24T17:02:25.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/</id>
+        <id>https://blog.etchone.ink/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/</id>
         <title>主页改版+新博客上线</title>
-        <link rel="alternate" href="https://etchone.ink/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2021/09/24/website/blog/%E4%B8%BB%E9%A1%B5%E6%94%B9%E7%89%88-%E6%96%B0%E5%8D%9A%E5%AE%A2%E4%B8%8A%E7%BA%BF/"/>
         <content type="html">&lt;p&gt;学术生活要分家～&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 &lt;hr /&gt;
@@ -1391,14 +1391,14 @@ FATAL &amp;#123; err:
 &lt;p&gt;~~ 其实网上相关的资源也很多啦，想要搭的话自己去查查吧～~~&lt;/p&gt;
 &lt;p&gt;新开的博客下线了，还是统一记录在这里方便点&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="建站" scheme="https://etchone.ink/categories/website/" />
-        <category term="博客" scheme="https://etchone.ink/categories/website/blog/" />
+        <category term="建站" scheme="https://blog.etchone.ink/categories/website/" />
+        <category term="博客" scheme="https://blog.etchone.ink/categories/website/blog/" />
         <updated>2021-09-24T11:44:16.000Z</updated>
     </entry>
     <entry>
-        <id>https://etchone.ink/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</id>
+        <id>https://blog.etchone.ink/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</id>
         <title>[转] wsl导致vmmem占用高解决办法</title>
-        <link rel="alternate" href="https://etchone.ink/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/"/>
+        <link rel="alternate" href="https://blog.etchone.ink/2021/02/20/note/ops/%E8%BD%AC-wsl%E5%AF%BC%E8%87%B4vmmem%E5%8D%A0%E7%94%A8%E9%AB%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/"/>
         <content type="html">&lt;p&gt;版权声明：本文为&lt;a href=&#34;https://blog.csdn.net/&#34;&gt; CSDN&lt;/a&gt; 用户「&lt;a href=&#34;https://blog.csdn.net/huiruwei1020&#34;&gt;文艺圈不知名刘先生&lt;/a&gt;」的原创文章，遵循 CC 4.0 BY 版权协议，转载请附上原文出处链接及本声明。&lt;/p&gt;
 &lt;p&gt;原文链接：&lt;a href=&#34;https://blog.csdn.net/huiruwei1020/article/details/107631502&#34;&gt;https://blog.csdn.net/huiruwei1020/article/details/107631502&lt;/a&gt;&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
@@ -1451,10 +1451,10 @@ FATAL &amp;#123; err:
 &lt;hr /&gt;
 &lt;p&gt;Enjoy it !&lt;/p&gt;
 &lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kity@2.0.4/dist/kity.min.js&#34;&gt;&lt;/script&gt;&lt;script type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js&#34;&gt;&lt;/script&gt;&lt;script defer=&#34;true&#34; type=&#34;text&amp;#x2F;javascript&#34; src=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js&#34;&gt;&lt;/script&gt;&lt;link rel=&#34;stylesheet&#34; type=&#34;text&amp;#x2F;css&#34; href=&#34;https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css&#34;&gt;</content>
-        <category term="笔记" scheme="https://etchone.ink/categories/note/" />
-        <category term="运维" scheme="https://etchone.ink/categories/note/ops/" />
-        <category term="linux" scheme="https://etchone.ink/tags/linux/" />
-        <category term="wsl" scheme="https://etchone.ink/tags/wsl/" />
+        <category term="笔记" scheme="https://blog.etchone.ink/categories/note/" />
+        <category term="运维" scheme="https://blog.etchone.ink/categories/note/ops/" />
+        <category term="linux" scheme="https://blog.etchone.ink/tags/linux/" />
+        <category term="wsl" scheme="https://blog.etchone.ink/tags/wsl/" />
         <updated>2021-02-20T15:42:57.000Z</updated>
     </entry>
 </feed>
